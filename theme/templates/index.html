@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% for bulletin in bulletins %}
+<div class="space-y-12">
+    <header class="relative pl-6 py-2 border-l-2 border-red-600">
+        <div class="absolute -left-[5px] top-0 h-2 w-2 bg-red-600"></div>
+        <div class="absolute -left-[5px] bottom-0 h-2 w-2 bg-red-600"></div>
+
+        <h1 class="text-4xl font-black uppercase tracking-tighter text-white font-mono">
+            <span class="text-red-600 px-1 select-none font-normal">[</span>
+            Mission_Reports
+            <span class="text-red-600 px-1 select-none font-normal">]</span>
+        </h1>
+        <p class="text-slate-500 font-mono text-xs mt-1 uppercase tracking-[0.2em]">
+            Status: <span class="text-red-500 animate-pulse">Live_Intelligence_Feed</span> // Clearance: Level_4
+        </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="relative group bg-black border border-slate-800 hover:border-red-600 transition-all duration-300">
+            <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-slate-900 group-hover:border-red-600 transition-colors"></div>
+
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6 font-mono text-[10px]">
+                    <span class="text-red-500 font-bold border border-red-900 px-2 py-0.5 bg-red-950/20">
+                        {{bulletin.writeup_platform}}
+                    </span>
+                    <span class="text-slate-600 uppercase tracking-widest">
+                        TAG://{{bulletin.writeup_category}}
+                    </span>
+                </div>
+
+                <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono group-hover:text-red-500 transition-colors">
+                    > {{bulletin.writeup_title}}
+                </h3>
+
+                <p class="text-slate-500 text-sm leading-relaxed mb-6 border-l border-slate-800 pl-4 group-hover:border-red-900">
+                    {{bulletin.writeup_slug}}
+                </p>
+
+                <a href="{% url 'bulletin' writeupID.id %}" class="flex items-center justify-between group/link text-xs font-mono font-bold tracking-tighter text-slate-400 hover:text-white transition-colors">
+                    <span class="bg-slate-900 px-3 py-1 group-hover/link:bg-red-700 transition-colors">DECRYPT_ANALYSIS</span>
+                    <span class="text-slate-800 group-hover/link:text-red-500">0x0F4</span>
+                </a>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-[1px] w-0 bg-red-600 group-hover:w-full transition-all duration-500"></div>
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}
+
