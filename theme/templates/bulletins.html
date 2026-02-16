@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ bulletin.title }} | Details{% endblock %}
+
+{% block content %}
+    <div class="detail-view">
+        <a href="{% url 'bulletin' %}" style="color: gray;"><- Back to List</a>
+        <hr>
+        <h1 style="color: red;">[INTEL] {{ bulletin.title }}</h1>
+        <p><strong>Published on:</strong> {{ bulletin.date_published }}</p>
+        
+        <div class="content-body" style="background: #222; padding: 20px; line-height: 1.6;">
+            {{ bulletin.body_text|linebreaks }}
+        </div>
+    </div>
+{% endblock %}

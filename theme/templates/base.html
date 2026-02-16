@@ -1,0 +1,74 @@
+
+{% load tailwind_tags %}
+{% tailwind_css %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FootHold{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+    <nav class="bg-black border-b border-red-900/50 shadow-[0_1px_10px_rgba(220,38,38,0.1)]" x-data="{ open: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            
+            <div class="flex-shrink-0 flex items-center group cursor-pointer">
+                <div class="h-3 w-3 bg-red-600 rounded-full mr-3 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
+                <span class="text-red-500 font-mono font-black text-xl tracking-tighter group-hover:text-red-400 transition-colors">
+                    ROOT@SOC:~# <span class="text-white group-hover:animate-pulse">_</span>
+                </span>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-6 font-mono text-sm">
+                <a href="/writeups" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/WRITEUPS</a>
+                <a href="/lab" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/LAB_ENV</a>
+                <a href="/threat-intel" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/INTEL</a>
+                
+                <a href="/about" class="relative inline-flex items-center px-5 py-2 overflow-hidden font-bold text-white bg-red-600 rounded-sm group">
+                    <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">EXTRACT_CV</span>
+                </a>
+            </div>
+
+            <div class="md:hidden flex items-center">
+                <button @click="open = !open" class="text-red-500 hover:text-red-400 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-100"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         class="md:hidden bg-black border-b border-red-900">
+        <div class="px-2 pt-2 pb-3 space-y-1 font-mono">
+            <a href="/writeups" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./view_writeups</a>
+            <a href="/lab" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./access_lab</a>
+            <a href="/threat-intel" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./hunt_threats</a>
+            <a href="/about" class="block px-3 py-2 text-red-500 font-bold border-t border-red-900/50 mt-2">./run_resume.sh</a>
+        </div>
+    </div>
+</nav>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2026 Fm6</p>
+        </div>
+    </footer>
+
+</body>
+</html>
