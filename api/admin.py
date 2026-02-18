@@ -14,8 +14,30 @@ soc_admin=SocAdminSite(name='soc_admin')
 
 @admin.register(Bulletins, site=soc_admin)
 class BulletinAdmin(admin.ModelAdmin):
-    list_display=('writeup_category', 'writeup_slug', 'writeup_platform', 'writeup_difficulty', 'writeup_body', 'title', 'writeup_author')
-    search_fields=('writeup_category', 'writeup_slug', 'writeup_platform', 'writeup_difficulty', 'writeup_body', 'title', 'writeup_author')
+
+
+    list_display = ('title', 'writeup_category', 'writeup_platform', 'writeup_difficulty', 'writeup_author')
+    list_filter = ('writeup_category', 'writeup_platform', 'writeup_difficulty') # Added for better UX
+
+    # Prepopulated fields make the "SEO thingie" (the slug) happen automatically!
+    prepopulated_fields = {'writeup_slug': ('title',)}
+
+    fieldsets = (
+        (None, {  # None means no header for the first section
+            'fields': ('title', 'writeup_body')
+        }),
+        ('Classification', {
+            'description': "Categorize this bulletin for easier discovery.",
+            'fields': (
+                ('writeup_category', 'writeup_platform'), # Putting them in a tuple makes them appear side-by-side!
+                ('writeup_difficulty', 'writeup_author'),
+            ),
+        }),
+        ('SEO & URL Settings', {
+            'classes': ('collapse',),
+            'fields': ('writeup_slug',),
+        }),
+    )
 
 @admin.register(LogEntry, site=soc_admin)
 class LogentryAdmin(admin.ModelAdmin):
@@ -24,8 +46,8 @@ class LogentryAdmin(admin.ModelAdmin):
     search_fields = ('object_repr', 'change_message')
 
     def has_add_permission(self, request): return False
-    def has_change_permission(self, request, obj=None): return False
-    def has_delete_permission(self, request, obj=None): return False
+    def has_change_permission(self, request, obj=None): return True
+    def has_delete_permission(self, request, obj=None): return True
 
 
     #No need for JWT cs Django's default is safer + out_of-box CSRF protection.
