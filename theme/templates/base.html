@@ -15,24 +15,46 @@
     <nav class="bg-black border-b border-red-900/50 shadow-[0_1px_10px_rgba(220,38,38,0.1)]" x-data="{ open: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
-            
-            <div class="flex-shrink-0 flex items-center group cursor-pointer">
+
+            <div class="shrink-0 flex items-center group cursor-pointer">
                 <div class="h-3 w-3 bg-red-600 rounded-full mr-3 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
                 <span class="text-red-500 font-mono font-black text-xl tracking-tighter group-hover:text-red-400 transition-colors">
                     ROOT@SOC:~# <span class="text-white group-hover:animate-pulse">_</span>
                 </span>
             </div>
 
-            <div class="hidden md:flex items-center space-x-6 font-mono text-sm">
-                <a href="/writeups" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/WRITEUPS</a>
-                <a href="/lab" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/LAB_ENV</a>
-                <a href="/threat-intel" class="text-slate-400 hover:text-red-500 transition-all hover:tracking-widest">/INTEL</a>
-                
-                <a href="/about" class="relative inline-flex items-center px-5 py-2 overflow-hidden font-bold text-white bg-red-600 rounded-sm group">
-                    <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                    <span class="relative">EXTRACT_CV</span>
-                </a>
-            </div>
+            <div class="hidden md:flex items-center space-x-8 font-mono text-xs tracking-tight">
+    <nav class="flex items-center space-x-6 border-r border-slate-800 pr-8">
+        <a href="{% url 'index' %}" class="group flex items-center text-slate-500 hover:text-red-500 transition-all">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity mr-1 text-red-600">[</span>
+            <span class="group-hover:tracking-widest transition-all">WRITEUPS</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity ml-1 text-red-600">]</span>
+        </a>
+
+        <a href="/lab" class="group flex items-center text-slate-500 hover:text-red-500 transition-all">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity mr-1 text-red-600">[</span>
+            <span class="group-hover:tracking-widest transition-all">LAB_ENV</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity ml-1 text-red-600">]</span>
+        </a>
+
+        <a href="{% url 'notes' %}" class="group flex items-center text-slate-500 hover:text-red-500 transition-all">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity mr-1 text-red-600">[</span>
+            <span class="group-hover:tracking-widest transition-all">INTEL</span>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity ml-1 text-red-600">]</span>
+        </a>
+    </nav>
+
+    <a href="/about" class="relative group overflow-hidden border border-red-900 bg-black px-6 py-2 transition-all hover:border-red-500">
+        <span class="absolute inset-0 bg-red-600/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+
+        <span class="absolute top-0 left-0 w-full h-px] bg-red-500/50 group-hover:animate-scan"></span>
+
+        <span class="relative flex items-center text-red-500 font-bold tracking-tighter group-hover:tracking-normal transition-all">
+            <span class="mr-2 text-[10px] animate-pulse">●</span>
+            EXTRACT_CV
+        </span>
+    </a>
+</div>
 
             <div class="md:hidden flex items-center">
                 <button @click="open = !open" class="text-red-500 hover:text-red-400 focus:outline-none">
@@ -45,21 +67,21 @@
         </div>
     </div>
 
-    <div x-show="open" 
-         x-transition:enter="transition ease-out duration-100"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         class="md:hidden bg-black border-b border-red-900">
+    <div x-show="open"
+        x-transition:enter="transition ease-out duration-100"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        class="md:hidden bg-black border-b border-red-900">
         <div class="px-2 pt-2 pb-3 space-y-1 font-mono">
-            <a href="/writeups" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./view_writeups</a>
-            <a href="/lab" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./access_lab</a>
-            <a href="/threat-intel" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./hunt_threats</a>
-            <a href="/about" class="block px-3 py-2 text-red-500 font-bold border-t border-red-900/50 mt-2">./run_resume.sh</a>
+            <a href="" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./view_writeups</a>
+            <a href="" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./access_lab</a>
+            <a href="" class="block px-3 py-2 text-slate-300 hover:bg-red-950/30 hover:text-red-500">./hunt_threats</a>
+            <a href="" class="block px-3 py-2 text-red-500 font-bold border-t border-red-900/50 mt-2">./run_resume.sh</a>
         </div>
     </div>
 </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <main class="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {% block content %}
         {% endblock %}
     </main>

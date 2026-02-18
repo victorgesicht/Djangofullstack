@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="font-weight-bold text-primary">My Notes</h2>
+        <a href="" class="btn btn-success shadow-sm">+ New Note</a>
+    </div>
+
+    <div class="row">
+        {% for note in notes %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-shadow" style="transition: 0.3s;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title font-weight-bold">{{ note.title }}</h5>
+                        <span class="badge badge-pill badge-info" style="height: fit-content;">{{ note.tags }}</span>
+                    </div>
+                    <p class="card-text text-muted">{{ note.content|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+                    <small class="text-muted">{{ note.created_at|date:"M d, Y" }}</small>
+                    <div class="btn-group btn-group-sm">
+                        <a href="#" class="btn btn-outline-primary">Edit</a>
+                        <a href="#" class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No notes found...</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+</style>
+{% endblock %}
