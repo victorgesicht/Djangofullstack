@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)55(k=+k5oofe^4auy5(h0iwhr2(8-3#okwfjiu308lfag$ga='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["saragossa.pythonanywhere.com"]
 
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Application definition
 
 TAILWIND_APP_NAME = "theme"
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'theme' / 'templates'],
+        'DIRS': [BASE_DIR /'main' 'theme' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,3 +121,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
