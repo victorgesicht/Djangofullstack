@@ -1,6 +1,7 @@
 
 # Create your models here.
 from django.db import models
+import uuid
 
 
 class Bulletins(models.Model):
@@ -26,7 +27,7 @@ class Bulletins(models.Model):
 
 
     publication_date=models.DateField(auto_now_add=True)
-    writeupID=models.UUIDField
+    id=models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     writeup_author=models.CharField(max_length=5,default='cratis')
     title=models.CharField(max_length=20, default='title goes here.')
     writeup_body=models.TextField
@@ -37,10 +38,16 @@ class Bulletins(models.Model):
 
 
 
+
     def __str__(self):
         return f"{self.title}"
 
 
+class IntelNote(models.Model):
+    id=models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    writeup_author=models.CharField(max_length=5,default='cratis')
+    title=models.CharField(max_length=20, default='title goes here.')
+    writeup_body=models.TextField
 
 
 

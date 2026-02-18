@@ -28,4 +28,4 @@ class LogentryAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None): return False
 
 
-    #No need for JWT cs Django's default is safer + ou_of-box CSRF
+    #No need for JWT cs Django's default is safer + out_of-box CSRF protection.
