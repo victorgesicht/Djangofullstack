@@ -32,7 +32,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 TAILWIND_APP_NAME = "theme"
 INSTALLED_APPS = [
-    'crispy_forms',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'tailwind',
     'theme',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     ]
+SITE_ID=1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,3 +125,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT= '/media'

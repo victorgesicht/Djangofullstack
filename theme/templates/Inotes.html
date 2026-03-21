@@ -1,45 +1,98 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-
+{% extends 'base.html' %}
 {% block content %}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="font-weight-bold text-primary">My Notes</h2>
-        <a href="" class="btn btn-success shadow-sm">+ New Note</a>
+<div class="bg-black min-h-screen text-white font-sans selection:bg-emerald-500 selection:text-black">
+
+    <div class="max-w-5xl mx-auto px-6 pt-8">
+        <div class="flex justify-between items-center border-b border-zinc-900 pb-4 font-mono text-[10px] text-zinc-600 uppercase tracking-widest">
+
+        </div>
     </div>
 
-    <div class="row">
-        {% for note in notes %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 border-0 shadow-sm hover-shadow" style="transition: 0.3s;">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="card-title font-weight-bold">{{ note.title }}</h5>
-                        <span class="badge badge-pill badge-info" style="height: fit-content;">{{ note.tags }}</span>
-                    </div>
-                    <p class="card-text text-muted">{{ note.content|truncatewords:20 }}</p>
+    <header class="max-w-5xl mx-auto pt-12 pb-12 px-6">
+        <h1 class="text-6xl font-black tracking-tighter uppercase italic leading-none">
+            Core<span class="text-emerald-500">_Capabilities</span>
+        </h1>
+        <p class="mt-4 text-zinc-500 font-mono text-xs uppercase tracking-[0.3em]">
+            Operationalizing Defense // Offensive Precision
+        </p>
+    </header>
+
+    <main class="max-w-5xl mx-auto py-6 px-6 pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-800 border border-zinc-800 overflow-hidden">
+
+            <div class="bg-black p-10 hover:bg-[#0a0a0a] transition-all duration-300 group relative">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 </div>
-                <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-                    <small class="text-muted">{{ note.created_at|date:"M d, Y" }}</small>
-                    <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-outline-primary">Edit</a>
-                        <a href="#" class="btn btn-outline-danger">Delete</a>
-                    </div>
+                <span class="text-emerald-500 font-mono text-sm tracking-tighter font-bold">01//</span>
+                <h2 class="text-3xl font-black mt-4 mb-4 uppercase italic tracking-tight">DFIR_Response</h2>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                    Full-spectrum digital forensics. From disk and memory acquisition to timeline reconstruction. We specialize in identifying lateral movement and persistent threats in post-breach environments.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">ROOT_CAUSE_ANALYSIS</span>
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">CHAIN_OF_CUSTODY</span>
                 </div>
+                <div class="h-1 w-12 bg-emerald-500 group-hover:w-full transition-all duration-500"></div>
             </div>
-        </div>
-        {% empty %}
-        <div class="col-12 text-center py-5">
-            <p class="text-muted">No notes found...</p>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
-<style>
-    .hover-shadow:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
-    }
-</style>
+            <div class="bg-black p-10 hover:bg-[#0a0a0a] transition-all duration-300 group relative">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <span class="text-emerald-500 font-mono text-sm tracking-tighter font-bold">02//</span>
+                <h2 class="text-3xl font-black mt-4 mb-4 uppercase italic tracking-tight">Offensive_Ops</h2>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                    Assessing the attack surface through a threat-actor lens. Our testing targets web application logic, cloud misconfigurations, and internal network vulnerabilities.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">RED_TEAMING</span>
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">VULN_MGMT</span>
+                </div>
+                <div class="h-1 w-12 bg-emerald-500 group-hover:w-full transition-all duration-500"></div>
+            </div>
+
+            <div class="bg-black p-10 hover:bg-[#0a0a0a] transition-all duration-300 group relative">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <span class="text-emerald-500 font-mono text-sm tracking-tighter font-bold">03//</span>
+                <h2 class="text-3xl font-black mt-4 mb-4 uppercase italic tracking-tight">Tactical_Training</h2>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                    Closing the skill gap through high-fidelity training. We focus on the packet-level reality of SOC operations and DFIR methodologies for individuals and security teams.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">SOC_FOUNDATIONS</span>
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">LAB_SIMULATION</span>
+                </div>
+                <div class="h-1 w-12 bg-emerald-500 group-hover:w-full transition-all duration-500"></div>
+            </div>
+
+            <div class="bg-black p-10 hover:bg-[#0a0a0a] transition-all duration-300 group relative">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <span class="text-emerald-500 font-mono text-sm tracking-tighter font-bold">04//</span>
+                <h2 class="text-3xl font-black mt-4 mb-4 uppercase italic tracking-tight">Detection_Eng</h2>
+                <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                    Optimizing the SIEM stack through logic-driven engineering. We build playbooks that reduce mean-time-to-respond (MTTR) and high-fidelity detection rules.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">SIEM_OPTIMIZATION</span>
+                    <span class="text-[9px] font-mono border border-zinc-800 px-2 py-0.5 text-zinc-500 group-hover:border-emerald-500/50 group-hover:text-emerald-500 transition-colors">SOAR_PLAYBOOKS</span>
+                </div>
+                <div class="h-1 w-12 bg-emerald-500 group-hover:w-full transition-all duration-500"></div>
+            </div>
+
+        </div>
+
+        <div class="mt-24 text-center">
+            <p class="text-zinc-600 font-mono text-[10px] uppercase mb-8 tracking-[0.4em]">Available for high-stakes engagements</p>
+            <a href="mailto:archiealpaka@gmail.com" class="inline-block border border-white px-12 py-5 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all transform active:scale-95 group relative overflow-hidden">
+                <span class="relative z-10">Email</span>
+                <div class="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </a>
+        </div>
+    </main>
+</div>
 {% endblock %}

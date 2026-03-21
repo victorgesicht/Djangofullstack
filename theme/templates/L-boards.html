@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --death-red: #ff0033;      /* THM */
+        --root-orange: #f39c12;    /* Root-Me */
+        --ps-blue: #00aaff;       /* PortSwigger */
+        --dark-bg: #050505;
+        --panel-bg: rgba(15, 15, 15, 0.98);
+    }
+
+    .terminal-space {
+        background-color: var(--dark-bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        font-family: 'Share Tech Mono', 'Courier New', monospace;
+    }
+
+    /* THE STACK CONTAINER */
+    .profile-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 800px;
+        margin-bottom: 40px;
+    }
+
+    .card {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: var(--panel-bg);
+        border: 1px solid #222;
+        padding: 12px 20px;
+        box-sizing: border-box;
+    }
+
+    /* Platform Borders & Glows */
+    .thm-card { border-left: 5px solid var(--death-red); }
+    .rm-card { border-left: 5px solid var(--root-orange); }
+    .ps-card { border-left: 5px solid var(--ps-blue); }
+
+    .badge-slot {
+        width: 320px;
+        height: 85px;
+        overflow: hidden;
+        margin-right: 30px;
+        border-right: 1px solid #222;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    /* Iframe Reset */
+    .badge-slot iframe {
+        width: 320px;
+        height: 85px;
+        border: none;
+    }
+
+    .info-slot {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .platform-label {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        margin-bottom: 4px;
+    }
+
+    .user-handle {
+        font-size: 1.2rem;
+        color: #fff;
+        text-transform: uppercase;
+        text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    /* HD ARTIFACT FRAME */
+    .artifact-frame {
+        width: 100%;
+        max-width: 1100px;
+        border: 1px solid #1a1a1a;
+        background: #000;
+        box-shadow: 0 20px 50px rgba(0,0,0,1);
+    }
+
+    .main-artifact {
+        width: 100%;
+        display: block;
+        filter: brightness(0.9) contrast(1.1);
+    }
+</style>
+
+<div class="terminal-space">
+
+    <div class="profile-stack">
+
+        <div class="card thm-card">
+            <div class="badge-slot">
+                <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=6215836" scrolling="no"></iframe>
+            </div>
+            <div class="info-slot">
+                <span class="platform-label" style="color: var(--death-red);">PLATFORM_ID: THM</span>
+                <span class="user-handle">{{ bulletin.writeup_author }}</span>
+            </div>
+        </div>
+
+        <div class="card rm-card">
+            <div class="badge-slot" style="background: #ffffff; justify-content: center; border-right: 1px solid #ddd;">
+                <img src="https://www.root-me.org/IMG/logo/siteon0.svg" style="height: 45px;">
+            </div>
+            <div class="info-slot">
+                <a href="https://www.root-me.org/mf6?lang=en#ff5cb30869484a80ec812be3c8c9d92f" class="platform-label" style="color: var(--root-orange); text-decoration: none;">PLATFORM_LINK: ROOT ME</a>
+
+            </div>
+        </div>
+
+        <div class="card ps-card">
+            <div class="badge-slot" style="background: #0a0a0a; flex-direction: column; justify-content: center;">
+                <div style="color: var(--ps-blue); font-size: 0.8rem; font-weight: bold; text-align: center;">PORTSWIGGER WEB_ACADEMY</div>
+                <div style="color: #fff; font-size: 0.6rem; opacity: 0.8; text-align: center;">LEVEL: PRACTITIONER (71%)</div>
+            </div>
+            <div class="info-slot">
+                <span class="platform-label" style="color: var(--ps-blue);">ANON_LINK</span>
+                <span class="user-handle">RANK: 5750</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="artifact-frame">
+        {% if bulletin.writeup_image %}
+            <img src="{{ bulletin.writeup_image.url }}" class="main-artifact" alt="Mission Evidence">
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

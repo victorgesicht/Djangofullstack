@@ -1,60 +1,60 @@
 {% extends "base.html" %}
 
-
 {% block content %}
+<div class="h-screen bg-black text-zinc-400 flex flex-col selection:bg-lime-500 selection:text-black overflow-hidden font-sans">
 
-<div class="space-y-12">
-    <header class="relative pl-6 py-2 border-l-2 border-red-600">
-        <div class="absolute -left-[5px] top-0 h-2 w-2 bg-red-600"></div>
-        <div class="absolute -left-[5px] bottom-0 h-2 w-2 bg-red-600"></div>
-
-        <h1 class="text-4xl font-black uppercase tracking-tighter text-white font-mono">
-            <span class="text-red-600 px-1 select-none font-normal">[</span>
-            Mission_Reports
-            <span class="text-red-600 px-1 select-none font-normal">]</span>
+    <header class="w-full px-8 py-2 border-b border-zinc-900 bg-[#020202] flex justify-between items-baseline shrink-0">
+        <h1 class="text-xl font-black text-white tracking-tighter italic uppercase">
+            INDEX<span class="text-lime-500">.</span>
         </h1>
-        <p class="text-slate-500 font-mono text-xs mt-1 uppercase tracking-[0.2em]">
-            Status: <span class="text-red-500 animate-pulse">Live_Intelligence_Feed</span> // Clearance: Level_4
-        </p>
+        <div class="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-800">
+            SEC_ARCHIVE // 2026
+        </div>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <main class="flex-grow w-full max-w-7xl mx-auto px-8 overflow-y-auto">
+        <div class="divide-y divide-zinc-900/60">
 
-        <div class="relative group bg-black border border-slate-800 hover:border-red-600 transition-all duration-300">
-            <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-slate-900 group-hover:border-red-600 transition-colors"></div>
             {% for bulletin in bulletins %}
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6 font-mono text-[10px]">
-                    <span class="text-red-500 font-bold border border-red-900 px-2 py-0.5 bg-red-950/20">
-                        {{bulletin.writeup_platform}}
-                    </span>
-                    <span class="text-slate-600 uppercase tracking-widest">
-                        TAG://{{bulletin.writeup_category}}
-                    </span>
+            <a href="{% url 'bulletin' bulletin.id %}"
+               class="relative flex items-baseline gap-10 py-[0.3cm] transition-all hover:bg-zinc-900/40 px-4 -mx-4 border-l-2 border-transparent hover:border-lime-500 group cursor-pointer z-10">
+
+                <div class="shrink-0 w-28 pointer-events-none">
+                    <time class="font-mono text-[12px] font-bold text-zinc-600 group-hover:text-yellow-500 tracking-tighter uppercase transition-colors">
+                        {{ bulletin.publication_date|date:"d.m.y" }}
+                    </time>
                 </div>
 
-                <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono group-hover:text-red-500 transition-colors">
-                    > {{bulletin.writeup_title}}
-                </h3>
+                <div class="flex-grow flex items-baseline gap-6 overflow-hidden pointer-events-none">
+                    <div class="shrink-0">
+                        <h2 class="text-[19px] font-bold text-white group-hover:text-lime-400 transition-colors whitespace-nowrap tracking-tight">
+                            {{ bulletin.writeup_title }}
+                        </h2>
+                    </div>
 
-                <p class="text-slate-500 text-sm leading-relaxed mb-6 border-l border-slate-800 pl-4 group-hover:border-red-900">
-                    {{bulletin.writeup_slug}}
-                </p>
+                    <p class="text-[14px] text-zinc-500 truncate font-medium group-hover:text-zinc-400 transition-colors hidden lg:block">
+                        — {{ bulletin.writeup_slug|truncatechars:140 }}
+                    </p>
+                </div>
 
-                <a href="{% url 'bulletin' bulletin.id %}" class="flex items-center justify-between group/link text-xs font-mono font-bold tracking-tighter text-slate-400 hover:text-white transition-colors">
-                    <span class="bg-slate-900 px-3 py-1 group-hover/link:bg-red-700 transition-colors">DECRYPT_ANALYSIS</span>
-                    <span class="text-slate-800 group-hover/link:text-red-500">0x0F4</span>
-                </a>
+                <div class="shrink-0 text-right hidden sm:block pointer-events-none">
+                    <span class="font-mono text-[10px] font-black uppercase tracking-widest text-zinc-800 group-hover:text-zinc-600 transition-colors">
+                        / {{ bulletin.writeup_category|default:"CORE" }}
+                    </span>
+                </div>
+            </a>
+            {% empty %}
+            <div class="py-20 text-center font-mono text-[11px] text-zinc-800 uppercase tracking-widest">
+                STREAM_VOID // NO_RECORDS
             </div>
+            {% endfor %}
 
-            <div class="absolute bottom-0 left-0 h-px] w-0 bg-red-600 group-hover:w-full transition-all duration-500"></div>
         </div>
-        {% endfor %}
+    </main>
 
-    </div>
+    <footer class="w-full px-8 py-2 border-t border-zinc-900 bg-[#020202] flex justify-between items-center font-mono text-[11px] text-zinc-800 font-bold uppercase tracking-widest shrink-0">
+        <span>Nodes: {{ bulletins.count }}</span>
+        <span class="text-[10px]">AUTH: <span class="text-lime-900 font-black">ACTIVE</span> // <span class="animate-pulse">_</span></span>
+    </footer>
 </div>
-
-
-
 {% endblock %}
-

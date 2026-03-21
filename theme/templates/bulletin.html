@@ -1,16 +1,140 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ bulletin.title }} | Details{% endblock %}
+
 
 {% block content %}
-    <div class="detail-view">
-        <a href="" style="color: gray;"><- Back to List</a>
-        <hr>
-        <h1 style="color: red;">[INTEL] {{ bulletin.title }}</h1>
-        <p><strong>Published on:</strong> {{ bulletin.date_published }}</p>
+<style>
+    :root {
+        --dark-bg: #121212;
+        --card-bg: #1e1e1e;
+        --border-color: #333;
+        --accent-red: #ff4d4d;
+        --text-main: #e0e0e0;
+        --text-muted: #a0a0a0;
+        --code-bg: #2d2d2d;
+    }
 
-        <div class="content-body" style="background: #222; padding: 20px; line-height: 1.6;">
-            {{ bulletin.body_text|linebreaks }}
-        </div>
+    .intel-container {
+        max-width: 900px;
+        margin: 20px auto;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-main);
+        background-color: var(--dark-bg);
+        padding: 40px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        transition: color 0.3s;
+        font-family: 'Courier New', monospace;
+    }
+
+    .back-link:hover { color: var(--accent-red); }
+
+    .header-section {
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--accent-red);
+        padding-bottom: 10px;
+    }
+
+    .intel-tag {
+        color: var(--accent-red);
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .metadata-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        font-size: 0.85rem;
+        border-left: 4px solid var(--accent-red);
+    }
+
+    .metadata-item span {
+        color: var(--text-muted);
+        display: block;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        margin-bottom: 4px;
+    }
+
+    .featured-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        border: 1px solid var(--border-color);
+    }
+
+    .content-body {
+        line-height: 1.8;
+        font-size: 1.05rem;
+        word-wrap: break-word;
+        color: #d1d1d1;
+    }
+
+    /* Formatting for the auto-generated linebreaks */
+    .content-body br {
+        content: "";
+        margin: 10px 0;
+        display: block;
+    }
+
+    /* Highlight keywords or paths in your text */
+    .content-body strong {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    /* Simulation of code/path styling within the text */
+    .path-highlight {
+        background: var(--code-bg);
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: 'Consolas', monospace;
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="intel-container">
+    <a href="{% url 'index' %}" class="back-link"></a>
+
+    <div class="header-section">
+        <h1><span class="intel-tag">[INTEL]</span> {{ bulletins.title }}</h1>
+        <p style="color: var(--text-muted);">
+            AUTHOR: <strong>{{ bulletins.writeup_author }}</strong> |
+            TIMESTAMP: {{ bulletins.publication_date }}
+        </p>
     </div>
+
+    <div class="metadata-grid">
+        <div class="metadata-item"><span>Platform</span><strong>{{ bulletins.writeup_platform }}</strong></div>
+        <div class="metadata-item"><span>Difficulty</span><strong>{{ bulletins.writeup_difficulty }}</strong></div>
+        <div class="metadata-item"><span>Category</span><strong>{{ bulletins.writeup_category }}</strong></div>
+    </div>
+
+
+
+    <div class="content-body">
+
+        {{ bulletins.writeup_body|linebreaks }}
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin-top: 40px;">
+    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; font-family: monospace;">
+        --- END OF LOG ENTRY ---
+    </p>
+</div>
 {% endblock %}
