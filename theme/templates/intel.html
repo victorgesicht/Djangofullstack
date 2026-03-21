@@ -1,0 +1,26 @@
+<div class="flex items-center space-x-4 bg-black/50 border-y border-slate-900 px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest text-slate-500">
+    <div class="flex items-center border-r border-slate-800 pr-4">
+        <span class="relative flex h-2 w-2 mr-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+        </span>
+        <span class="text-slate-300">LIVE_SIGNAL:</span>
+    </div>
+
+    <div class="flex-1 overflow-hidden whitespace-nowrap relative">
+        <div class="inline-block animate-marquee hover:pause">
+            <span class="mx-4 text-red-500/80"><span class="text-slate-600">ID:</span> APT-29_PHISH</span>
+            <span class="mx-4"><span class="text-slate-600">TARGET:</span> FINANCE_SECTOR</span>
+            <span class="mx-4 text-orange-500/80"><span class="text-slate-600">SEVERITY:</span> HIGH</span>
+            <span class="mx-4"><span class="text-slate-600">IOC:</span> 192.168.1.104</span>
+            <span class="mx-4 text-green-500/80"><span class="text-slate-600">STATUS:</span> MITIGATED</span>
+
+            <span class="mx-4 text-red-500/80"><span class="text-slate-600">ID:</span> APT-29_PHISH</span>
+            <span class="mx-4"><span class="text-slate-600">TARGET:</span> FINANCE_SECTOR</span>
+        </div>
+    </div>
+
+    <div class="hidden lg:block border-l border-slate-800 pl-4 text-slate-600">
+        SYS_REF: <span class="text-slate-400">0x{{ now|date:"U" }}</span>
+    </div>
+</div>
