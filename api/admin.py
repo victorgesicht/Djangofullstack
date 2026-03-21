@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Bulletins
 from django.contrib.admin import AdminSite
 from django.contrib.admin.models import LogEntry
+from django.contrib.sites.models import Site
+
 
 
 class SocAdminSite(AdminSite):
@@ -49,5 +51,8 @@ class LogentryAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None): return True
     def has_delete_permission(self, request, obj=None): return True
 
+
+from django.contrib.sites.admin import SiteAdmin
+soc_admin.register(Site, SiteAdmin)
 
     #No need for JWT cs Django's default is safer + out_of-box CSRF protection.

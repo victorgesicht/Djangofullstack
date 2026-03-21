@@ -3,18 +3,13 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.http import Http404
 from .models  import Bulletins, IntelNote
-# Create your views here.
-# profile---name""/etc/profile"
-#blog/feed--/var/log
-
-#breadcrumb-home>logs>post
-#dev/null-404
 
 
 class Index(ListView):
     model=Bulletins
     template_name='index.html'
     context_object_name='bulletins'
+    paginate_by=9
 
 
 
@@ -52,3 +47,6 @@ class IntelDetailView(DetailView):
 class IntelNotes(TemplateView):
     template_name='Inotes.html'
     model=IntelNote
+
+class Lboard(TemplateView):
+    template_name='L-boards.html'

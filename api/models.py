@@ -5,8 +5,8 @@ class Bulletins(models.Model):
 
     class Platform(models.TextChoices):
         TRYHACKME = 'THM', 'TryHackMe'
-        PORTSWIGGER = 'PS', 'PortSwigger'
-        ROOT_ME = 'RM', 'Root-Me'
+        PORTSWIGGER = 'PortSwigger', 'PortSwigger'
+        ROOT_ME = 'Root Me', 'Root-Me'
         HACKTHEBOX = 'HTB', 'HackTheBox'
 
     class Difficulty(models.TextChoices):
@@ -35,7 +35,7 @@ class Bulletins(models.Model):
 
     # METADATA
     writeup_difficulty = models.CharField(max_length=1, choices=Difficulty.choices, default=Difficulty.EASY)
-    writeup_platform = models.CharField(max_length=3, default=Platform.TRYHACKME, choices=Platform.choices)
+    writeup_platform = models.CharField(max_length=11, default=Platform.TRYHACKME, choices=Platform.choices)
     writeup_category = models.CharField(default=Category.SOC, max_length=3, choices=Category.choices)
     publication_date = models.DateField(auto_now_add=True)
 
