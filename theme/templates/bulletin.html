@@ -1,140 +1,146 @@
 {% extends 'base.html' %}
 
-
+{% block title %}{{ bulletins.title }} // Intel Report{% endblock %}
+{% block breadcrumb %}intel/reports/{{ bulletins.title|slugify }}{% endblock %}
 
 {% block content %}
 <style>
-    :root {
-        --dark-bg: #121212;
-        --card-bg: #1e1e1e;
-        --border-color: #333;
-        --accent-red: #ff4d4d;
-        --text-main: #e0e0e0;
-        --text-muted: #a0a0a0;
-        --code-bg: #2d2d2d;
+    /* Professional Document Styling */
+    .report-card {
+        background: #111114;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    .intel-container {
-        max-width: 900px;
-        margin: 20px auto;
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        color: var(--text-main);
-        background-color: var(--dark-bg);
-        padding: 40px;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    .report-header {
+        background: linear-gradient(to bottom, rgba(16, 185, 129, 0.05), transparent);
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
     }
 
-    .back-link {
-        text-decoration: none;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        transition: color 0.3s;
-        font-family: 'Courier New', monospace;
-    }
-
-    .back-link:hover { color: var(--accent-red); }
-
-    .header-section {
-        margin-bottom: 30px;
-        border-bottom: 2px solid var(--accent-red);
-        padding-bottom: 10px;
-    }
-
-    .intel-tag {
-        color: var(--accent-red);
-        font-weight: bold;
-        letter-spacing: 2px;
-        font-family: 'Courier New', monospace;
-    }
-
-    .metadata-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-        background: var(--card-bg);
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 30px;
-        font-size: 0.85rem;
-        border-left: 4px solid var(--accent-red);
-    }
-
-    .metadata-item span {
-        color: var(--text-muted);
-        display: block;
-        text-transform: uppercase;
-        font-size: 0.7rem;
-        margin-bottom: 4px;
-    }
-
-    .featured-image {
-        width: 100%;
-        max-height: 400px;
-        object-fit: cover;
-        border-radius: 4px;
-        margin-bottom: 30px;
-        border: 1px solid var(--border-color);
-    }
-
-    .content-body {
-        line-height: 1.8;
+    /* Better Readability for Body Text */
+    .prose-custom {
+        line-height: 1.75;
         font-size: 1.05rem;
-        word-wrap: break-word;
-        color: #d1d1d1;
+        color: #d1d5db; /* Slate 300 */
     }
 
-    /* Formatting for the auto-generated linebreaks */
-    .content-body br {
-        content: "";
-        margin: 10px 0;
-        display: block;
-    }
-
-    /* Highlight keywords or paths in your text */
-    .content-body strong {
+    .prose-custom strong {
         color: #fff;
         font-weight: 600;
     }
 
-    /* Simulation of code/path styling within the text */
-    .path-highlight {
-        background: var(--code-bg);
-        padding: 2px 5px;
-        border-radius: 3px;
-        font-family: 'Consolas', monospace;
-        font-size: 0.95rem;
+    /* Styling the Django linebreaks p tags */
+    .prose-custom p {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Tactical Metadata Labels */
+    .meta-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #64748b; /* Slate 500 */
+    }
+
+    .meta-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #10b981; /* Emerald 500 */
+    }
+
+    /* Print-like horizontal rule */
+    .hr-dots {
+        border: none;
+        border-top: 1px dashed rgba(255,255,255,0.1);
+        margin: 3rem 0;
     }
 </style>
 
-<div class="intel-container">
-    <a href="{% url 'index' %}" class="back-link"></a>
+<div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <a href="{% url 'index' %}" class="mono text-[11px] text-slate-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            RETURN_TO_INDEX
+        </a>
+        <div class="mono text-[10px] px-2 py-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded">
+            CONFIDENTIAL // INTERNAL_USE_ONLY
+        </div>
+    </div>
 
-    <div class="header-section">
-        <h1><span class="intel-tag">[INTEL]</span> {{ bulletins.title }}</h1>
-        <p style="color: var(--text-muted);">
-            AUTHOR: <strong>{{ bulletins.writeup_author }}</strong> |
-            TIMESTAMP: {{ bulletins.publication_date }}
+    <article class="report-card rounded-lg overflow-hidden">
+        <div class="report-header p-8 sm:p-12">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="px-2 py-0.5 bg-emerald-500 text-black text-[10px] font-black mono rounded-sm">REPORT</span>
+                <span class="text-slate-500 mono text-xs">ID: #{{ bulletins.id|default:"042" }}</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-6 tracking-tight">
+                {{ bulletins.title }}
+            </h1>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-white/5">
+                <div>
+                    <div class="meta-label">Author</div>
+                    <div class="meta-value">{{ bulletins.writeup_author }}</div>
+                </div>
+                <div>
+                    <div class="meta-label">Category</div>
+                    <div class="meta-value">{{ bulletins.writeup_category }}</div>
+                </div>
+                <div>
+                    <div class="meta-label">Platform</div>
+                    <div class="meta-value text-slate-300">{{ bulletins.writeup_platform }}</div>
+                </div>
+                <div>
+                    <div class="meta-label">Difficulty</div>
+                    <div class="flex items-center gap-2">
+                        <span class="meta-value uppercase">{{ bulletins.writeup_difficulty }}</span>
+                        <div class="flex gap-0.5">
+                            <div class="w-1.5 h-1.5 rounded-full {% if bulletins.writeup_difficulty == 'Hard' %}bg-red-500{% else %}bg-emerald-500{% endif %}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-8 sm:p-12 bg-[#0d0d0f]">
+            <div class="prose-custom max-w-none">
+                {{ bulletins.writeup_body|linebreaks }}
+            </div>
+
+            <hr class="hr-dots">
+
+            <div class="bg-black/40 border border-white/5 p-6 rounded-md mono">
+                <h4 class="text-emerald-500 text-xs font-bold mb-4 uppercase tracking-widest text-center">System Telemetry Log</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[11px] text-slate-500">
+                    <div class="flex justify-between border-b border-white/5 pb-1">
+                        <span>PUBLISHED_ON:</span>
+                        <span class="text-slate-300">{{ bulletins.publication_date|date:"Y-m-d" }}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-1">
+                        <span>INTEGRITY_CHECK:</span>
+                        <span class="text-emerald-600">PASSED</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-1">
+                        <span>DISTRIBUTION:</span>
+                        <span class="text-slate-300">PUBLIC_ACCESS</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-1">
+                        <span>DOC_VERSION:</span>
+                        <span class="text-slate-300">1.0.4-FINAL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="mt-12 mb-20 text-center">
+        <p class="mono text-[10px] text-slate-600 uppercase tracking-[0.4em]">
+            --- END ---
         </p>
     </div>
-
-    <div class="metadata-grid">
-        <div class="metadata-item"><span>Platform</span><strong>{{ bulletins.writeup_platform }}</strong></div>
-        <div class="metadata-item"><span>Difficulty</span><strong>{{ bulletins.writeup_difficulty }}</strong></div>
-        <div class="metadata-item"><span>Category</span><strong>{{ bulletins.writeup_category }}</strong></div>
-    </div>
-
-
-
-    <div class="content-body">
-
-        {{ bulletins.writeup_body|linebreaks }}
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid var(--border-color); margin-top: 40px;">
-    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; font-family: monospace;">
-        --- END OF LOG ENTRY ---
-    </p>
 </div>
 {% endblock %}
