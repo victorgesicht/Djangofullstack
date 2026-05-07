@@ -1,6 +1,9 @@
+
+
 from django import forms
+from .models import Comment
 
-
-class ContactForm(forms.form):
-    email=forms.EmailField(max_length=100)
-    message_body=forms.TextInput
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'body')

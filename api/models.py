@@ -20,6 +20,7 @@ class Bulletins(models.Model):
         RE = 'RE', 'Reverse engineering'
         SOC = 'SOC', 'Forensics'
 
+
     # IDENTIFIERS
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     writeup_slug = models.SlugField(unique=True, max_length=100) # Removed 'slugify' default to avoid collisions
@@ -49,5 +50,17 @@ class IntelNote(models.Model):
     title=models.CharField(max_length=20, default='title goes here.')
     writeup_body=models.TextField
 
+class Comment(models.Model):
+    body=models.TextField()
+    author = models.CharField(max_length=100)
+    post = models.ForeignKey('Bulletins', on_delete=models.CASCADE, related_name='comments')
+    created_on=models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_on'] # Newest first
+
+    def __str__(self):
+        return f'Comment by {self.author} on {self.post}'
 
 
