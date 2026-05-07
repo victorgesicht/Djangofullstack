@@ -1,43 +1,57 @@
-from django.shortcuts import render
-from django.views import View
+
 from django.views.generic import TemplateView, ListView, DetailView
-from django.http import Http404
+from django.shortcuts import redirect
 from .models  import Bulletins, IntelNote
+from .forms import CommentForm
 
 
 class Index(ListView):
     model=Bulletins
     template_name='index.html'
     context_object_name='bulletins'
-    paginate_by=9
+    paginate_by=None
 
-
-
-class profile(View):
-    template_name='profile.html'
 
 
 class BulletinsListView(ListView):
     model = Bulletins
     template_name = "bulletins.html"
-#I dont trust its very complete
-    def get(self,request,*args,**kwargs):
-        queryset=self.get_queryset()
+    context_object_name = "bulletins" # Renamed to avoid confusion with detail views
+    paginate_by = None  # Explicitly disable
 
-        if not queryset.exists():
-            raise Http404("No records...")
+    def get_queryset(self):
+        # Fetch everything, ordered by newest first
+        return Bulletins.objects.all().order_by('-publication_date')
 
-        return super().get(request,*args,**kwargs)
-
-
-    def post(self,request, *args, **kwargs):
-        ...
 
 
 
 class BulletingDetailView(DetailView):
-    template_name='bulletin.html'
     model = Bulletins
+    template_name = 'bulletin.html'
+    context_object_name = 'bulletin'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.filter(active=True)
+        context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        #form submission
+        self.object = self.get_object()
+        form = CommentForm(data=request.POST)
+
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = self.object
+            new_comment.save()
+            # Redirect 2 prevent double-submissions
+            return redirect('bulletin_detail', slug=self.object.slug)
+
+        # If form is invalid
+        return self.render_to_response(self.get_context_data(comment_form=form))
+
 
 
 class IntelDetailView(DetailView):

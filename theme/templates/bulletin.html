@@ -1,146 +1,109 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ bulletins.title }} // Intel Report{% endblock %}
-{% block breadcrumb %}intel/reports/{{ bulletins.title|slugify }}{% endblock %}
+{% block title %}{{ bulletin.title }} // Intel Report{% endblock %}
+{% block breadcrumb %}intel/reports/{{ bulletin.title|slugify }}{% endblock %}
 
 {% block content %}
 <style>
-    /* Professional Document Styling */
-    .report-card {
-        background: #111114;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
+    /* THMFlags Matte Intelligence Theme */
+    .report-card { background: #0f0f0f; border: 1px solid rgba(255, 255, 255, 0.03); box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6); }
+    .report-header { background: linear-gradient(to bottom, rgba(250, 204, 21, 0.02), transparent); border-bottom: 1px solid rgba(250, 204, 21, 0.1); }
+    .prose-custom { line-height: 1.8; font-size: 1.05rem; color: #d1d5db; }
+    .prose-custom strong { color: #facc15; font-weight: 700; }
+    .hazard-accent { width: 40px; height: 4px; background: repeating-linear-gradient(45deg, #facc15, #facc15 5px, #000 5px, #000 10px); }
+    .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #4b5563; }
+    .meta-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #facc15; }
 
-    .report-header {
-        background: linear-gradient(to bottom, rgba(16, 185, 129, 0.05), transparent);
-        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    }
-
-    /* Better Readability for Body Text */
-    .prose-custom {
-        line-height: 1.75;
-        font-size: 1.05rem;
-        color: #d1d5db; /* Slate 300 */
-    }
-
-    .prose-custom strong {
-        color: #fff;
-        font-weight: 600;
-    }
-
-    /* Styling the Django linebreaks p tags */
-    .prose-custom p {
-        margin-bottom: 1.5rem;
-    }
-
-    /* Tactical Metadata Labels */
-    .meta-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #64748b; /* Slate 500 */
-    }
-
-    .meta-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 13px;
-        color: #10b981; /* Emerald 500 */
-    }
-
-    /* Print-like horizontal rule */
-    .hr-dots {
-        border: none;
-        border-top: 1px dashed rgba(255,255,255,0.1);
-        margin: 3rem 0;
-    }
+    /* Tactical Comment Styling */
+    .comment-box { background: rgba(255, 255, 255, 0.02); border-left: 2px solid #facc15; margin-bottom: 1.5rem; padding: 1.5rem; }
+    .comment-input { background: #050505 !important; border: 1px solid rgba(250, 204, 21, 0.2) !important; color: #fff !important; padding: 10px; width: 100%; font-family: 'JetBrains Mono', monospace; }
 </style>
 
 <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-        <a href="{% url 'index' %}" class="mono text-[11px] text-slate-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Navigation Header -->
+    <div class="flex justify-between items-center mb-8">
+        <a href="{% url 'index' %}" class="mono text-[11px] text-slate-500 hover:text-yellow-400 flex items-center gap-3 group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            RETURN_TO_INDEX
+            BACK
         </a>
-        <div class="mono text-[10px] px-2 py-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded">
-            CONFIDENTIAL // INTERNAL_USE_ONLY
-        </div>
+        <div class="mono text-[10px] px-3 py-1 bg-yellow-400/5 text-yellow-400 border border-yellow-400/20 rounded-sm">CLASSIFICATION: PUBLIC</div>
     </div>
 
-    <article class="report-card rounded-lg overflow-hidden">
-        <div class="report-header p-8 sm:p-12">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="px-2 py-0.5 bg-emerald-500 text-black text-[10px] font-black mono rounded-sm">REPORT</span>
-                <span class="text-slate-500 mono text-xs">ID: #{{ bulletins.id|default:"042" }}</span>
+    <article class="report-card rounded-sm overflow-hidden relative">
+        <div class="absolute top-0 right-0 hazard-accent"></div>
+
+        <div class="report-header p-10 sm:p-14">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="px-2 py-0.5 bg-yellow-400 text-black text-[10px] font-black mono uppercase">Operation</span>
+                <span class="text-slate-600 mono text-xs tracking-widest">REF: {{ bulletin.id|default:"X-0644" }}</span>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-6 tracking-tight">
-                {{ bulletins.title }}
-            </h1>
+            <h1 class="text-3xl sm:text-5xl font-black text-white mb-8 tracking-tight italic uppercase">{{ bulletin.title }}</h1>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-white/5">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/5">
                 <div>
-                    <div class="meta-label">Author</div>
-                    <div class="meta-value">{{ bulletins.writeup_author }}</div>
+                    <div class="meta-label mb-1">Lead Analyst</div>
+                    <div class="meta-value text-white">{{ bulletin.writeup_author }}</div>
                 </div>
                 <div>
-                    <div class="meta-label">Category</div>
-                    <div class="meta-value">{{ bulletins.writeup_category }}</div>
+                    <div class="meta-label mb-1">Target Sector</div>
+                    <div class="meta-value">{{ bulletin.writeup_category }}</div>
                 </div>
                 <div>
-                    <div class="meta-label">Platform</div>
-                    <div class="meta-value text-slate-300">{{ bulletins.writeup_platform }}</div>
+                    <div class="meta-label mb-1">Environment</div>
+                    <div class="meta-value text-slate-300 italic">{{ bulletin.writeup_platform }}</div>
                 </div>
                 <div>
-                    <div class="meta-label">Difficulty</div>
-                    <div class="flex items-center gap-2">
-                        <span class="meta-value uppercase">{{ bulletins.writeup_difficulty }}</span>
-                        <div class="flex gap-0.5">
-                            <div class="w-1.5 h-1.5 rounded-full {% if bulletins.writeup_difficulty == 'Hard' %}bg-red-500{% else %}bg-emerald-500{% endif %}"></div>
-                        </div>
-                    </div>
+                    <div class="meta-label mb-1">Threat Level</div>
+                    <div class="meta-value {% if bulletin.writeup_difficulty == 'Hard' %}text-red-500{% else %}text-yellow-400{% endif %}">{{ bulletin.writeup_difficulty|upper }}</div>
                 </div>
             </div>
         </div>
 
-        <div class="p-8 sm:p-12 bg-[#0d0d0f]">
-            <div class="prose-custom max-w-none">
-                {{ bulletins.writeup_body|linebreaks }}
+        <!-- Main Body Content (FIXED VARIABLE NAME) -->
+        <div class="p-10 sm:p-14 bg-[#0a0a0a]">
+            <div class="prose-custom max-w-none mb-12">
+                {{ bulletin.writeup_body|linebreaks }}
             </div>
 
-            <hr class="hr-dots">
-
-            <div class="bg-black/40 border border-white/5 p-6 rounded-md mono">
-                <h4 class="text-emerald-500 text-xs font-bold mb-4 uppercase tracking-widest text-center">System Telemetry Log</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[11px] text-slate-500">
-                    <div class="flex justify-between border-b border-white/5 pb-1">
-                        <span>PUBLISHED_ON:</span>
-                        <span class="text-slate-300">{{ bulletins.publication_date|date:"Y-m-d" }}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/5 pb-1">
-                        <span>INTEGRITY_CHECK:</span>
-                        <span class="text-emerald-600">PASSED</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/5 pb-1">
-                        <span>DISTRIBUTION:</span>
-                        <span class="text-slate-300">PUBLIC_ACCESS</span>
-                    </div>
-                    <div class="flex justify-between border-b border-white/5 pb-1">
-                        <span>DOC_VERSION:</span>
-                        <span class="text-slate-300">1.0.4-FINAL</span>
+            <div class="bg-yellow-400/[0.02] border border-yellow-400/10 p-8 rounded-sm mono relative overflow-hidden">
+                <h4 class="text-yellow-400/80 text-[11px] font-bold mb-6 uppercase tracking-[0.3em]">Document Integrity Logs</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 text-[10px] text-slate-500">
+                    <div class="flex justify-between border-b border-white/5 pb-2">
+                        <span>TIMESTAMP:</span>
+                        <span class="text-slate-300">{{ bulletin.publication_date|date:"Y-m-d" }}</span>
                     </div>
                 </div>
             </div>
         </div>
     </article>
 
-    <div class="mt-12 mb-20 text-center">
-        <p class="mono text-[10px] text-slate-600 uppercase tracking-[0.4em]">
-            --- END ---
-        </p>
-    </div>
+    <!-- Field Observations (RESTORED MISSING LOOP) -->
+    <section class="mt-12 p-6 report-card">
+
+
+
+        <div class="mt-12 pt-8 border-t border-white/5">
+            <h4 class="text-white mono text-xs mb-6 uppercase tracking-widest">Submit New Observation</h4>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in comment_form %}
+                    <div class="flex flex-col gap-2">
+                        <label class="meta-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="mt-4 px-6 py-2 bg-yellow-400 text-black font-black mono text-xs uppercase hover:bg-white transition-colors">
+                    Transmit Data
+                </button>
+            </form>
+        </div>
+    </section>
 </div>
+
+<script>
+    document.querySelectorAll('input, textarea').forEach(el => el.classList.add('comment-input'));
+</script>
 {% endblock %}

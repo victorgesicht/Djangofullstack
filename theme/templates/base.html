@@ -3,133 +3,164 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
+    <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}FootHold // Systems & Security{% endblock %}</title>
+    <title>{% block title %}FootHold investigations{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
         :root {
-            --brand-primary: #10b981; /* Emerald 500 */
-            --bg-main: #0a0a0c;
-            --bg-card: #111114;
+            /* THMFlags 2026 Color Palette */
+            --signal-yellow: #facc15; /* The 'Action' color */
+            --bg-matte: #0a0a0a;      /* Deep neutral, not true black */
+            --border-muted: #1f1f1f;  /* Subtle structural lines */
+            --text-main: #e5e7eb;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
-            background-image: radial-gradient(circle at 2px 2px, #1a1a1e 1px, transparent 0);
-            background-size: 40px 40px;
+            font-family: 'General Sans', sans-serif;
+            background-color: var(--bg-matte);
+            color: var(--text-main);
+            /* Clean, non-distracting pattern */
+            background-image: radial-gradient(#1f1f1f 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
-        .terminal-header { background: linear-gradient(90deg, #111114 0%, #0a0a0c 100%); }
-        .glass-border { border: 1px solid rgba(255,255,255,0.05); }
 
-        /* Subtle scanline effect for that SOC feel */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-            z-index: 9999;
-            pointer-events: none;
-            background-size: 100% 4px, 3px 100%;
+        /* GitBook-style Hint Blocks */
+        .hint-warning {
+            background-color: rgba(250, 204, 21, 0.05);
+            border-left: 4px solid var(--signal-yellow);
+        }
+
+        /* Clean "Active" State for Navigation */
+        .nav-active {
+            color: var(--signal-yellow);
+            border-bottom: 2px solid var(--signal-yellow);
+        }
+
+        /* Signal Button Effect */
+        .btn-signal {
+            background-color: var(--signal-yellow);
+            color: #000;
+            transition: all 0.2s ease;
+        }
+        .btn-signal:hover {
+            background-color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.15);
         }
     </style>
 </head>
-<body class="text-slate-300 min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
+<body class="min-h-screen flex flex-col antialiased">
 
-    <div class="w-full bg-black border-b border-white/5 py-1 px-4 flex justify-between items-center mono text-[10px] uppercase tracking-widest text-slate-500">
-        <div class="flex gap-4">
-            <span class="flex items-center gap-1.5"><span class="h-1 w-1 rounded-full bg-emerald-500 animate-pulse"></span> Network: Stable</span>
-            <span>Latency: 24ms</span>
+    <div class="w-full bg-black/80 backdrop-blur-sm border-b border-white/5 py-1.5 px-6 flex justify-between items-center mono text-[10px] tracking-tight">
+        <div class="flex gap-6 items-center text-slate-500">
+            <span class="flex items-center gap-2"><div class="h-1.5 w-1.5 bg-yellow-400 rounded-full animate-pulse"></div> DB: OK</span>
+            <span>Uptime: 99.99%</span>
         </div>
-        <div class="hidden sm:block">
-            <span id="digital-clock">00:00:00 UTC</span>
+        <div class="flex gap-4 items-center">
+            <span class="text-slate-500 uppercase">Latency: <span class="text-yellow-400">12ms</span></span>
+            <span id="clock" class="text-slate-400">00:00:00</span>
         </div>
     </div>
 
-    <header class="sticky top-0 z-50 terminal-header border-b border-white/10 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="flex items-center justify-between h-16">
+    <header class="sticky top-0 z-50 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
-                <div class="flex items-center gap-8">
-                    <a href="/" class="flex flex-col group">
-                        <span class="text-white font-bold text-lg tracking-tight group-hover:text-emerald-400 transition-colors mono">
-                            FOOTHOLD<span class="text-emerald-500">_</span>
-                        </span>
-                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em] -mt-1">Systems Analyst</span>
-                    </a>
-
-                    <nav class="hidden lg:flex items-center gap-2 text-[11px] mono bg-black/40 px-3 py-1 rounded-full border border-white/5">
-                        <span class="text-slate-600">root@portfolio:</span>
-                        <span class="text-emerald-500">~/{% block breadcrumb %}home{% endblock %}</span>
-                    </nav>
-                </div>
-
-                <nav class="flex items-center gap-1">
-                    <div class="hidden md:flex items-center mr-4">
-                        <a href="{% url 'index' %}" class="px-4 py-2 text-xs font-semibold hover:text-emerald-400 transition-all uppercase tracking-wider">Reports</a>
-                        <a href="{% url 'LBoard' %}" class="px-4 py-2 text-xs font-semibold hover:text-emerald-400 transition-all uppercase tracking-wider">Telemetry</a>
-                        <a href="{% url 'id' %}" class="px-4 py-2 text-xs font-semibold hover:text-emerald-400 transition-all uppercase tracking-wider">Identity</a>
+            <div class="flex items-center gap-10">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-7 h-7 bg-yellow-400 flex items-center justify-center rounded-sm">
+                        <span class="text-black font-black text-sm italic">F</span>
                     </div>
+                    <span class="font-bold text-lg tracking-tight text-white uppercase italic">Foothold<span class="text-yellow-400 opacity-50">.</span></span>
+                </a>
 
-                    <a href="#" class="group relative inline-flex items-center px-4 py-2 text-xs font-bold text-emerald-500 border border-emerald-500/20 bg-emerald-500/5 hover:bg-emerald-500 hover:text-black transition-all duration-300 mono">
-                        <span class="relative">DOWNLOAD_CV.PDF</span>
-                    </a>
+                <nav class="hidden md:flex items-center gap-2 text-[12px] mono text-slate-500 bg-white/5 px-3 py-1 rounded border border-white/5">
+                    <span>docs</span>
+                    <span class="opacity-30">/</span>
+                    <span class="text-yellow-400/80">{% block breadcrumb %}infrastructure{% endblock %}</span>
                 </nav>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <nav class="hidden sm:flex items-center gap-6 text-sm font-semibold text-slate-400">
+                    <a href="{% url 'index' %}" class="hover:text-yellow-400 transition-colors">Writeups</a>
+                    <a href="{% url 'LBoard' %}" class="hover:text-yellow-400 transition-colors">Telemetry</a>
+                    <a href="{% url 'id' %}" class="hover:text-yellow-400 transition-colors">Identity</a>
+                </nav>
+                <a href="#" class="btn-signal px-4 py-1.5 rounded-sm text-[11px] font-bold uppercase tracking-wider">
+                    Download_CV
+                </a>
             </div>
         </div>
     </header>
 
-    <main class="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="relative">
-            <div class="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-white/10"></div>
-            <div class="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-white/10"></div>
+    <main class="grow max-w-7xl w-full mx-auto px-6 py-12">
+        <div class="grid grid-cols-12 gap-10">
 
-            <div class="min-h-[60vh]">
-                {% block content %}
-                {% endblock %}
+            <aside class="hidden lg:block col-span-3 space-y-8 sticky top-28 h-fit">
+                <div>
+                    <h3 class="text-[10px] uppercase font-bold text-yellow-400/50 tracking-widest mb-4">Core Competencies</h3>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Systems Analyst consultant</li>
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Database Admin</li>
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Project Management</li>
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> System analysis</li>
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Q.A</li>
+                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Pentesting</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <div class="col-span-12 lg:col-span-9">
+                <article class="bg-[#0f0f0f] border border-white/5 rounded-sm p-8 min-h-[70vh]">
+                    {% block content %}
+                    {% endblock %}
+                </article>
             </div>
 
-            <div class="absolute -bottom-2 -left-2 w-4 h-4 border-b-2 border-l-2 border-white/10"></div>
-            <div class="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-white/10"></div>
         </div>
     </main>
 
-    <footer class="bg-black border-t border-white/5 py-10 mt-20">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            <div class="space-y-3">
-                <h4 class="mono text-[11px] text-emerald-500 font-bold uppercase tracking-[0.2em]">Contact Node</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Encrypted communications preferred. Available for SOC architecture and security auditing.</p>
-            </div>
-            <div class="flex flex-col gap-2">
-                <h4 class="mono text-[11px] text-emerald-500 font-bold uppercase tracking-[0.2em]">System Info</h4>
-                <div class="mono text-[10px] text-slate-600 flex flex-col">
-                    <span>OS: Foothold_OS v2.6.4</span>
-                    <span>ENV: Production</span>
+    <footer class="bg-black border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-10">
+            <div class="max-w-xs">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-1 h-4 bg-yellow-400"></div>
+                    <span class="mono text-xs font-bold text-white uppercase">Operational Status</span>
                 </div>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Bridging the gap between leadership and technical infrastructure. Available for inquiries regarding SOC level 1/2 and DBA roles.
+                </p>
             </div>
-            <div class="md:text-right">
-                <p class="mono text-[10px] text-slate-700 uppercase tracking-widest">&copy; 2026 FOOTHOLD OPERATIONS. ALL RIGHTS RESERVED.</p>
+
+            <div class="flex gap-20">
+                <div class="space-y-4">
+                    <h4 class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Connect</h4>
+                    <div class="flex flex-col gap-2 text-xs text-slate-400 font-medium">
+                        <a href="#" class="hover:text-yellow-400">LinkedIn</a>
+                        <a href="#" class="hover:text-yellow-400">GitHub</a>
+                    </div>
+                </div>
+                <div class="space-y-4 text-right">
+                    <h4 class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Instance</h4>
+                    <p class="mono text-[10px] text-slate-500"><span class="text-yellow-400/30">Stable Release 2.6</span></p>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Simple clock for that "Live Ops" feel
         function updateClock() {
             const now = new Date();
-            const time = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
-            document.getElementById('digital-clock').innerText = time;
+            document.getElementById('clock').innerText = now.toISOString().split('T')[1].substring(0,8) + " UTC";
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClock, 1000); updateClock();
     </script>
 </body>
 </html>
