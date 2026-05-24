@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bulletins
+from .models import Bulletins, Comment
 from django.contrib.admin import AdminSite
 from django.contrib.admin.models import LogEntry
 from django.contrib.sites.models import Site
@@ -51,6 +51,9 @@ class LogentryAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None): return True
     def has_delete_permission(self, request, obj=None): return True
 
+@admin.register(Comment, site=soc_admin)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('body', 'author', 'post')
 
 from django.contrib.sites.admin import SiteAdmin
 soc_admin.register(Site, SiteAdmin)

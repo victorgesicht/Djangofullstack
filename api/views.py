@@ -47,7 +47,7 @@ class BulletingDetailView(DetailView):
             new_comment.post = self.object
             new_comment.save()
             # Redirect 2 prevent double-submissions
-            return redirect('bulletin_detail', slug=self.object.slug)
+            return redirect(self.request.path)
 
         # If form is invalid
         return self.render_to_response(self.get_context_data(comment_form=form))
