@@ -1,5 +1,7 @@
 from django.db import models
 import uuid
+from martor.models import MartorField
+
 
 class Bulletins(models.Model):
 
@@ -8,6 +10,7 @@ class Bulletins(models.Model):
         PORTSWIGGER = 'PortSwigger', 'PortSwigger'
         ROOT_ME = 'Root Me', 'Root-Me'
         HACKTHEBOX = 'HTB', 'HackTheBox'
+        FAQ = 'FAQ', 'FAQ'
 
     class Difficulty(models.TextChoices):
         EASY = 'E', 'Easy'
@@ -19,6 +22,7 @@ class Bulletins(models.Model):
         WEB = 'WEB', 'web-apps'
         RE = 'RE', 'Reverse engineering'
         SOC = 'SOC', 'Forensics'
+        INFRA = 'SYS', 'Systems'
 
 
     # IDENTIFIERS
@@ -27,7 +31,11 @@ class Bulletins(models.Model):
 
     # CONTENT
     title = models.CharField(max_length=100, default='ANALYSIS_LOG_0x0')
-    writeup_body = models.TextField(default="text") # Fixed: Added parentheses ()
+    writeup_body = MartorField(verbose_name="Post Content",
+        help_text="Write your post content in Markdown",
+        blank=True,
+        null=True,
+        max_length=10000,)
     writeup_author = models.CharField(max_length=20, default='cratis')
 
     # THE NEW IMAGE FIELD

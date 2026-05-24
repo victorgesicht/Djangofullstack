@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["saragossa.pythonanywhere.com"]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Application definition
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TAILWIND_APP_NAME = "theme"
 INSTALLED_APPS = [
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tailwind',
     'theme',
+    'martor',
     'django.contrib.sitemaps',
     'django.contrib.sites',
     ]
