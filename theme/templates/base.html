@@ -1,17 +1,16 @@
-{% load tailwind_tags %}
-
-{% tailwind_css %}
 <!DOCTYPE html>
+{% load tailwind_tags %}
 <html lang="en" class="dark">
 <head>
     <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}FootHold investigations{% endblock %}</title>
+
+    {% tailwind_css %}
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-
         :root {
             /* Hardcore Red/Black/Yellow Palette Shift */
             --signal-red: #ef4444;       /* Dominant Accent / Critical Vector */
@@ -69,7 +68,6 @@
             </span>
             <span>Uptime: 99.99%</span>
         </div>
-
     </div>
 
     <!-- Sticky Operational Header -->
@@ -139,7 +137,6 @@
             </div>
         </div>
     </footer>
-
 
 </body>
 </html>

@@ -57,41 +57,16 @@
         color: #ef4444;
     }
 
-    /* PREMIUM THEMED HORIZONTAL SCROLL CONTAINMENT */
+    /* TACTICAL INLINE CODE & PRE-FORMATTED BLOCKS */
     .prose-custom pre {
         background: #0d0d0d !important;
         border: 1px solid rgba(239, 68, 68, 0.1) !important;
         padding: 1.25rem;
         border-radius: 2px;
-        overflow-x: auto; /* Activates scroll containment */
+        overflow-x: auto; /* Forces horizontal scroll bar on massive code lines */
         margin-bottom: 1.5rem;
         max-width: 100%;
     }
-
-    /* Custom Scrollbar Engine (Webkit) */
-    .prose-custom pre::-webkit-scrollbar {
-        height: 5px; /* Ultra-thin, non-obtrusive bar track */
-    }
-
-    /* Scrollbar Background Track */
-    .prose-custom pre::-webkit-scrollbar-track {
-        background: #050505;
-        border-radius: 2px;
-    }
-
-    /* Draggable Handle Tinted Tactical Red */
-    .prose-custom pre::-webkit-scrollbar-thumb {
-        background: rgba(239, 68, 68, 0.3);
-        border-radius: 2px;
-        transition: background 0.15s ease;
-    }
-
-    /* Handle shifts Yellow on active interaction */
-    .prose-custom pre::-webkit-scrollbar-thumb:hover {
-        background: #eab308;
-    }
-
-    /* Code Block Inner Typography */
     .prose-custom code {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.9rem;
@@ -101,10 +76,9 @@
         border-radius: 2px;
     }
     .prose-custom pre code {
-        color: #e5e7eb;
+        color: #e5e5e5;
         background: transparent;
         padding: 0;
-        white-space: pre; /* Prevents unwanted artificial line wrapping inside logs/code */
     }
 
     /* Warning pattern shifted to alternating Red and Black */
@@ -149,7 +123,6 @@
 </style>
 
 <div class="max-w-4xl mx-auto">
-    <!-- Navigation Header -->
     <div class="flex justify-between items-center mb-8">
         <a href="{% url 'index' %}" class="mono text-[11px] text-red-700 hover:text-yellow-500 flex items-center gap-3 group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,7 +162,6 @@
             </div>
         </div>
 
-        <!-- Main Body Content -->
         <div class="p-10 sm:p-14 bg-[#000000] w-full overflow-hidden">
             <div class="prose-custom max-w-none mb-12 w-full overflow-hidden">
                 {{ bulletin.writeup_body|safe_markdown }}
@@ -207,8 +179,24 @@
         </div>
     </article>
 
-    <!-- Field Observations -->
     <section class="mt-12 p-6 report-card">
+        <div class="mb-8">
+            <h4 class="text-red-500 mono text-xs mb-4 uppercase tracking-widest">Observations Feed</h4>
+            <div class="space-y-4">
+                {% for comment in comments %}
+                    <div class="comment-box">
+                        <div class="flex justify-between text-[11px] mono text-red-700 mb-1">
+                            <span class="text-yellow-500 font-bold">{{ comment.name }}</span>
+                            <span>{{ comment.created_on|date:"Y-m-d H:i" }}</span>
+                        </div>
+                        <p class="text-sm text-slate-300">{{ comment.body }}</p>
+                    </div>
+                {% empty %}
+                    <p class="mono text-[11px] text-red-900/60 italic">No incoming intelligence feeds logged for this node.</p>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="mt-12 pt-8 border-t border-red-950">
             <h4 class="text-red-500 mono text-xs mb-6 uppercase tracking-widest">Submit</h4>
             <form method="post" class="space-y-4">
