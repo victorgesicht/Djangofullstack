@@ -1,34 +1,163 @@
 {% extends 'base.html' %}
-
-{% block title %}{{ bulletin.title }} // Intel Report{% endblock %}
-{% block breadcrumb %}intel/reports/{{ bulletin.title|slugify }}{% endblock %}
-
+{% load tailwind_tags %}
+{% load martortags %}
 {% block content %}
 <style>
-    /* THMFlags Matte Intelligence Theme */
-    .report-card { background: #0f0f0f; border: 1px solid rgba(255, 255, 255, 0.03); box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6); }
-    .report-header { background: linear-gradient(to bottom, rgba(250, 204, 21, 0.02), transparent); border-bottom: 1px solid rgba(250, 204, 21, 0.1); }
-    .prose-custom { line-height: 1.8; font-size: 1.05rem; color: #d1d5db; }
-    .prose-custom strong { color: #facc15; font-weight: 700; }
-    .hazard-accent { width: 40px; height: 4px; background: repeating-linear-gradient(45deg, #facc15, #facc15 5px, #000 5px, #000 10px); }
-    .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #4b5563; }
-    .meta-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #facc15; }
+    /* THMFlags Matte Intelligence Theme - Red/Black/Yellow Tactical Overhaul */
+    .report-card {
+        background: #050505;
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9);
+    }
+    .report-header {
+        background: linear-gradient(to bottom, rgba(239, 68, 68, 0.03), transparent);
+        border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* THEMED FLOW & OVERFLOW PROTECTION */
+    .prose-custom {
+        line-height: 1.8;
+        font-size: 1.05rem;
+        color: #e5e7eb;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
+    /* Target Markdown Headers to match the tactical theme */
+    .prose-custom h1, .prose-custom h2, .prose-custom h3, .prose-custom h4 {
+        font-family: 'JetBrains Mono', monospace;
+        color: #ef4444; /* Core Tactical Red */
+        font-weight: 700;
+        margin-top: 1.75rem;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .prose-custom h1 {
+        font-size: 1.75rem;
+        border-bottom: 1px dashed rgba(239, 68, 68, 0.2);
+        padding-bottom: 0.25rem;
+    }
+    .prose-custom h2 { font-size: 1.4rem; }
+    .prose-custom h3 { font-size: 1.15rem; color: #eab308; } /* Yellow sub-headings */
+
+    .prose-custom strong {
+        color: #ef4444;
+        font-weight: 700;
+    }
+
+    /* Tactical Links inside Markdown */
+    .prose-custom a {
+        color: #eab308;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
+    .prose-custom a:hover {
+        color: #ef4444;
+    }
+
+    /* PREMIUM THEMED HORIZONTAL SCROLL CONTAINMENT */
+    .prose-custom pre {
+        background: #0d0d0d !important;
+        border: 1px solid rgba(239, 68, 68, 0.1) !important;
+        padding: 1.25rem;
+        border-radius: 2px;
+        overflow-x: auto; /* Activates scroll containment */
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+    }
+
+    /* Custom Scrollbar Engine (Webkit) */
+    .prose-custom pre::-webkit-scrollbar {
+        height: 5px; /* Ultra-thin, non-obtrusive bar track */
+    }
+
+    /* Scrollbar Background Track */
+    .prose-custom pre::-webkit-scrollbar-track {
+        background: #050505;
+        border-radius: 2px;
+    }
+
+    /* Draggable Handle Tinted Tactical Red */
+    .prose-custom pre::-webkit-scrollbar-thumb {
+        background: rgba(239, 68, 68, 0.3);
+        border-radius: 2px;
+        transition: background 0.15s ease;
+    }
+
+    /* Handle shifts Yellow on active interaction */
+    .prose-custom pre::-webkit-scrollbar-thumb:hover {
+        background: #eab308;
+    }
+
+    /* Code Block Inner Typography */
+    .prose-custom code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        color: #eab308; /* Yellow terminal style tint */
+        background: rgba(239, 68, 68, 0.05);
+        padding: 2px 6px;
+        border-radius: 2px;
+    }
+    .prose-custom pre code {
+        color: #e5e7eb;
+        background: transparent;
+        padding: 0;
+        white-space: pre; /* Prevents unwanted artificial line wrapping inside logs/code */
+    }
+
+    /* Warning pattern shifted to alternating Red and Black */
+    .hazard-accent {
+        width: 40px;
+        height: 4px;
+        background: repeating-linear-gradient(45deg, #ef4444, #ef4444 5px, #000 5px, #000 10px);
+    }
+    .meta-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: #7f1d1d; /* Deep tactical red */
+    }
+    .meta-value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: #eab308; /* Yellow accents for parameters */
+    }
 
     /* Tactical Comment Styling */
-    .comment-box { background: rgba(255, 255, 255, 0.02); border-left: 2px solid #facc15; margin-bottom: 1.5rem; padding: 1.5rem; }
-    .comment-input { background: #050505 !important; border: 1px solid rgba(250, 204, 21, 0.2) !important; color: #fff !important; padding: 10px; width: 100%; font-family: 'JetBrains Mono', monospace; }
+    .comment-box {
+        background: rgba(239, 68, 68, 0.01);
+        border-left: 2px solid #ef4444;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+    }
+    .comment-input {
+        background: #000000 !important;
+        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        color: #fff !important;
+        padding: 10px;
+        width: 100%;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .comment-input:focus {
+        border-color: #eab308 !important; /* Focus shifts yellow */
+        outline: none;
+    }
 </style>
 
 <div class="max-w-4xl mx-auto">
     <!-- Navigation Header -->
     <div class="flex justify-between items-center mb-8">
-        <a href="{% url 'index' %}" class="mono text-[11px] text-slate-500 hover:text-yellow-400 flex items-center gap-3 group">
+        <a href="{% url 'index' %}" class="mono text-[11px] text-red-700 hover:text-yellow-500 flex items-center gap-3 group">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             BACK
         </a>
-        <div class="mono text-[10px] px-3 py-1 bg-yellow-400/5 text-yellow-400 border border-yellow-400/20 rounded-sm">CLASSIFICATION: PUBLIC</div>
+        <div class="mono text-[10px] px-3 py-1 bg-red-950/40 text-red-500 border border-red-500/30 rounded-sm">CLASSIFICATION: PUBLIC</div>
     </div>
 
     <article class="report-card rounded-sm overflow-hidden relative">
@@ -36,57 +165,52 @@
 
         <div class="report-header p-10 sm:p-14">
             <div class="flex items-center gap-4 mb-6">
-                <span class="px-2 py-0.5 bg-yellow-400 text-black text-[10px] font-black mono uppercase">Operation</span>
-                <span class="text-slate-600 mono text-xs tracking-widest">REF: {{ bulletin.id|default:"X-0644" }}</span>
+                <span class="px-2 py-0.5 bg-red-600 text-black text-[10px] font-black mono uppercase tracking-wider">Operation</span>
+                <span class="text-red-900 mono text-xs tracking-widest">REF: {{ bulletin.id|default:"X-0644" }}</span>
             </div>
 
-            <h1 class="text-3xl sm:text-5xl font-black text-white mb-8 tracking-tight italic uppercase">{{ bulletin.title }}</h1>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-white/5">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-red-950">
                 <div>
-                    <div class="meta-label mb-1">Lead Analyst</div>
+                    <div class="meta-label mb-1">Author</div>
                     <div class="meta-value text-white">{{ bulletin.writeup_author }}</div>
                 </div>
                 <div>
-                    <div class="meta-label mb-1">Target Sector</div>
+                    <div class="meta-label mb-1">T.Sector</div>
                     <div class="meta-value">{{ bulletin.writeup_category }}</div>
                 </div>
                 <div>
-                    <div class="meta-label mb-1">Environment</div>
-                    <div class="meta-value text-slate-300 italic">{{ bulletin.writeup_platform }}</div>
+                    <div class="meta-label mb-1">Env</div>
+                    <div class="meta-value text-slate-400 italic">{{ bulletin.writeup_platform }}</div>
                 </div>
                 <div>
-                    <div class="meta-label mb-1">Threat Level</div>
-                    <div class="meta-value {% if bulletin.writeup_difficulty == 'Hard' %}text-red-500{% else %}text-yellow-400{% endif %}">{{ bulletin.writeup_difficulty|upper }}</div>
+                    <div class="meta-label mb-1">Level</div>
+                    <div class="meta-value {% if bulletin.writeup_difficulty == 'Hard' %}text-red-500 font-bold{% else %}text-yellow-500{% endif %}">{{ bulletin.writeup_difficulty|upper }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Main Body Content (FIXED VARIABLE NAME) -->
-        <div class="p-10 sm:p-14 bg-[#0a0a0a]">
-            <div class="prose-custom max-w-none mb-12">
-                {{ bulletin.writeup_body|linebreaks }}
+        <!-- Main Body Content -->
+        <div class="p-10 sm:p-14 bg-[#000000] w-full overflow-hidden">
+            <div class="prose-custom max-w-none mb-12 w-full overflow-hidden">
+                {{ bulletin.writeup_body|safe_markdown }}
             </div>
 
-            <div class="bg-yellow-400/[0.02] border border-yellow-400/10 p-8 rounded-sm mono relative overflow-hidden">
-                <h4 class="text-yellow-400/80 text-[11px] font-bold mb-6 uppercase tracking-[0.3em]">Document Integrity Logs</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 text-[10px] text-slate-500">
-                    <div class="flex justify-between border-b border-white/5 pb-2">
+            <div class="bg-red-950/[0.05] border border-red-900/20 p-8 rounded-sm mono relative overflow-hidden">
+                <h4 class="text-red-500/80 text-[11px] font-bold mb-6 uppercase tracking-[0.3em]">Document Integrity Logs</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 text-[10px] text-red-900">
+                    <div class="flex justify-between border-b border-red-950 pb-2">
                         <span>TIMESTAMP:</span>
-                        <span class="text-slate-300">{{ bulletin.publication_date|date:"Y-m-d" }}</span>
+                        <span class="text-yellow-600">{{ bulletin.publication_date|date:"Y-m-d" }}</span>
                     </div>
                 </div>
             </div>
         </div>
     </article>
 
-    <!-- Field Observations (RESTORED MISSING LOOP) -->
+    <!-- Field Observations -->
     <section class="mt-12 p-6 report-card">
-
-
-
-        <div class="mt-12 pt-8 border-t border-white/5">
-            <h4 class="text-white mono text-xs mb-6 uppercase tracking-widest">Submit New Observation</h4>
+        <div class="mt-12 pt-8 border-t border-red-950">
+            <h4 class="text-red-500 mono text-xs mb-6 uppercase tracking-widest">Submit</h4>
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 {% for field in comment_form %}
@@ -95,15 +219,11 @@
                         {{ field }}
                     </div>
                 {% endfor %}
-                <button type="submit" class="mt-4 px-6 py-2 bg-yellow-400 text-black font-black mono text-xs uppercase hover:bg-white transition-colors">
-                    Transmit Data
+                <button type="submit" class="mt-4 px-6 py-2 bg-red-600 text-black font-black mono text-xs uppercase hover:bg-yellow-500 hover:text-black transition-colors duration-150">
+                    SUBMIT
                 </button>
             </form>
         </div>
     </section>
 </div>
-
-<script>
-    document.querySelectorAll('input, textarea').forEach(el => el.classList.add('comment-input'));
-</script>
 {% endblock %}

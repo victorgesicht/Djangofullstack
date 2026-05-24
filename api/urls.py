@@ -13,6 +13,7 @@ urlpatterns = [
     path('L-board', Lboard.as_view(),name='LBoard'),
     path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
     ),
+
     #path('extract-cv/', Extract-cv.as_view(), name='extract-cv')
 
 ]

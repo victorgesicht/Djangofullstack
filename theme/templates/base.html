@@ -1,4 +1,5 @@
 {% load tailwind_tags %}
+
 {% tailwind_css %}
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -10,157 +11,135 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=General+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
         :root {
-            /* THMFlags 2026 Color Palette */
-            --signal-yellow: #facc15; /* The 'Action' color */
-            --bg-matte: #0a0a0a;      /* Deep neutral, not true black */
-            --border-muted: #1f1f1f;  /* Subtle structural lines */
-            --text-main: #e5e7eb;
+            /* Hardcore Red/Black/Yellow Palette Shift */
+            --signal-red: #ef4444;       /* Dominant Accent / Critical Vector */
+            --signal-yellow: #eab308;    /* Subordinate Data Stream / Values */
+            --bg-pure-black: #000000;    /* Absolute darkness floor */
+            --border-tactical: #7f1d1d;  /* Blood red structure lines */
+            --text-main: #f3f4f6;
         }
 
         body {
             font-family: 'General Sans', sans-serif;
-            background-color: var(--bg-matte);
+            background-color: var(--bg-pure-black);
             color: var(--text-main);
-            /* Clean, non-distracting pattern */
-            background-image: radial-gradient(#1f1f1f 0.5px, transparent 0.5px);
-            background-size: 24px 24px;
+            /* Dark tactical grid style background using sub-audited red */
+            background-image: radial-gradient(rgba(127, 29, 29, 0.3) 0.6px, transparent 0.6px);
+            background-size: 20px 20px;
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* GitBook-style Hint Blocks */
+        /* Tactical Breach Warning block */
         .hint-warning {
-            background-color: rgba(250, 204, 21, 0.05);
-            border-left: 4px solid var(--signal-yellow);
+            background-color: rgba(239, 68, 68, 0.03);
+            border-left: 4px solid var(--signal-red);
         }
 
-        /* Clean "Active" State for Navigation */
+        /* Red Hot Navigation Active Markers */
         .nav-active {
-            color: var(--signal-yellow);
-            border-bottom: 2px solid var(--signal-yellow);
+            color: var(--signal-red);
+            border-bottom: 2px solid var(--signal-red);
         }
 
-        /* Signal Button Effect */
+        /* High Voltage Transmission Button */
         .btn-signal {
-            background-color: var(--signal-yellow);
-            color: #000;
-            transition: all 0.2s ease;
+            background-color: var(--signal-red);
+            color: #000000;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .btn-signal:hover {
-            background-color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.15);
+            background-color: var(--signal-yellow);
+            color: #000000;
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
-    <div class="w-full bg-black/80 backdrop-blur-sm border-b border-white/5 py-1.5 px-6 flex justify-between items-center mono text-[10px] tracking-tight">
-        <div class="flex gap-6 items-center text-slate-500">
-            <span class="flex items-center gap-2"><div class="h-1.5 w-1.5 bg-yellow-400 rounded-full animate-pulse"></div> DB: OK</span>
+    <!-- Top Telemetry Ribbon -->
+    <div class="w-full bg-black border-b border-red-950/60 py-1.5 px-6 flex justify-between items-center mono text-[10px] tracking-tight">
+        <div class="flex gap-6 items-center text-red-900">
+            <span class="flex items-center gap-2">
+                <div class="h-1.5 w-1.5 bg-red-500 rounded-full animate-ping"></div>
+                SYS_STATUS: UP
+            </span>
             <span>Uptime: 99.99%</span>
         </div>
-        <div class="flex gap-4 items-center">
-            <span class="text-slate-500 uppercase">Latency: <span class="text-yellow-400">12ms</span></span>
-            <span id="clock" class="text-slate-400">00:00:00</span>
-        </div>
+
     </div>
 
-    <header class="sticky top-0 z-50 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5">
+    <!-- Sticky Operational Header -->
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-red-950/50">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
             <div class="flex items-center gap-10">
-                <a href="/" class="flex items-center gap-3">
-                    <div class="w-7 h-7 bg-yellow-400 flex items-center justify-center rounded-sm">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-7 h-7 bg-red-600 flex items-center justify-center rounded-sm transition-colors group-hover:bg-yellow-500">
                         <span class="text-black font-black text-sm italic">F</span>
                     </div>
-                    <span class="font-bold text-lg tracking-tight text-white uppercase italic">Foothold<span class="text-yellow-400 opacity-50">.</span></span>
+                    <span class="font-bold text-lg tracking-tight text-white uppercase italic">Foothold<span class="text-red-600 transition-colors group-hover:text-yellow-500">_</span></span>
                 </a>
 
-                <nav class="hidden md:flex items-center gap-2 text-[12px] mono text-slate-500 bg-white/5 px-3 py-1 rounded border border-white/5">
-                    <span>docs</span>
-                    <span class="opacity-30">/</span>
-                    <span class="text-yellow-400/80">{% block breadcrumb %}infrastructure{% endblock %}</span>
+                <nav class="hidden md:flex items-center gap-2 text-[12px] mono text-red-950 bg-red-950/10 px-3 py-1 rounded border border-red-900/20">
+                    <span class="text-red-700/70">root</span>
+                    <span class="opacity-30 text-red-600">/</span>
+                    <span class="text-yellow-500/90 font-semibold">{% block breadcrumb %}infrastructure{% endblock %}</span>
                 </nav>
             </div>
 
             <div class="flex items-center gap-6">
-                <nav class="hidden sm:flex items-center gap-6 text-sm font-semibold text-slate-400">
-                    <a href="{% url 'index' %}" class="hover:text-yellow-400 transition-colors">Writeups</a>
-                    <a href="{% url 'LBoard' %}" class="hover:text-yellow-400 transition-colors">Telemetry</a>
-                    <a href="{% url 'id' %}" class="hover:text-yellow-400 transition-colors">Identity</a>
+                <nav class="hidden sm:flex items-center gap-6 text-sm font-bold text-red-800 tracking-wide uppercase">
+                    <a href="{% url 'index' %}" class="hover:text-yellow-500 transition-colors duration-150">Archives</a>
+                    <a href="{% url 'LBoard' %}" class="hover:text-yellow-500 transition-colors duration-150">LeaderBoards</a>
+                    <a href="{% url 'id' %}" class="hover:text-yellow-500 transition-colors duration-150">XP</a>
                 </nav>
-                <a href="#" class="btn-signal px-4 py-1.5 rounded-sm text-[11px] font-bold uppercase tracking-wider">
+                <a href="#" class="btn-signal px-4 py-1.5 rounded-sm text-[11px] font-black uppercase tracking-wider">
                     Download_CV
                 </a>
             </div>
         </div>
     </header>
 
-    <main class="grow max-w-7xl w-full mx-auto px-6 py-12">
-        <div class="grid grid-cols-12 gap-10">
-
-            <aside class="hidden lg:block col-span-3 space-y-8 sticky top-28 h-fit">
-                <div>
-                    <h3 class="text-[10px] uppercase font-bold text-yellow-400/50 tracking-widest mb-4">Core Competencies</h3>
-                    <ul class="space-y-3 text-sm text-slate-400">
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Systems Analyst consultant</li>
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Database Admin</li>
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Project Management</li>
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> System analysis</li>
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Q.A</li>
-                        <li class="hover:text-white cursor-default flex items-center gap-2"><div class="w-1 h-1 bg-yellow-400"></div> Pentesting</li>
-                    </ul>
-                </div>
-            </aside>
-
-            <div class="col-span-12 lg:col-span-9">
-                <article class="bg-[#0f0f0f] border border-white/5 rounded-sm p-8 min-h-[70vh]">
-                    {% block content %}
-                    {% endblock %}
-                </article>
-            </div>
-
-        </div>
+    <!-- Content Target Zone -->
+    <main class="flex-grow py-12 px-6">
+        {% block content %}
+        <!-- Child content dynamically nests inside here -->
+        {% endblock %}
     </main>
 
-    <footer class="bg-black border-t border-white/5 py-12">
+    <!-- Tactical Footer -->
+    <footer class="bg-black border-t border-red-950/60 py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-10">
             <div class="max-w-xs">
                 <div class="flex items-center gap-2 mb-4">
-                    <div class="w-1 h-4 bg-yellow-400"></div>
-                    <span class="mono text-xs font-bold text-white uppercase">Operational Status</span>
+                    <div class="w-1 h-4 bg-red-600"></div>
+                    <span class="mono text-xs font-black text-red-500 uppercase tracking-widest">Operational Directive</span>
                 </div>
-                <p class="text-xs text-slate-500 leading-relaxed">
-                    Bridging the gap between leadership and technical infrastructure. Available for inquiries regarding SOC level 1/2 and DBA roles.
+                <p class="text-xs text-red-900/80 font-medium leading-relaxed">
+                    Bridging the gap between execution pipelines and dark architecture networks. Specialized directives for SOC analysis and automated data architectures.
                 </p>
             </div>
 
             <div class="flex gap-20">
                 <div class="space-y-4">
-                    <h4 class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Connect</h4>
-                    <div class="flex flex-col gap-2 text-xs text-slate-400 font-medium">
-                        <a href="#" class="hover:text-yellow-400">LinkedIn</a>
-                        <a href="#" class="hover:text-yellow-400">GitHub</a>
+                    <h4 class="text-[10px] font-black text-red-950 uppercase tracking-widest">Secure Links</h4>
+                    <div class="flex flex-col gap-2 text-xs text-red-700/80 font-semibold">
+                        <a href="#" class="hover:text-yellow-500 transition-colors">LinkedIn</a>
+                        <a href="#" class="hover:text-yellow-500 transition-colors">GitHub</a>
                     </div>
                 </div>
                 <div class="space-y-4 text-right">
-                    <h4 class="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Instance</h4>
-                    <p class="mono text-[10px] text-slate-500"><span class="text-yellow-400/30">Stable Release 2.6</span></p>
+                    <h4 class="text-[10px] font-black text-red-950 uppercase tracking-widest">Deployment Node</h4>
+                    <p class="mono text-[10px] text-red-900"><span class="text-yellow-500/40 font-bold">STABLE_RELEASE</span></p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toISOString().split('T')[1].substring(0,8) + " UTC";
-        }
-        setInterval(updateClock, 1000); updateClock();
-    </script>
+
 </body>
 </html>
