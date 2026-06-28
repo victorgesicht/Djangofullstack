@@ -28,5 +28,4 @@ ENV/
 *.sw?
 
 
-secrets
-secrets.pub
+secrets*
