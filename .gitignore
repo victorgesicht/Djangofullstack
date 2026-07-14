@@ -29,5 +29,5 @@ ENV/
 
 
 secrets*
-settings.py
+*settings.py
 admin.py
