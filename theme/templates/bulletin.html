@@ -1,162 +1,150 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load martortags %}
 
-{% block title %}{{ writeup.title }} | Foothold{% endblock %}
+{% block title %}{{ writeup.title }} | FootHold{% endblock %}
 
 {% block content %}
 <style>
-    .prose-custom {
-        line-height: 1.85;
-        font-size: 1.05rem;
-        color: #2b3348;
+    .prose-term {
+        line-height: 1.8;
+        font-size: 1rem;
+        color: #a1a1aa;
         overflow-wrap: break-word;
     }
-    .prose-custom h1, .prose-custom h2, .prose-custom h3, .prose-custom h4 {
-        font-family: 'JetBrains Mono', 'Fira Code', monospace;
-        color: #1c2538;
+    .prose-term h1, .prose-term h2, .prose-term h3, .prose-term h4 {
+        font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
+        color: #ef4444;
         font-weight: 700;
         margin-top: 1.75rem;
         margin-bottom: 0.75rem;
     }
-    .prose-custom h1 { font-size: 1.75rem; border-bottom: 1px dashed rgba(29, 93, 144, 0.4); padding-bottom: 0.25rem; }
-    .prose-custom h2 { font-size: 1.4rem; }
-    .prose-custom h3 { font-size: 1.15rem; color: #143d5e; }
-    .prose-custom strong { color: #151c2b; font-weight: 700; }
-    .prose-custom a { color: #216ba5; text-decoration: underline; text-underline-offset: 4px; }
-    .prose-custom a:hover { color: #1d5d90; }
-    .prose-custom pre {
-        background: #151c2b;
-        border: 1px solid rgba(97, 122, 145, 0.3);
+    .prose-term h1 { font-size: 1.6rem; border-bottom: 1px dashed rgba(239, 68, 68, 0.35); padding-bottom: 0.25rem; }
+    .prose-term h2 { font-size: 1.3rem; }
+    .prose-term h3 { font-size: 1.1rem; color: #f87171; }
+    .prose-term strong { color: #f4f4f5; font-weight: 700; }
+    .prose-term a { color: #ef4444; text-decoration: underline; text-underline-offset: 4px; }
+    .prose-term a:hover { color: #f87171; }
+    .prose-term ul, .prose-term ol { color: #a1a1aa; margin-left: 1.25rem; margin-bottom: 1.25rem; }
+    .prose-term ul { list-style: square; }
+    .prose-term ol { list-style: decimal; }
+    .prose-term blockquote {
+        border-left: 2px solid #ef4444;
+        padding-left: 1rem;
+        color: #71717a;
+        font-style: italic;
+    }
+    .prose-term pre {
+        background: #020202;
+        border: 1px solid rgba(63, 63, 70, 0.6);
         padding: 1.25rem;
-        border-radius: 0.5rem;
+        border-radius: 0.25rem;
         overflow-x: auto;
         margin-bottom: 1.5rem;
         max-width: 100%;
     }
-    .prose-custom code {
-        font-family: 'JetBrains Mono', monospace;
+    .prose-term code {
+        font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
         font-size: 0.9rem;
-        color: #1d5d90;
-        background: #eef1f6;
+        color: #f87171;
+        background: rgba(63, 63, 70, 0.4);
         padding: 2px 6px;
-        border-radius: 4px;
+        border-radius: 3px;
     }
-    .prose-custom pre code { color: #dbe2ee; background: transparent; padding: 0; }
+    .prose-term pre code { color: #e4e4e7; background: transparent; padding: 0; }
     .comment-input {
-        background-color: #182337 !important;
-        border: 1px solid rgba(97, 122, 145, 0.3) !important;
-        color: #f1f5f9 !important;
+        background-color: #020202 !important;
+        border: 1px solid rgba(63, 63, 70, 0.6) !important;
+        color: #f4f4f5 !important;
         padding: 10px;
         width: 100%;
-        border-radius: 0.5rem;
-        font-family: 'JetBrains Mono', monospace;
+        border-radius: 0.25rem;
+        font-family: ui-monospace, monospace;
     }
-    .comment-input:focus {
-        border-color: #4e94d8 !important;
-        outline: none;
-    }
+    .comment-input:focus { border-color: #ef4444 !important; outline: none; }
 </style>
 
-<article class="max-w-3xl mx-auto">
-
+<div class="max-w-4xl mx-auto">
     <a href="{% url 'writeups' %}"
-       class="inline-flex items-center gap-2 text-sm text-surface-400 hover:text-brand-400 transition-colors mb-8">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-        Back to archive
+       class="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-red-500 transition-colors mb-8 inline-block">
+        &lt;- Back to Archive
     </a>
 
-    <div class="bg-paper-50 border border-paper-300 rounded-xl shadow-lg shadow-brand-950/30 p-7 md:p-10">
+    <header class="relative pl-6 py-2 mb-6 border-l-2 border-red-600">
+        <div class="absolute -left-[5px] top-0 h-2 w-2 bg-red-600"></div>
+        <div class="absolute -left-[5px] bottom-0 h-2 w-2 bg-red-600"></div>
 
-        <!-- Badges -->
-        <div class="flex flex-wrap items-center gap-2 mb-5">
-        <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-600/10 text-brand-700 border border-brand-600/25">
-            {{ writeup.get_writeup_platform_display }}
-        </span>
-        <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-cyan-600/10 text-cyan-700 border border-cyan-600/25">
-            #{{ writeup.get_writeup_category_display }}
-        </span>
-        {% if writeup.writeup_difficulty == 'E' %}
-            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-600/10 text-emerald-700 border border-emerald-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
-        {% elif writeup.writeup_difficulty == 'M' %}
-            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-600/10 text-amber-700 border border-amber-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
-        {% elif writeup.writeup_difficulty == 'H' %}
-            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-600/10 text-orange-700 border border-orange-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
-        {% else %}
-            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-600/10 text-fuchsia-700 border border-fuchsia-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
-        {% endif %}
+        <div class="flex flex-wrap items-center gap-3 font-mono text-[10px] mb-2 uppercase tracking-widest">
+            <span class="text-red-500 font-bold border border-red-900 px-2 py-0.5 bg-red-950/20">
+                {{ writeup.get_writeup_platform_display }}
+            </span>
+            <span class="text-slate-600">TAG://{{ writeup.get_writeup_category_display }}</span>
+            <span class="text-red-500 font-bold border border-red-900 px-2 py-0.5 bg-red-950/20">
+                {{ writeup.get_writeup_difficulty_display }}
+            </span>
         </div>
 
-        <!-- Title -->
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-surface-900 mb-4">{{ writeup.title }}</h1>
+        <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white font-mono">
+            <span class="text-red-600 select-none font-normal">[</span>
+            INTEL // {{ writeup.title }}
+        </h1>
 
-        <!-- Meta -->
-        <div class="flex items-center gap-3 text-sm text-surface-600 pb-8 mb-8 border-b border-paper-300">
-        <span class="font-medium text-surface-800">{{ writeup.writeup_author }}</span>
-        <span class="h-1 w-1 rounded-full bg-surface-400"></span>
-        <span>{{ writeup.publication_date|date:"F d, Y" }}</span>
-        </div>
+        <p class="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">
+            Author: <span class="text-slate-300">{{ writeup.writeup_author }}</span>
+            // Date: <span class="text-slate-300">{{ writeup.publication_date|date:"F d, Y" }}</span>
+        </p>
+    </header>
 
-        <!-- Cover Image -->
-        {% if writeup.writeup_image %}
-        <div class="mb-8">
+    {% if writeup.writeup_image %}
+    <div class="mb-10">
         <img src="{{ writeup.writeup_image.url }}" alt="{{ writeup.title }}"
-             class="w-full h-auto rounded-xl border border-paper-300">
-        </div>
-        {% endif %}
+             class="w-full h-auto border border-slate-800">
+    </div>
+    {% endif %}
 
-        <!-- Body -->
-        <div class="prose-custom max-w-none">
-        {{ writeup.writeup_body|safe_markdown }}
+    <div class="border border-slate-800 bg-[#222] p-8 md:p-10">
+        <div class="prose-term max-w-none">
+            {{ writeup.writeup_body|safe_markdown }}
         </div>
-
     </div>
 
-</article>
-
-<!-- Comments -->
-<section class="max-w-3xl mx-auto mt-12 pt-10 border-t border-surface-800">
-
-    <div class="mb-8">
-        <h4 class="mono text-xs font-bold text-surface-300 uppercase tracking-wider mb-6 flex items-center gap-2">
-            <span class="h-4 w-1 bg-brand-500 rounded-full"></span>
-            Observations Feed
-        </h4>
-        <div class="space-y-4">
-            {% for comment in comments %}
-                <div class="bg-surface-900/70 border border-surface-800 rounded-xl p-6">
-                    <div class="flex justify-between text-[11px] text-surface-500 mb-1">
-                        <span class="font-bold text-brand-400 mono uppercase tracking-wider">{{ comment.author }}</span>
-                        <span class="mono">{{ comment.created_on|date:"M d, Y H:i" }}</span>
+    <section class="mt-12 pt-10 border-t border-slate-800">
+        <div class="mb-8">
+            <h4 class="mono text-xs font-bold text-red-500 uppercase tracking-[0.3em] mb-6">
+                // Observations_Feed
+            </h4>
+            <div class="space-y-4">
+                {% for comment in comments %}
+                    <div class="bg-black border border-slate-800 p-6">
+                        <div class="flex justify-between text-[11px] mb-1 font-mono">
+                            <span class="font-bold text-red-500 uppercase tracking-widest">{{ comment.author }}</span>
+                            <span class="text-slate-600">{{ comment.created_on|date:"M d, Y H:i" }}</span>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed">{{ comment.body }}</p>
                     </div>
-                    <p class="text-sm text-surface-300 leading-relaxed">{{ comment.body }}</p>
-                </div>
-            {% empty %}
-                <p class="text-sm text-surface-500">No observations logged on this node yet.</p>
-            {% endfor %}
+                {% empty %}
+                    <p class="text-sm text-slate-600 font-mono">// NO_OBSERVATIONS_LOGGED</p>
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-    <div class="pt-8 border-t border-surface-800">
-        <h4 class="mono text-xs font-bold text-surface-300 uppercase tracking-wider mb-6 flex items-center gap-2">
-            <span class="h-4 w-1 bg-brand-500 rounded-full"></span>
-            Submit
-        </h4>
-        <form method="post" class="space-y-4">
-            {% csrf_token %}
-            {% for field in comment_form %}
-                <div class="flex flex-col gap-2">
-                    <label class="mono text-[11px] font-bold uppercase tracking-wider text-surface-400">{{ field.label }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <button type="submit"
-                    class="mt-4 px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-brand-600/20">
-                Submit
-            </button>
-        </form>
-    </div>
-
-</section>
+        <div class="pt-8 border-t border-slate-800">
+            <h4 class="mono text-xs font-bold text-red-500 uppercase tracking-[0.3em] mb-6">
+                // Submit_Observation
+            </h4>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in comment_form %}
+                    <div class="flex flex-col gap-2">
+                        <label class="mono text-[11px] font-bold uppercase tracking-widest text-slate-500">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit"
+                        class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white text-sm font-bold font-mono uppercase tracking-widest transition-all">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </section>
+</div>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% block title %}Leaderboards | Foothold{% endblock %}
+{% block title %}Leaderboard // Personnel Telemetry{% endblock %}
+{% block breadcrumb %}sys/usr/rankings{% endblock %}
 
 {% block content %}
 <style>
@@ -13,31 +14,31 @@
     }
 
     .xp-card {
-        background: #1c2538;
-        border: 1px solid rgba(151, 162, 179, 0.15);
+        background: #0f0f0f;
+        border: 1px solid rgba(255, 255, 255, 0.03);
         position: relative;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: hidden;
     }
 
     .xp-card:hover {
-        border-color: rgba(78, 148, 216, 0.45);
+        border-color: rgba(250, 204, 21, 0.2);
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px -12px rgba(6, 13, 24, 0.6);
+        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* Signal Accents: Platform colors */
-    .accent-thm { border-top: 4px solid #f23e2c; } /* THM red */
+    /* Signal Accents: THMFlags Style */
+    .accent-thm { border-top: 4px solid #ef4444; } /* Red-500 */
     .accent-rootme { border-top: 4px solid #f97316; } /* Orange-500 */
     .accent-portswigger { border-top: 4px solid #0ea5e9; } /* Sky-500 */
 
     .badge-container {
-        background: #151c2b;
+        background: #050505;
         height: 110px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-bottom: 1px solid rgba(151, 162, 179, 0.15);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .badge-container iframe {
@@ -75,16 +76,16 @@
 </style>
 
 <div class="max-w-6xl mx-auto">
-    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-surface-800 pb-8">
+    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
         <div>
             <div class="flex items-center gap-2 mb-3">
-                <div class="h-4 w-1 bg-brand-400"></div>
-                <h2 class="mono text-brand-400/80 text-[10px] font-bold tracking-[0.4em] uppercase">Tactical_Personnel_Metrics</h2>
+                <div class="h-4 w-1 bg-yellow-400"></div>
+                <h2 class="mono text-yellow-400/80 text-[10px] font-bold tracking-[0.4em] uppercase">Tactical_Personnel_Metrics</h2>
             </div>
             <h1 class="text-4xl font-black text-white tracking-tighter uppercase italic">Leaderboards</h1>
         </div>
-        <div class="mono text-[11px] text-surface-500 bg-surface-800/50 px-4 py-2 rounded-sm border border-surface-700/60">
-            LAST_SYNC: <span class="text-brand-400">{% now "H:i" %} UTC</span>
+        <div class="mono text-[11px] text-slate-500 bg-white/5 px-4 py-2 rounded-sm border border-white/5">
+            LAST_SYNC: <span class="text-yellow-400">{% now "H:i" %} UTC</span>
         </div>
     </div>
 
@@ -101,15 +102,15 @@
                         <h3 class="text-white font-black mt-3 text-lg tracking-tight uppercase italic">Security Researcher</h3>
                     </div>
                 </div>
-                <div class="mono text-[11px] flex justify-between items-center text-surface-500">
+                <div class="mono text-[11px] flex justify-between items-center text-slate-500">
                     <span>GLOBAL_RANKING:</span>
-                    <span class="text-white font-bold bg-surface-800/70 px-2 py-0.5">TOP 1%</span>
+                    <span class="text-white font-bold bg-white/5 px-2 py-0.5">TOP 1%</span>
                 </div>
             </div>
         </div>
 
         <div class="xp-card accent-rootme rounded-sm">
-            <div class="badge-container bg-surface-900/60">
+            <div class="badge-container bg-[#1a1a1a]/20">
                 <div class="flex flex-col items-center gap-2">
                     <img src="https://www.root-me.org/IMG/logo/siteon0.svg" class="h-12 w-auto opacity-80" alt="Root-Me">
                     <span class="mono text-[10px] text-orange-500/50">ROOT-ME.ORG</span>
@@ -123,7 +124,7 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <a href="https://www.root-me.org/mf6?lang=en" target="_blank" class="flex items-center justify-between mono text-[11px] text-surface-400 hover:text-orange-400 transition-colors group border-b border-surface-800 pb-2">
+                    <a href="https://www.root-me.org/mf6?lang=en" target="_blank" class="flex items-center justify-between mono text-[11px] text-slate-400 hover:text-orange-400 transition-colors group border-b border-white/5 pb-2">
                         <span>hacker-badge=VERIFIED</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4h6m0 0v6m0-6L10 14" />
@@ -146,7 +147,7 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <div class="flex justify-between mono text-[10px] mb-2 text-surface-500">
+                    <div class="flex justify-between mono text-[10px] mb-2 text-slate-500">
                         <span>ACADEMY_COMPLETION</span>
                         <span class="text-sky-400 font-bold">71%</span>
                     </div>
@@ -158,13 +159,13 @@
         </div>
     </div>
 
-    <div class="mt-24 py-12 border-t border-surface-800 flex flex-col items-center">
+    <div class="mt-24 py-12 border-t border-white/5 flex flex-col items-center">
         <div class="flex gap-4 mb-4">
-            <div class="w-2 h-2 bg-brand-400/30"></div>
-            <div class="w-2 h-2 bg-brand-400/50"></div>
-            <div class="w-2 h-2 bg-brand-400/70"></div>
+            <div class="w-2 h-2 bg-yellow-400/20"></div>
+            <div class="w-2 h-2 bg-yellow-400/40"></div>
+            <div class="w-2 h-2 bg-yellow-400/60"></div>
         </div>
-        <p class="mono text-[10px] text-surface-600 uppercase tracking-[0.5em]"> // FOOTHOLD_TELEMETRY</p>
+        <p class="mono text-[10px] text-slate-600 uppercase tracking-[0.5em]"> // FOOTHOLD_TELEMETRY</p>
     </div>
 </div>
 {% endblock %}

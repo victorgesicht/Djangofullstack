@@ -1,160 +1,81 @@
-<!DOCTYPE html>
 {% load tailwind_tags %}
-<html lang="en" class="dark">
+{% tailwind_css %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}FootHold Investigations{% endblock %}</title>
-
-    {% tailwind_css %}
+    <title>{% block title %}FootHold{% endblock %}</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background:
-                radial-gradient(1100px 560px at 72% -10%, rgba(46, 118, 184, 0.18), transparent 62%),
-                radial-gradient(900px 500px at -12% 108%, rgba(78, 148, 216, 0.07), transparent 60%),
-                #151c2b;
-        }
-        ::selection { background: rgba(46, 118, 184, 0.45); color: #fff; }
-        .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+        .mono { font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace; }
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-surface-950 text-surface-200 antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-red-600/60 selection:text-white">
 
     {% with current=request.resolver_match.url_name %}
-    <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 bg-surface-950/90 backdrop-blur-xl border-b border-surface-800/60"
-            x-data="{ open: false }">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <nav class="bg-black border-b border-red-900/50 shadow-[0_1px_10px_rgba(220,38,38,0.1)]" x-data="{ open: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
 
-            <!-- Logo -->
-            <a href="/" class="flex items-center gap-3 group shrink-0">
-                <div class="w-8 h-8 bg-brand-600 flex items-center justify-center rounded-lg transition-all group-hover:bg-brand-500 group-hover:shadow-lg group-hover:shadow-brand-600/25">
-                    <span class="text-white font-black text-sm">F</span>
+                <div class="flex-shrink-0 flex items-center group cursor-pointer">
+                    <div class="h-3 w-3 bg-red-600 rounded-full mr-3 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
+                    <span class="text-red-500 font-mono font-black text-xl tracking-tighter group-hover:text-red-400 transition-colors">
+                        ROOT@SOC:~# <span class="text-white animate-pulse">_</span>
+                    </span>
                 </div>
-                <span class="font-bold text-lg tracking-tight text-white">Foothold<span class="text-brand-400">_</span></span>
-            </a>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold">
-                <a href="{% url 'index' %}"
-                   class="pb-1 transition-colors {% if current == 'index' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
-                    Home
-                </a>
-                <a href="{% url 'writeups' %}"
-                   class="pb-1 transition-colors {% if current == 'writeups' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
-                    Archive
-                </a>
-                <a href="{% url 'LBoard' %}"
-                   class="pb-1 transition-colors {% if current == 'LBoard' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
-                    Leaderboards
-                </a>
-                <a href="{% url 'id' %}"
-                   class="pb-1 transition-colors {% if current == 'id' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
-                    XP
-                </a>
-            </nav>
+                <div class="hidden md:flex items-center space-x-6 font-mono text-sm">
+                    <a href="{% url 'writeups' %}"
+                       class="transition-all hover:tracking-widest {% if current == 'writeups' %}text-red-500{% else %}text-slate-400 hover:text-red-500{% endif %}">/WRITEUPS</a>
+                    <a href="{% url 'LBoard' %}"
+                       class="transition-all hover:tracking-widest {% if current == 'LBoard' %}text-red-500{% else %}text-slate-400 hover:text-red-500{% endif %}">/RANKINGS</a>
+                    <a href="{% url 'id' %}"
+                       class="transition-all hover:tracking-widest {% if current == 'id' %}text-red-500{% else %}text-slate-400 hover:text-red-500{% endif %}">/XP</a>
 
-            <!-- Right side -->
-            <div class="flex items-center gap-3">
-                <a href="#" class="hidden sm:inline-flex items-center bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/25">
-                    Download CV
-                </a>
-                <button @click="open = !open"
-                        class="md:hidden p-2 rounded-md text-surface-300 hover:text-white hover:bg-surface-800 transition-colors"
-                        aria-label="Toggle navigation">
-                    <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                    <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    <a href="#" class="relative inline-flex items-center px-5 py-2 overflow-hidden font-bold text-white bg-red-600 rounded-sm group">
+                        <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span class="relative">EXTRACT_CV</span>
+                    </a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button @click="open = !open" class="text-red-500 hover:text-red-400 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Panel -->
-        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1"
-             class="md:hidden border-t border-surface-800 bg-surface-950/95 backdrop-blur-xl">
-            <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
-                <a href="{% url 'index' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'index' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                    Home
-                </a>
-                <a href="{% url 'writeups' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'writeups' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                    Archive
-                </a>
-                <a href="{% url 'LBoard' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'LBoard' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                    Leaderboards
-                </a>
-                <a href="{% url 'id' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'id' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                    XP
-                </a>
-                <a href="#" class="mt-2 bg-brand-600 hover:bg-brand-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold text-center transition-all">
-                    Download CV
-                </a>
-            </nav>
+        <div x-show="open" x-cloak
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             class="md:hidden bg-black border-b border-red-900">
+            <div class="px-2 pt-2 pb-3 space-y-1 font-mono">
+                <a href="{% url 'writeups' %}" class="block px-3 py-2 {% if current == 'writeups' %}text-red-500{% else %}text-slate-300 hover:bg-red-950/30 hover:text-red-500{% endif %}">./view_writeups</a>
+                <a href="{% url 'LBoard' %}" class="block px-3 py-2 {% if current == 'LBoard' %}text-red-500{% else %}text-slate-300 hover:bg-red-950/30 hover:text-red-500{% endif %}">./show_rankings</a>
+                <a href="{% url 'id' %}" class="block px-3 py-2 {% if current == 'id' %}text-red-500{% else %}text-slate-300 hover:bg-red-950/30 hover:text-red-500{% endif %}">./xp_capabilities</a>
+                <a href="#" class="block px-3 py-2 text-red-500 font-bold border-t border-red-900/50 mt-2">./extract_cv.sh</a>
+            </div>
         </div>
-    </header>
+    </nav>
     {% endwith %}
 
-    <!-- Main Content -->
-    <main class="flex-grow py-12 px-6">
-        <div class="max-w-6xl mx-auto">
-            {% block content %}
-            {% endblock %}
-        </div>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-surface-900/50 border-t border-surface-800 mt-auto">
-        <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start gap-10">
-
-            <div class="max-w-xs">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-6 h-6 bg-brand-600 rounded-md flex items-center justify-center">
-                        <span class="text-white font-black text-xs">F</span>
-                    </div>
-                    <span class="font-bold text-white">Foothold</span>
-                </div>
-                <p class="text-sm text-surface-400 leading-relaxed">
-                    Bridging execution pipelines and architecture networks. Specialized directives for SOC analysis and automated data systems.
-                </p>
-            </div>
-
-            <div class="flex gap-16">
-                <div class="space-y-3">
-                    <h4 class="text-xs font-bold text-surface-300 uppercase tracking-wider">Connect</h4>
-                    <div class="flex flex-col gap-2 text-sm">
-                        <a href="#" class="text-surface-400 hover:text-brand-400 transition-colors">LinkedIn</a>
-                        <a href="#" class="text-surface-400 hover:text-brand-400 transition-colors">GitHub</a>
-                    </div>
-                </div>
-                <div class="space-y-3">
-                    <h4 class="text-xs font-bold text-surface-300 uppercase tracking-wider">Status</h4>
-                    <p class="mono text-xs text-surface-500 flex items-center gap-2">
-                        <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full"></span>
-                        Stable Release
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-t border-surface-800/60">
-            <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center text-xs text-surface-500">
-                <span>&copy; 2026 Foothold. All rights reserved.</span>
-                <span class="mono text-surface-600">v1.0.0</span>
-            </div>
+    <footer class="bg-slate-900 border-t border-slate-800 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm font-mono">
+            <p>&copy; 2026 Fm6</p>
         </div>
     </footer>
+
 </body>
 </html>
