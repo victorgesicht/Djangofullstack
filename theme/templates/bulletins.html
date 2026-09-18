@@ -13,7 +13,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {% for writeup in writeups %}
     <a href="{% url 'writedetail' writeup.pk %}"
-       class="group flex flex-col bg-surface-900/40 border border-surface-800 rounded-xl p-6 transition-all duration-200 hover:border-brand-700/50 hover:bg-surface-900/70 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40">
+       class="group flex flex-col bg-surface-900/80 border border-surface-800 rounded-xl p-6 transition-all duration-200 hover:border-brand-500/50 hover:bg-surface-850 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-950/40">
 
         <div class="flex items-center justify-between mb-5">
             <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
@@ -30,12 +30,12 @@
             {% endif %}
         </div>
 
-        <h3 class="text-lg font-bold text-surface-100 mb-2 group-hover:text-brand-400 transition-colors line-clamp-2">
+        <h3 class="text-lg font-bold text-surface-50 mb-2 group-hover:text-brand-300 transition-colors line-clamp-2">
             {{ writeup.title }}
         </h3>
 
-        <div class="flex items-center gap-3 mt-auto pt-5 text-xs text-surface-500">
-            <span class="mono">#{{ writeup.get_writeup_category_display }}</span>
+        <div class="flex items-center gap-3 mt-auto pt-5 text-xs text-surface-400">
+            <span class="mono text-cyan-400/90">#{{ writeup.get_writeup_category_display }}</span>
             <span class="h-1 w-1 rounded-full bg-surface-700"></span>
             <span>{{ writeup.publication_date|date:"M d, Y" }}</span>
         </div>
