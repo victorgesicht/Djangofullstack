@@ -130,38 +130,66 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 
-# --- Martor: maxed-out markdown editing ---
+# --- Martor: maxed-out markdown editing (verified against martor 1.8.2) ---
+# Theme choices: "bootstrap", "semantic", "tailwind".
+# "bootstrap" keeps the editor self-contained inside the django admin.
+MARTOR_THEME = 'bootstrap'
+
+# Config feature keys take *string* booleans: "true"/"false".
+#   emoji     -> emoji picker         imgur     -> image upload button
+#   mention   -> @mentions            jquery    -> include jquery (django admin)
+#   living    -> live preview updates spellcheck -> spellcheck underlines
+#   hljs      -> highlight.js in the live preview
 MARTOR_ENABLE_CONFIGS = {
-    'editor': True,
-    'server': True,
-    'emojify': True,
-    'mention': True,
-    'spellcheck': True,
-    'hljs': True,
+    'emoji': 'true',
+    'imgur': 'true',
+    'mention': 'true',
+    'jquery': 'true',
+    'living': 'true',
+    'spellcheck': 'true',
+    'hljs': 'true',
 }
 
+# Valid button ids (from martor/bootstrap/toolbar.html):
+#   bold italic horizontal heading pre-code blockquote unordered-list
+#   ordered-list link image-link image-upload emoji direct-mention
+#   toggle-maximize help
 MARTOR_TOOLBAR_BUTTONS = [
-    'bold', 'italic', 'horizontal', 'heading',
-    'pre', 'block-quote', 'unordered-list', 'ordered-list',
-    'link', 'inline-code', 'image-block', 'camera',
-    'table', 'emoji', 'mention', 'quote',
-    'code', 'image-link', 'toggle-maximize', 'help',
+    'bold', 'italic', 'horizontal', 'heading', 'pre-code',
+    'blockquote', 'unordered-list', 'ordered-list', 'link',
+    'image-link', 'image-upload', 'emoji', 'direct-mention',
+    'toggle-maximize', 'help',
 ]
 
+# Image upload goes to the real Imgur API. Add your own keys to enable it;
+# without them the upload button returns a 401-style error.
+MARTOR_IMGUR_CLIENT_ID = ''
+MARTOR_IMGUR_API_KEY = ''
+
+# Markdownify / upload endpoints are wired by main/urls.py at /martor/...
+# (martor's own defaults are the same as these paths).
 MARTOR_MARKDOWNIFY_URL = '/martor/markdownify/'
 MARTOR_UPLOAD_URL = '/martor/uploader/'
 
+# Martor's security extensions must be kept so |safe_markdown stays XSS-safe:
+#   martor.extensions.escape_html handles the raw HTML passthrough.
 MARTOR_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra',
-    'markdown.extensions.toc',
     'markdown.extensions.nl2br',
-    'markdown.extensions.sane_lists',
     'markdown.extensions.smarty',
-    'markdown.extensions.wikilinks',
-    'markdown.extensions.fenced_code',
-    'markdown.extensions.codehilite',
+    'markdown.extensions.sane_lists',
+    'markdown.extensions.toc',
     'markdown.extensions.attr_list',
     'markdown.extensions.admonition',
+    # Martor built-in (urlize, whisper, emoji, video, XSS guard, ids)
+    'martor.extensions.urlize',
+    'martor.extensions.del_ins',
+    'martor.extensions.mention',
+    'martor.extensions.emoji',
+    'martor.extensions.mdx_video',
+    'martor.extensions.escape_html',
+    'martor.extensions.mdx_add_id',
+    # pymdownx extras (replaces fenced_code + codehilite with superfences)
     'pymdownx.tasklist',
     'pymdownx.superfences',
     'pymdownx.highlight',
@@ -174,16 +202,11 @@ MARTOR_MARKDOWN_EXTENSIONS = [
 ]
 
 MARTOR_MARKDOWN_EXTENSION_CONFIGS = {
-    'markdown.extensions.codehilite': {
-        'css_class': 'highlight',
-        'guess_lang': False,
-        'linenums': False,
-    },
     'pymdownx.highlight': {
+        'css_class': 'highlight',
         'use_pygments': True,
         'guess_lang': False,
         'linenums': False,
-        'auto_title': True,
     },
     'mdx_math': {
         'enable_dollar_delimiter': True,
