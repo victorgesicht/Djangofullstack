@@ -1,130 +1,114 @@
 {% extends 'base.html' %}
 
-{% block title %}Leaderboard // Personnel Telemetry{% endblock %}
-{% block breadcrumb %}sys/usr/rankings{% endblock %}
+{% block title %}Leaderboards | Foothold{% endblock %}
 
 {% block content %}
 <style>
-    /* Professional Dashboard Grid */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2rem;
-        margin-bottom: 4rem;
-    }
-
     .xp-card {
-        background: #0f0f0f;
-        border: 1px solid rgba(255, 255, 255, 0.03);
+        background: #ffffff;
+        border: 1px solid #e3e5eb;
+        border-radius: 1rem;
         position: relative;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: hidden;
+        box-shadow: 0 1px 3px rgba(14, 60, 25, 0.06);
     }
-
     .xp-card:hover {
-        border-color: rgba(250, 204, 21, 0.2);
+        border-color: #14b8a6;
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 40px -16px rgba(15, 23, 42, 0.18);
     }
-
-    /* Signal Accents: THMFlags Style */
-    .accent-thm { border-top: 4px solid #ef4444; } /* Red-500 */
-    .accent-rootme { border-top: 4px solid #f97316; } /* Orange-500 */
-    .accent-portswigger { border-top: 4px solid #0ea5e9; } /* Sky-500 */
+    .accent-thm { border-top: 4px solid #f23e2c; }
+    .accent-rootme { border-top: 4px solid #f97316; }
+    .accent-portswigger { border-top: 4px solid #0ea5e9; }
 
     .badge-container {
-        background: #050505;
+        background: #fbfbfb;
         height: 110px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid #e3e5eb;
     }
 
-    .badge-container iframe {
-        transform: scale(0.85);
-        filter: grayscale(0.2);
-    }
-
-    .platform-meta {
-        padding: 1.5rem;
-        background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
-    }
+    .platform-meta { padding: 1.5rem; }
 
     .status-tag {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: ui-monospace, monospace;
         font-size: 9px;
         padding: 3px 8px;
-        border-radius: 1px;
+        border-radius: 4px;
+        border-width: 1px;
         text-transform: uppercase;
         font-weight: 700;
         letter-spacing: 0.05em;
     }
 
-    /* Technical Progress Bar */
     .xp-bar-bg {
         width: 100%;
         height: 6px;
-        background: rgba(255,255,255,0.03);
+        background: #f1f3f6;
         margin-top: 12px;
-        border-radius: 1px;
+        border-radius: 8px;
+        overflow: hidden;
     }
     .xp-bar-fill {
         height: 100%;
+        border-radius: 8px;
         transition: width 1s ease-out;
     }
 </style>
 
 <div class="max-w-6xl mx-auto">
-    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-surface-300 pb-8">
         <div>
             <div class="flex items-center gap-2 mb-3">
-                <div class="h-4 w-1 bg-yellow-400"></div>
-                <h2 class="mono text-yellow-400/80 text-[10px] font-bold tracking-[0.4em] uppercase">Tactical_Personnel_Metrics</h2>
+                <div class="h-4 w-1 bg-brand-400 rounded-full"></div>
+                <h2 class="mono text-brand-700 text-[10px] font-bold tracking-[0.4em] uppercase">Tactical_Personnel_Metrics</h2>
             </div>
-            <h1 class="text-4xl font-black text-white tracking-tighter uppercase italic">Leaderboards</h1>
+            <h1 class="text-4xl font-black text-surface-900 tracking-tight">Leaderboards</h1>
         </div>
-        <div class="mono text-[11px] text-slate-500 bg-white/5 px-4 py-2 rounded-sm border border-white/5">
-            LAST_SYNC: <span class="text-yellow-400">{% now "H:i" %} UTC</span>
+        <div class="mono text-[11px] text-surface-600 bg-white border border-surface-300 px-4 py-2 rounded-lg shadow-sm">
+            LAST_SYNC: <span class="text-brand-700 font-bold">{% now "H:i" %} UTC</span>
         </div>
     </div>
 
-    <div class="stats-grid">
+    <div class="stats-grid grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div class="xp-card accent-thm rounded-sm">
+        <div class="xp-card accent-thm">
             <div class="badge-container">
                 <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=6215836" width="320" height="85" scrolling="no"></iframe>
             </div>
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="status-tag bg-red-500/10 text-red-500 border border-red-500/20">OPERATIONAL: THM</span>
-                        <h3 class="text-white font-black mt-3 text-lg tracking-tight uppercase italic">Security Researcher</h3>
+                        <span class="status-tag bg-red-50 text-red-600 border border-red-200">OPERATIONAL: THM</span>
+                        <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">Security Researcher</h3>
                     </div>
                 </div>
-                <div class="mono text-[11px] flex justify-between items-center text-slate-500">
+                <div class="mono text-[11px] flex justify-between items-center text-surface-600">
                     <span>GLOBAL_RANKING:</span>
-                    <span class="text-white font-bold bg-white/5 px-2 py-0.5">TOP 1%</span>
+                    <span class="text-white font-bold bg-brand-800 px-2 py-0.5 rounded">TOP 1%</span>
                 </div>
             </div>
         </div>
 
-        <div class="xp-card accent-rootme rounded-sm">
-            <div class="badge-container bg-[#1a1a1a]/20">
+        <div class="xp-card accent-rootme">
+            <div class="badge-container">
                 <div class="flex flex-col items-center gap-2">
                     <img src="https://www.root-me.org/IMG/logo/siteon0.svg" class="h-12 w-auto opacity-80" alt="Root-Me">
-                    <span class="mono text-[10px] text-orange-500/50">ROOT-ME.ORG</span>
+                    <span class="mono text-[10px] text-orange-500/70">ROOT-ME.ORG</span>
                 </div>
             </div>
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="status-tag bg-orange-500/10 text-orange-500 border border-orange-500/20">CERTIFIED: CTF</span>
-                        <h3 class="text-white font-black mt-3 text-lg tracking-tight uppercase italic">CTF player</h3>
+                        <span class="status-tag bg-orange-50 text-orange-600 border border-orange-200">CERTIFIED: CTF</span>
+                        <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">CTF player</h3>
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <a href="https://www.root-me.org/mf6?lang=en" target="_blank" class="flex items-center justify-between mono text-[11px] text-slate-400 hover:text-orange-400 transition-colors group border-b border-white/5 pb-2">
+                    <a href="https://www.root-me.org/mf6?lang=en" target="_blank" class="flex items-center justify-between mono text-[11px] text-surface-600 hover:text-orange-600 transition-colors group border-b border-surface-200 pb-2">
                         <span>hacker-badge=VERIFIED</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4h6m0 0v6m0-6L10 14" />
@@ -134,38 +118,38 @@
             </div>
         </div>
 
-        <div class="xp-card accent-portswigger rounded-sm">
-            <div class="badge-container flex-col gap-1 bg-sky-950/10">
-                <div class="text-[10px] font-black mono text-sky-400 uppercase tracking-[0.2em]">Web Security Academy</div>
-                <div class="text-2xl font-black text-white italic">PRACTITIONER</div>
+        <div class="xp-card accent-portswigger">
+            <div class="badge-container flex-col gap-1 bg-blue-50/50">
+                <div class="text-[10px] font-black mono text-blue-700 uppercase tracking-[0.2em]">Web Security Academy</div>
+                <div class="text-2xl font-black text-surface-900">PRACTITIONER</div>
             </div>
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <span class="status-tag bg-sky-500/10 text-sky-500 border border-sky-500/20">MASTERY: BURP_SUITE</span>
-                        <h3 class="text-white font-black mt-3 text-lg tracking-tight uppercase italic">AppSec Auditor</h3>
+                        <span class="status-tag bg-sky-50 text-sky-600 border border-sky-200">MASTERY: BURP_SUITE</span>
+                        <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">AppSec Auditor</h3>
                     </div>
                 </div>
                 <div class="mt-6">
-                    <div class="flex justify-between mono text-[10px] mb-2 text-slate-500">
+                    <div class="flex justify-between mono text-[10px] mb-2 text-surface-600">
                         <span>ACADEMY_COMPLETION</span>
-                        <span class="text-sky-400 font-bold">71%</span>
+                        <span class="text-sky-600 font-bold">71%</span>
                     </div>
                     <div class="xp-bar-bg">
-                        <div class="xp-bar-fill bg-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.3)]" style="width: 71%;"></div>
+                        <div class="xp-bar-fill bg-sky-500" style="width: 71%;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mt-24 py-12 border-t border-white/5 flex flex-col items-center">
+    <div class="mt-20 py-12 border-t border-surface-300 flex flex-col items-center">
         <div class="flex gap-4 mb-4">
-            <div class="w-2 h-2 bg-yellow-400/20"></div>
-            <div class="w-2 h-2 bg-yellow-400/40"></div>
-            <div class="w-2 h-2 bg-yellow-400/60"></div>
+<div class="w-2 h-2 bg-brand-300 rounded-full"></div>
+            <div class="w-2 h-2 bg-brand-400 rounded-full"></div>
+            <div class="w-2 h-2 bg-brand-500 rounded-full"></div>
         </div>
-        <p class="mono text-[10px] text-slate-600 uppercase tracking-[0.5em]"> // FOOTHOLD_TELEMETRY</p>
+        <p class="mono text-[10px] text-surface-500 uppercase tracking-[0.5em]"> // FOOTHOLD_TELEMETRY</p>
     </div>
 </div>
 {% endblock %}

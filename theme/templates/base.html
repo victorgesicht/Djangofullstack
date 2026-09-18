@@ -1,93 +1,63 @@
-<!DOCTYPE html>
 {% load tailwind_tags %}
-<html lang="en" class="dark">
+{% tailwind_css %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}FootHold Investigations{% endblock %}</title>
-
-    {% tailwind_css %}
+    <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
+    <title>{% block title %}Foothold Investigations{% endblock %}</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background:
-                radial-gradient(1100px 560px at 72% -10%, rgba(46, 118, 184, 0.18), transparent 62%),
-                radial-gradient(900px 500px at -12% 108%, rgba(78, 148, 216, 0.07), transparent 60%),
-                #151c2b;
-        }
-        ::selection { background: rgba(46, 118, 184, 0.45); color: #fff; }
-        .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+        body { font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        .mono { font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace; }
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-surface-950 text-surface-200 antialiased">
-
-    <!-- Top Utility Bar -->
-    <div class="w-full bg-surface-900/80 border-b border-surface-800 py-2 px-6 flex justify-between items-center mono text-[11px] tracking-wide">
-        <div class="flex gap-6 items-center text-surface-400">
-            <span class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                SYS ONLINE
-            </span>
-            <span class="hidden sm:inline text-surface-500">|</span>
-            <span class="hidden sm:inline">Uptime 99.99%</span>
-        </div>
-        <div class="text-surface-500">
-            <span id="current-date"></span>
-        </div>
-    </div>
+<body class="min-h-screen flex flex-col bg-surface-100 text-surface-700 antialiased">
 
     {% with current=request.resolver_match.url_name %}
-    <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/60"
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-surface-50/90 backdrop-blur border-b border-surface-300"
             x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-            <!-- Logo + Breadcrumb -->
-            <div class="flex items-center gap-8">
-                <a href="/" class="flex items-center gap-3 group">
-                    <div class="w-8 h-8 bg-brand-600 flex items-center justify-center rounded-lg transition-all group-hover:bg-brand-500 group-hover:shadow-lg group-hover:shadow-brand-600/20">
-                        <span class="text-white font-black text-sm">F</span>
-                    </div>
-                    <span class="font-bold text-lg tracking-tight text-white">Foothold<span class="text-brand-400">_</span></span>
-                </a>
-
-                <nav class="hidden md:flex items-center gap-2 text-xs mono text-surface-500 bg-surface-800/50 px-3 py-1.5 rounded-lg border border-surface-700/50">
-                   
-                    <span class="text-brand-400 font-medium">{% block breadcrumb %}{{ current|default:"home" }}{% endblock %}</span>
-                </nav>
-            </div>
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2.5 group shrink-0">
+                <div class="w-8 h-8 bg-brand-700 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">F</span>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-surface-900">Foothold</span>
+            </a>
 
             <!-- Desktop Navigation -->
-            <div class="flex items-center gap-4">
-                <nav class="hidden sm:flex items-center gap-1 text-sm font-semibold">
-                    <a href="{% url 'index' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'index' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Home
-                    </a>
-                    <a href="{% url 'writeups' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'writeups' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Archive
-                    </a>
-                    <a href="{% url 'LBoard' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'LBoard' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Leaderboards
-                    </a>
-                    <a href="{% url 'id' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'id' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        XP
-                    </a>
-                </nav>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="{% url 'writeups' %}"
+                   class="transition-colors {% if current == 'writeups' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
+                    Archive
+                </a>
+                <a href="{% url 'LBoard' %}"
+                   class="transition-colors {% if current == 'LBoard' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
+                    Leaderboards
+                </a>
+                <a href="{% url 'id' %}"
+                   class="transition-colors {% if current == 'id' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
+                    XP
+                </a>
+            </nav>
 
-                <a href="#" class="hidden sm:inline-block bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/20">
+            <!-- Right side -->
+            <div class="flex items-center gap-3">
+                <a href="{% url 'index' %}"
+                   class="hidden sm:inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium {% if current == 'index' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
+                    Home
+                </a>
+                <a href="#"
+                   class="hidden md:inline-flex items-center bg-brand-700 hover:bg-brand-800 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors">
                     Download CV
                 </a>
-
-                <!-- Mobile Menu Button -->
                 <button @click="open = !open"
-                        class="sm:hidden p-2 rounded-md text-surface-300 hover:text-white hover:bg-surface-800 transition-colors"
+                        class="md:hidden p-2 rounded-md text-surface-600 hover:bg-surface-200 transition-colors"
                         aria-label="Toggle navigation">
                     <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -104,25 +74,21 @@
              x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-100"
              x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1"
-             class="sm:hidden border-t border-surface-800 bg-surface-950/95 backdrop-blur-xl">
-            <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
-                <a href="{% url 'index' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'index' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+             class="md:hidden border-t border-surface-300 bg-surface-50">
+            <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col">
+                <a href="{% url 'index' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'index' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     Home
                 </a>
-                <a href="{% url 'writeups' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'writeups' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                <a href="{% url 'writeups' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'writeups' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     Archive
                 </a>
-                <a href="{% url 'LBoard' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'LBoard' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                <a href="{% url 'LBoard' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'LBoard' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     Leaderboards
                 </a>
-                <a href="{% url 'id' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'id' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                <a href="{% url 'id' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'id' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     XP
                 </a>
-                <a href="#" class="mt-2 bg-brand-600 hover:bg-brand-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold text-center transition-all">
+                <a href="#" class="mt-2 bg-brand-700 hover:bg-brand-800 text-white px-5 py-2.5 rounded-lg text-sm font-semibold text-center transition-colors">
                     Download CV
                 </a>
             </nav>
@@ -139,30 +105,45 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-surface-900/50 border-t border-surface-800 mt-auto">
+    <footer class="bg-surface-50 border-t border-surface-300 mt-auto">
         <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start gap-10">
 
             <div class="max-w-xs">
-                    <span class="font-bold text-white">Foothold</span>
+                <div class="flex items-center gap-2.5 mb-4">
+                    <div class="w-7 h-7 bg-brand-700 rounded-md flex items-center justify-center">
+                        <span class="text-white font-bold text-xs">F</span>
+                    </div>
+                    <span class="font-bold text-surface-900">Foothold</span>
                 </div>
-                <p class="text-sm text-surface-400 leading-relaxed">
-                    Bridging execution pipelines and architecture networks.
+                <p class="text-sm text-surface-600 leading-relaxed">
+                    Security research, writeups and field notes. Bridging execution pipelines and architecture networks.
                 </p>
             </div>
 
+            <div class="flex gap-16">
+                <div class="space-y-3">
+                    <h4 class="text-xs font-semibold text-surface-900 uppercase tracking-wider">Connect</h4>
+                    <div class="flex flex-col gap-2 text-sm">
+                        <a href="#" class="text-surface-600 hover:text-brand-700 transition-colors">LinkedIn</a>
+                        <a href="#" class="text-surface-600 hover:text-brand-700 transition-colors">GitHub</a>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-xs font-semibold text-surface-900 uppercase tracking-wider">Read</h4>
+                    <div class="flex flex-col gap-2 text-sm">
+                        <a href="{% url 'writeups' %}" class="text-surface-600 hover:text-brand-700 transition-colors">Archive</a>
+                        <a href="{% url 'LBoard' %}" class="text-surface-600 hover:text-brand-700 transition-colors">Leaderboards</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-        <div class="border-t border-surface-800/60">
-            <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center text-xs text-surface-500">
-                <span>&copy; 2026 Foothold. All rights reserved.</span>
-                <span class="mono text-surface-600">v1.0.0</span>
+        <div class="border-t border-surface-300">
+            <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center text-xs text-surface-500">
+                <span>© 2026 Foothold Investigations. All rights reserved.</span>
+                <span class="mono">v1.0.0</span>
             </div>
         </div>
     </footer>
-
-    <script>
-        const d = new Date();
-        document.getElementById('current-date').textContent = d.toISOString().split('T')[0];
-    </script>
 </body>
 </html>
