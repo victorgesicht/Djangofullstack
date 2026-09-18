@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,7 +65,7 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /'main' 'theme' / 'templates'],
+        'DIRS': [BASE_DIR / 'theme' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +129,64 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+
+# --- Martor: maxed-out markdown editing ---
+MARTOR_ENABLE_CONFIGS = {
+    'editor': True,
+    'server': True,
+    'emojify': True,
+    'mention': True,
+    'spellcheck': True,
+    'hljs': True,
+}
+
+MARTOR_TOOLBAR_BUTTONS = [
+    'bold', 'italic', 'horizontal', 'heading',
+    'pre', 'block-quote', 'unordered-list', 'ordered-list',
+    'link', 'inline-code', 'image-block', 'camera',
+    'table', 'emoji', 'mention', 'quote',
+    'code', 'image-link', 'toggle-maximize', 'help',
+]
+
+MARTOR_MARKDOWNIFY_URL = reverse_lazy('martor:markdownify')
+MARTOR_UPLOAD_URL = reverse_lazy('martor:uploader')
+
+MARTOR_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra',
+    'markdown.extensions.toc',
+    'markdown.extensions.nl2br',
+    'markdown.extensions.sane_lists',
+    'markdown.extensions.smarty',
+    'markdown.extensions.wikilinks',
+    'markdown.extensions.fenced_code',
+    'markdown.extensions.codehilite',
+    'markdown.extensions.attr_list',
+    'markdown.extensions.admonition',
+    'pymdownx.tasklist',
+    'pymdownx.superfences',
+    'pymdownx.highlight',
+    'pymdownx.magiclink',
+    'pymdownx.tilde',
+    'pymdownx.caret',
+    'pymdownx.keys',
+    'pymdownx.details',
+    'mdx_math',
+]
+
+MARTOR_MARKDOWN_EXTENSION_CONFIGS = {
+    'markdown.extensions.codehilite': {
+        'css_class': 'highlight',
+        'guess_lang': False,
+        'linenums': False,
+    },
+    'pymdownx.highlight': {
+        'use_pygments': True,
+        'guess_lang': False,
+        'linenums': False,
+        'auto_title': True,
+    },
+    'mdx_math': {
+        'enable_dollar_delimiter': True,
+    },
+}
