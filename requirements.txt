@@ -3,6 +3,3 @@ djangorestframework==3.16.1
 django-tailwind==4.4.2
 martor==1.8.2
 Pillow==10.4.0
-Pygments==2.19.1
-pymdown-extensions==10.13.1
-python-markdown-math==0.8
