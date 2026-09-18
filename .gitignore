@@ -19,6 +19,7 @@ ENV/
 /media/
 
 # IDEs and editors
+.DS_Store
 .idea/
 .vscode/
 *.suo
@@ -29,5 +30,3 @@ ENV/
 
 
 secrets*
-settings.py
-admin.py
