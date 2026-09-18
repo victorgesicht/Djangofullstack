@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -149,8 +148,8 @@ MARTOR_TOOLBAR_BUTTONS = [
     'code', 'image-link', 'toggle-maximize', 'help',
 ]
 
-MARTOR_MARKDOWNIFY_URL = reverse_lazy('martor:markdownify')
-MARTOR_UPLOAD_URL = reverse_lazy('martor:uploader')
+MARTOR_MARKDOWNIFY_URL = '/martor/markdownify/'
+MARTOR_UPLOAD_URL = '/martor/uploader/'
 
 MARTOR_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra',
