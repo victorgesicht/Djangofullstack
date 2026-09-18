@@ -24,71 +24,47 @@
 </head>
 <body class="min-h-screen flex flex-col bg-surface-950 text-surface-200 antialiased">
 
-    <!-- Top Utility Bar -->
-    <div class="w-full bg-surface-900/80 border-b border-surface-800 py-2 px-6 flex justify-between items-center mono text-[11px] tracking-wide">
-        <div class="flex gap-6 items-center text-surface-400">
-            <span class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                SYSTEM ONLINE
-            </span>
-            <span class="hidden sm:inline text-surface-500">|</span>
-            <span class="hidden sm:inline">Uptime 99.99%</span>
-        </div>
-        <div class="text-surface-500">
-            <span id="current-date"></span>
-        </div>
-    </div>
-
     {% with current=request.resolver_match.url_name %}
     <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/60"
+    <header class="sticky top-0 z-50 bg-surface-950/90 backdrop-blur-xl border-b border-surface-800/60"
             x-data="{ open: false }">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-            <!-- Logo + Breadcrumb -->
-            <div class="flex items-center gap-8">
-                <a href="/" class="flex items-center gap-3 group">
-                    <div class="w-8 h-8 bg-brand-600 flex items-center justify-center rounded-lg transition-all group-hover:bg-brand-500 group-hover:shadow-lg group-hover:shadow-brand-600/20">
-                        <span class="text-white font-black text-sm">F</span>
-                    </div>
-                    <span class="font-bold text-lg tracking-tight text-white">Foothold<span class="text-brand-400">_</span></span>
-                </a>
-
-                <nav class="hidden md:flex items-center gap-2 text-xs mono text-surface-500 bg-surface-800/50 px-3 py-1.5 rounded-lg border border-surface-700/50">
-                    <span class="text-surface-400">root</span>
-                    <span class="text-surface-600">/</span>
-                    <span class="text-brand-400 font-medium">{% block breadcrumb %}{{ current|default:"home" }}{% endblock %}</span>
-                </nav>
-            </div>
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group shrink-0">
+                <div class="w-8 h-8 bg-brand-600 flex items-center justify-center rounded-lg transition-all group-hover:bg-brand-500 group-hover:shadow-lg group-hover:shadow-brand-600/25">
+                    <span class="text-white font-black text-sm">F</span>
+                </div>
+                <span class="font-bold text-lg tracking-tight text-white">Foothold<span class="text-brand-400">_</span></span>
+            </a>
 
             <!-- Desktop Navigation -->
-            <div class="flex items-center gap-4">
-                <nav class="hidden sm:flex items-center gap-1 text-sm font-semibold">
-                    <a href="{% url 'index' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'index' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Home
-                    </a>
-                    <a href="{% url 'writeups' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'writeups' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Archive
-                    </a>
-                    <a href="{% url 'LBoard' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'LBoard' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        Leaderboards
-                    </a>
-                    <a href="{% url 'id' %}"
-                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'id' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
-                        XP
-                    </a>
-                </nav>
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold">
+                <a href="{% url 'index' %}"
+                   class="pb-1 transition-colors {% if current == 'index' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
+                    Home
+                </a>
+                <a href="{% url 'writeups' %}"
+                   class="pb-1 transition-colors {% if current == 'writeups' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
+                    Archive
+                </a>
+                <a href="{% url 'LBoard' %}"
+                   class="pb-1 transition-colors {% if current == 'LBoard' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
+                    Leaderboards
+                </a>
+                <a href="{% url 'id' %}"
+                   class="pb-1 transition-colors {% if current == 'id' %}text-white after:block after:h-0.5 after:rounded-full after:bg-brand-400 after:mt-1{% else %}text-surface-400 hover:text-white{% endif %}">
+                    XP
+                </a>
+            </nav>
 
-                <a href="#" class="hidden sm:inline-block bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/20">
+            <!-- Right side -->
+            <div class="flex items-center gap-3">
+                <a href="#" class="hidden sm:inline-flex items-center bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/25">
                     Download CV
                 </a>
-
-                <!-- Mobile Menu Button -->
                 <button @click="open = !open"
-                        class="sm:hidden p-2 rounded-md text-surface-300 hover:text-white hover:bg-surface-800 transition-colors"
+                        class="md:hidden p-2 rounded-md text-surface-300 hover:text-white hover:bg-surface-800 transition-colors"
                         aria-label="Toggle navigation">
                     <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -105,22 +81,22 @@
              x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-100"
              x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1"
-             class="sm:hidden border-t border-surface-800 bg-surface-950/95 backdrop-blur-xl">
+             class="md:hidden border-t border-surface-800 bg-surface-950/95 backdrop-blur-xl">
             <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
                 <a href="{% url 'index' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'index' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'index' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
                     Home
                 </a>
                 <a href="{% url 'writeups' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'writeups' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'writeups' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
                     Archive
                 </a>
                 <a href="{% url 'LBoard' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'LBoard' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'LBoard' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
                     Leaderboards
                 </a>
                 <a href="{% url 'id' %}"
-                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'id' %}text-brand-300 bg-brand-500/15{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'id' %}text-white bg-brand-600/20{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
                     XP
                 </a>
                 <a href="#" class="mt-2 bg-brand-600 hover:bg-brand-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold text-center transition-all">
@@ -180,10 +156,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        const d = new Date();
-        document.getElementById('current-date').textContent = d.toISOString().split('T')[0];
-    </script>
 </body>
 </html>
