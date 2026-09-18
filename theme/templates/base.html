@@ -5,138 +5,178 @@
     <meta name="google-site-verification" content="xIuF4S0WA6wvvD5XQIwlFcakFQOTpXLwEPsHDyFwq04" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}FootHold investigations{% endblock %}</title>
+    <title>{% block title %}FootHold Investigations{% endblock %}</title>
 
     {% tailwind_css %}
-    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        :root {
-            /* Hardcore Red/Black/Yellow Palette Shift */
-            --signal-red: #ef4444;       /* Dominant Accent / Critical Vector */
-            --signal-yellow: #eab308;    /* Subordinate Data Stream / Values */
-            --bg-pure-black: #000000;    /* Absolute darkness floor */
-            --border-tactical: #7f1d1d;  /* Blood red structure lines */
-            --text-main: #f3f4f6;
-        }
-
-        body {
-            font-family: 'General Sans', sans-serif;
-            background-color: var(--bg-pure-black);
-            color: var(--text-main);
-            /* Dark tactical grid style background using sub-audited red */
-            background-image: radial-gradient(rgba(127, 29, 29, 0.3) 0.6px, transparent 0.6px);
-            background-size: 20px 20px;
-        }
-
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Tactical Breach Warning block */
-        .hint-warning {
-            background-color: rgba(239, 68, 68, 0.03);
-            border-left: 4px solid var(--signal-red);
-        }
-
-        /* Red Hot Navigation Active Markers */
-        .nav-active {
-            color: var(--signal-red);
-            border-bottom: 2px solid var(--signal-red);
-        }
-
-        /* High Voltage Transmission Button */
-        .btn-signal {
-            background-color: var(--signal-red);
-            color: #000000;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-signal:hover {
-            background-color: var(--signal-yellow);
-            color: #000000;
-            transform: scale(1.02);
-            box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
-        }
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .mono { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased">
+<body class="min-h-screen flex flex-col bg-surface-950 text-surface-200 antialiased">
 
-    <!-- Top Telemetry Ribbon -->
-    <div class="w-full bg-black border-b border-red-950/60 py-1.5 px-6 flex justify-between items-center mono text-[10px] tracking-tight">
-        <div class="flex gap-6 items-center text-red-900">
+    <!-- Top Utility Bar -->
+    <div class="w-full bg-surface-900/80 border-b border-surface-800 py-2 px-6 flex justify-between items-center mono text-[11px] tracking-wide">
+        <div class="flex gap-6 items-center text-surface-400">
             <span class="flex items-center gap-2">
-                <div class="h-1.5 w-1.5 bg-red-500 rounded-full animate-ping"></div>
-                SYS_STATUS: UP
+                <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                SYSTEM ONLINE
             </span>
-            <span>Uptime: 99.99%</span>
+            <span class="hidden sm:inline text-surface-500">|</span>
+            <span class="hidden sm:inline">Uptime 99.99%</span>
+        </div>
+        <div class="text-surface-500">
+            <span id="current-date"></span>
         </div>
     </div>
 
-    <!-- Sticky Operational Header -->
-    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-red-950/50">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    {% with current=request.resolver_match.url_name %}
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/60"
+            x-data="{ open: false }">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-            <div class="flex items-center gap-10">
+            <!-- Logo + Breadcrumb -->
+            <div class="flex items-center gap-8">
                 <a href="/" class="flex items-center gap-3 group">
-                    <div class="w-7 h-7 bg-red-600 flex items-center justify-center rounded-sm transition-colors group-hover:bg-yellow-500">
-                        <span class="text-black font-black text-sm italic">F</span>
+                    <div class="w-8 h-8 bg-brand-600 flex items-center justify-center rounded-lg transition-all group-hover:bg-brand-500 group-hover:shadow-lg group-hover:shadow-brand-600/20">
+                        <span class="text-white font-black text-sm">F</span>
                     </div>
-                    <span class="font-bold text-lg tracking-tight text-white uppercase italic">Foothold<span class="text-red-600 transition-colors group-hover:text-yellow-500">_</span></span>
+                    <span class="font-bold text-lg tracking-tight text-white">Foothold<span class="text-brand-400">_</span></span>
                 </a>
 
-                <nav class="hidden md:flex items-center gap-2 text-[12px] mono text-red-950 bg-red-950/10 px-3 py-1 rounded border border-red-900/20">
-                    <span class="text-red-700/70">root</span>
-                    <span class="opacity-30 text-red-600">/</span>
-                    <span class="text-yellow-500/90 font-semibold">{% block breadcrumb %}infrastructure{% endblock %}</span>
+                <nav class="hidden md:flex items-center gap-2 text-xs mono text-surface-500 bg-surface-800/50 px-3 py-1.5 rounded-lg border border-surface-700/50">
+                    <span class="text-surface-400">root</span>
+                    <span class="text-surface-600">/</span>
+                    <span class="text-brand-400 font-medium">{% block breadcrumb %}{{ current|default:"home" }}{% endblock %}</span>
                 </nav>
             </div>
 
-            <div class="flex items-center gap-6">
-                <nav class="hidden sm:flex items-center gap-6 text-sm font-bold text-red-800 tracking-wide uppercase">
-                    <a href="{% url 'index' %}" class="hover:text-yellow-500 transition-colors duration-150">Archives</a>
-                    <a href="{% url 'LBoard' %}" class="hover:text-yellow-500 transition-colors duration-150">LeaderBoards</a>
-                    <a href="{% url 'id' %}" class="hover:text-yellow-500 transition-colors duration-150">XP</a>
+            <!-- Desktop Navigation -->
+            <div class="flex items-center gap-4">
+                <nav class="hidden sm:flex items-center gap-1 text-sm font-semibold">
+                    <a href="{% url 'index' %}"
+                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'index' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                        Home
+                    </a>
+                    <a href="{% url 'writeups' %}"
+                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'writeups' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                        Archive
+                    </a>
+                    <a href="{% url 'LBoard' %}"
+                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'LBoard' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                        Leaderboards
+                    </a>
+                    <a href="{% url 'id' %}"
+                       class="px-3 py-1.5 rounded-md transition-colors {% if current == 'id' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                        XP
+                    </a>
                 </nav>
-                <a href="#" class="btn-signal px-4 py-1.5 rounded-sm text-[11px] font-black uppercase tracking-wider">
-                    Download_CV
+
+                <a href="#" class="hidden sm:inline-block bg-brand-600 hover:bg-brand-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-600/20">
+                    Download CV
                 </a>
+
+                <!-- Mobile Menu Button -->
+                <button @click="open = !open"
+                        class="sm:hidden p-2 rounded-md text-surface-300 hover:text-white hover:bg-surface-800 transition-colors"
+                        aria-label="Toggle navigation">
+                    <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
         </div>
-    </header>
 
-    <!-- Content Target Zone -->
+        <!-- Mobile Menu Panel -->
+        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1"
+             class="sm:hidden border-t border-surface-800 bg-surface-950/95 backdrop-blur-xl">
+            <nav class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
+                <a href="{% url 'index' %}"
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'index' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                    Home
+                </a>
+                <a href="{% url 'writeups' %}"
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'writeups' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                    Archive
+                </a>
+                <a href="{% url 'LBoard' %}"
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'LBoard' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                    Leaderboards
+                </a>
+                <a href="{% url 'id' %}"
+                   class="px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors {% if current == 'id' %}text-white bg-surface-800{% else %}text-surface-300 hover:text-white hover:bg-surface-800{% endif %}">
+                    XP
+                </a>
+                <a href="#" class="mt-2 bg-brand-600 hover:bg-brand-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold text-center transition-all">
+                    Download CV
+                </a>
+            </nav>
+        </div>
+    </header>
+    {% endwith %}
+
+    <!-- Main Content -->
     <main class="flex-grow py-12 px-6">
-        {% block content %}
-        <!-- Child content dynamically nests inside here -->
-        {% endblock %}
+        <div class="max-w-6xl mx-auto">
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 
-    <!-- Tactical Footer -->
-    <footer class="bg-black border-t border-red-950/60 py-12 mt-auto">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-10">
+    <!-- Footer -->
+    <footer class="bg-surface-900/50 border-t border-surface-800 mt-auto">
+        <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start gap-10">
+
             <div class="max-w-xs">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-1 h-4 bg-red-600"></div>
-                    <span class="mono text-xs font-black text-red-500 uppercase tracking-widest">Operational Directive</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-6 h-6 bg-brand-600 rounded-md flex items-center justify-center">
+                        <span class="text-white font-black text-xs">F</span>
+                    </div>
+                    <span class="font-bold text-white">Foothold</span>
                 </div>
-                <p class="text-xs text-red-900/80 font-medium leading-relaxed">
-                    Bridging the gap between execution pipelines and dark architecture networks. Specialized directives for SOC analysis and automated data architectures.
+                <p class="text-sm text-surface-400 leading-relaxed">
+                    Bridging execution pipelines and architecture networks. Specialized directives for SOC analysis and automated data systems.
                 </p>
             </div>
 
-            <div class="flex gap-20">
-                <div class="space-y-4">
-                    <h4 class="text-[10px] font-black text-red-950 uppercase tracking-widest">Secure Links</h4>
-                    <div class="flex flex-col gap-2 text-xs text-red-700/80 font-semibold">
-                        <a href="#" class="hover:text-yellow-500 transition-colors">LinkedIn</a>
-                        <a href="#" class="hover:text-yellow-500 transition-colors">GitHub</a>
+            <div class="flex gap-16">
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-surface-300 uppercase tracking-wider">Connect</h4>
+                    <div class="flex flex-col gap-2 text-sm">
+                        <a href="#" class="text-surface-400 hover:text-brand-400 transition-colors">LinkedIn</a>
+                        <a href="#" class="text-surface-400 hover:text-brand-400 transition-colors">GitHub</a>
                     </div>
                 </div>
-                <div class="space-y-4 text-right">
-                    <h4 class="text-[10px] font-black text-red-950 uppercase tracking-widest">Deployment Node</h4>
-                    <p class="mono text-[10px] text-red-900"><span class="text-yellow-500/40 font-bold">STABLE_RELEASE</span></p>
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-surface-300 uppercase tracking-wider">Status</h4>
+                    <p class="mono text-xs text-surface-500 flex items-center gap-2">
+                        <span class="h-1.5 w-1.5 bg-emerald-400 rounded-full"></span>
+                        Stable Release
+                    </p>
                 </div>
+            </div>
+        </div>
+
+        <div class="border-t border-surface-800/60">
+            <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center text-xs text-surface-500">
+                <span>&copy; 2026 Foothold. All rights reserved.</span>
+                <span class="mono text-surface-600">v1.0.0</span>
             </div>
         </div>
     </footer>
 
+    <script>
+        const d = new Date();
+        document.getElementById('current-date').textContent = d.toISOString().split('T')[0];
+    </script>
 </body>
 </html>

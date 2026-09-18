@@ -1,60 +1,62 @@
 {% extends "base.html" %}
 
+{% block title %}Mission Reports | Foothold{% endblock %}
+{% block breadcrumb %}home{% endblock %}
+
 {% block content %}
-<div class="h-screen bg-black text-zinc-400 flex flex-col selection:bg-lime-500 selection:text-black overflow-hidden font-sans">
+<header class="mb-10">
+    <h1 class="text-3xl font-bold tracking-tight text-white">Mission Reports</h1>
+    <p class="mt-2 text-sm text-surface-400">Writeups and field notes from the lab. Latest intelligence first.</p>
+</header>
 
-    <header class="w-full px-8 py-2 border-b border-zinc-900 bg-[#020202] flex justify-between items-baseline shrink-0">
-        <h1 class="text-xl font-black text-white tracking-tighter italic uppercase">
-            INDEX<span class="text-lime-500">.</span>
-        </h1>
-        <div class="font-mono text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-800">
-            SEC_ARCHIVE // 2026
+{% if writeups %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for writeup in writeups %}
+    <a href="{% url 'writedetail' writeup.pk %}"
+       class="group flex flex-col bg-surface-900/40 border border-surface-800 rounded-xl p-6 transition-all duration-200 hover:border-brand-700/50 hover:bg-surface-900/70 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40">
+
+        <!-- Badges -->
+        <div class="flex items-center justify-between mb-5">
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                {{ writeup.get_writeup_platform_display }}
+            </span>
+
+            {% if writeup.writeup_difficulty == 'E' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    {{ writeup.get_writeup_difficulty_display }}
+                </span>
+            {% elif writeup.writeup_difficulty == 'M' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    {{ writeup.get_writeup_difficulty_display }}
+                </span>
+            {% elif writeup.writeup_difficulty == 'H' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                    {{ writeup.get_writeup_difficulty_display }}
+                </span>
+            {% else %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">
+                    {{ writeup.get_writeup_difficulty_display }}
+                </span>
+            {% endif %}
         </div>
-    </header>
 
-    <main class="flex-grow w-full max-w-7xl mx-auto px-8 overflow-y-auto">
-        <div class="divide-y divide-zinc-900/60">
+        <!-- Title -->
+        <h3 class="text-lg font-bold text-surface-100 mb-2 group-hover:text-brand-400 transition-colors line-clamp-2">
+            {{ writeup.title }}
+        </h3>
 
-            {% for bulletin in bulletins %}
-            <a href="{% url 'bulletin' bulletin.id %}"
-               class="relative flex items-baseline gap-10 py-[0.3cm] transition-all hover:bg-zinc-900/40 px-4 -mx-4 border-l-2 border-transparent hover:border-lime-500 group cursor-pointer z-10">
-
-                <div class="shrink-0 w-28 pointer-events-none">
-                    <time class="font-mono text-[12px] font-bold text-zinc-600 group-hover:text-yellow-500 tracking-tighter uppercase transition-colors">
-                        {{ bulletin.publication_date|date:"d.m.y" }}
-                    </time>
-                </div>
-
-                <div class="flex-grow flex items-baseline gap-6 overflow-hidden pointer-events-none">
-                    <div class="shrink-0">
-                        <h2 class="text-[19px] font-bold text-white group-hover:text-lime-400 transition-colors whitespace-nowrap tracking-tight">
-                            {{ bulletin.writeup_title }}
-                        </h2>
-                    </div>
-
-                    <p class="text-[14px] text-zinc-500 truncate font-medium group-hover:text-zinc-400 transition-colors hidden lg:block">
-                        — {{ bulletin.writeup_slug|truncatechars:140 }}
-                    </p>
-                </div>
-
-                <div class="shrink-0 text-right hidden sm:block pointer-events-none">
-                    <span class="font-mono text-[10px] font-black uppercase tracking-widest text-zinc-800 group-hover:text-zinc-600 transition-colors">
-                        / {{ bulletin.writeup_category|default:"CORE" }}
-                    </span>
-                </div>
-            </a>
-            {% empty %}
-            <div class="py-20 text-center font-mono text-[11px] text-zinc-800 uppercase tracking-widest">
-                STREAM_VOID // NO_RECORDS
-            </div>
-            {% endfor %}
-
+        <!-- Category + Date -->
+        <div class="flex items-center gap-3 mt-auto pt-5 text-xs text-surface-500">
+            <span class="mono">#{{ writeup.get_writeup_category_display }}</span>
+            <span class="h-1 w-1 rounded-full bg-surface-700"></span>
+            <span>{{ writeup.publication_date|date:"M d, Y" }}</span>
         </div>
-    </main>
-
-    <footer class="w-full px-8 py-2 border-t border-zinc-900 bg-[#020202] flex justify-between items-center font-mono text-[11px] text-zinc-800 font-bold uppercase tracking-widest shrink-0">
-        <span>Nodes: {{ bulletins.count }}</span>
-        <span class="text-[10px]">AUTH: <span class="text-lime-900 font-black">ACTIVE</span> // <span class="animate-pulse">_</span></span>
-    </footer>
+    </a>
+    {% endfor %}
 </div>
+{% else %}
+<div class="text-center py-24 border border-dashed border-surface-800 rounded-xl">
+    <p class="text-surface-400">No reports published yet.</p>
+</div>
+{% endif %}
 {% endblock %}

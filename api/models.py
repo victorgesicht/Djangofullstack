@@ -56,7 +56,7 @@ class IntelNote(models.Model):
     id=models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     writeup_author=models.CharField(max_length=5,default='cratis')
     title=models.CharField(max_length=20, default='title goes here.')
-    writeup_body=models.TextField
+    writeup_body=models.TextField()
 
 class Comment(models.Model):
     body=models.TextField()

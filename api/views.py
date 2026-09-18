@@ -1,35 +1,30 @@
-
 from django.views.generic import TemplateView, ListView, DetailView
 from django.shortcuts import redirect
-from .models  import Bulletins, IntelNote
+from .models import Bulletins, IntelNote
 from .forms import CommentForm
 
 
 class Index(ListView):
-    model=Bulletins
-    template_name='index.html'
-    context_object_name='bulletins'
-    paginate_by=None
-
-
-
-class BulletinsListView(ListView):
     model = Bulletins
-    template_name = "bulletins.html"
-    context_object_name = "bulletins" # Renamed to avoid confusion with detail views
-    paginate_by = None  # Explicitly disable
+    template_name = 'index.html'
+    context_object_name = 'writeups'
+    paginate_by = None
+
+
+class Writeups(ListView):
+    model = Bulletins
+    template_name = 'bulletins.html'
+    context_object_name = 'writeups'
+    paginate_by = None
 
     def get_queryset(self):
-        # Fetch everything, ordered by newest first
         return Bulletins.objects.all().order_by('-publication_date')
 
 
-
-
-class BulletingDetailView(DetailView):
+class WriteUpDetailView(DetailView):
     model = Bulletins
     template_name = 'bulletin.html'
-    context_object_name = 'bulletin'
+    context_object_name = 'writeup'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -38,7 +33,6 @@ class BulletingDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        #form submission
         self.object = self.get_object()
         form = CommentForm(data=request.POST)
 
@@ -46,21 +40,20 @@ class BulletingDetailView(DetailView):
             new_comment = form.save(commit=False)
             new_comment.post = self.object
             new_comment.save()
-            # Redirect 2 prevent double-submissions
             return redirect(self.request.path)
 
-        # If form is invalid
         return self.render_to_response(self.get_context_data(comment_form=form))
 
 
-
 class IntelDetailView(DetailView):
-    template_name='intel.html'
-    model=IntelNote
+    template_name = 'intel.html'
+    model = IntelNote
+
 
 class IntelNotes(TemplateView):
-    template_name='Inotes.html'
-    model=IntelNote
+    template_name = 'Inotes.html'
+    model = IntelNote
+
 
 class Lboard(TemplateView):
-    template_name='L-boards.html'
+    template_name = 'L-boards.html'

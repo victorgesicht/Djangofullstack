@@ -1,217 +1,159 @@
-{% extends 'base.html' %}
-{% load tailwind_tags %}
+{% extends "base.html" %}
 {% load martortags %}
+
+{% block title %}{{ writeup.title }} | Foothold{% endblock %}
+{% block breadcrumb %}report{% endblock %}
+
 {% block content %}
 <style>
-    /* THMFlags Matte Intelligence Theme - Red/Black/Yellow Tactical Overhaul */
-    .report-card {
-        background: #050505;
-        border: 1px solid rgba(239, 68, 68, 0.15);
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9);
-    }
-    .report-header {
-        background: linear-gradient(to bottom, rgba(239, 68, 68, 0.03), transparent);
-        border-bottom: 1px solid rgba(239, 68, 68, 0.2);
-    }
-
-    /* THEMED FLOW & OVERFLOW PROTECTION */
     .prose-custom {
         line-height: 1.8;
         font-size: 1.05rem;
-        color: #e5e7eb;
+        color: #cbd5e1;
         overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-word;
     }
-
-    /* Target Markdown Headers to match the tactical theme */
     .prose-custom h1, .prose-custom h2, .prose-custom h3, .prose-custom h4 {
-        font-family: 'JetBrains Mono', monospace;
-        color: #ef4444; /* Core Tactical Red */
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        color: #5c7cfa;
         font-weight: 700;
         margin-top: 1.75rem;
         margin-bottom: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
     }
-    .prose-custom h1 {
-        font-size: 1.75rem;
-        border-bottom: 1px dashed rgba(239, 68, 68, 0.2);
-        padding-bottom: 0.25rem;
-    }
+    .prose-custom h1 { font-size: 1.75rem; border-bottom: 1px dashed rgba(92, 124, 250, 0.25); padding-bottom: 0.25rem; }
     .prose-custom h2 { font-size: 1.4rem; }
-    .prose-custom h3 { font-size: 1.15rem; color: #eab308; } /* Yellow sub-headings */
-
-    .prose-custom strong {
-        color: #ef4444;
-        font-weight: 700;
-    }
-
-    /* Tactical Links inside Markdown */
-    .prose-custom a {
-        color: #eab308;
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
-    .prose-custom a:hover {
-        color: #ef4444;
-    }
-
-    /* TACTICAL INLINE CODE & PRE-FORMATTED BLOCKS */
+    .prose-custom h3 { font-size: 1.15rem; color: #94a3b8; }
+    .prose-custom strong { color: #f1f5f9; font-weight: 700; }
+    .prose-custom a { color: #748ffc; text-decoration: underline; text-underline-offset: 4px; }
+    .prose-custom a:hover { color: #5c7cfa; }
     .prose-custom pre {
-        background: #0d0d0d !important;
-        border: 1px solid rgba(239, 68, 68, 0.1) !important;
+        background: #020617;
+        border: 1px solid rgba(51, 65, 85, 0.6);
         padding: 1.25rem;
-        border-radius: 2px;
-        overflow-x: auto; /* Forces horizontal scroll bar on massive code lines */
+        border-radius: 0.5rem;
+        overflow-x: auto;
         margin-bottom: 1.5rem;
         max-width: 100%;
     }
     .prose-custom code {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.9rem;
-        color: #eab308; /* Yellow terminal style tint */
-        background: rgba(239, 68, 68, 0.05);
+        color: #748ffc;
+        background: rgba(51, 65, 85, 0.4);
         padding: 2px 6px;
-        border-radius: 2px;
+        border-radius: 4px;
     }
-    .prose-custom pre code {
-        color: #e5e5e5;
-        background: transparent;
-        padding: 0;
-    }
-
-    /* Warning pattern shifted to alternating Red and Black */
-    .hazard-accent {
-        width: 40px;
-        height: 4px;
-        background: repeating-linear-gradient(45deg, #ef4444, #ef4444 5px, #000 5px, #000 10px);
-    }
-    .meta-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: #7f1d1d; /* Deep tactical red */
-    }
-    .meta-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 13px;
-        font-weight: 600;
-        color: #eab308; /* Yellow accents for parameters */
-    }
-
-    /* Tactical Comment Styling */
-    .comment-box {
-        background: rgba(239, 68, 68, 0.01);
-        border-left: 2px solid #ef4444;
-        margin-bottom: 1.5rem;
-        padding: 1.5rem;
-    }
+    .prose-custom pre code { color: #f1f5f9; background: transparent; padding: 0; }
     .comment-input {
-        background: #000000 !important;
-        border: 1px solid rgba(239, 68, 68, 0.3) !important;
-        color: #fff !important;
+        background-color: #0f172a !important;
+        border: 1px solid rgba(51, 65, 85, 0.6) !important;
+        color: #f1f5f9 !important;
         padding: 10px;
         width: 100%;
+        border-radius: 0.5rem;
         font-family: 'JetBrains Mono', monospace;
     }
     .comment-input:focus {
-        border-color: #eab308 !important; /* Focus shifts yellow */
+        border-color: #5c7cfa !important;
         outline: none;
     }
 </style>
 
-<div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-8">
-        <a href="{% url 'index' %}" class="mono text-[11px] text-red-700 hover:text-yellow-500 flex items-center gap-3 group">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            BACK
-        </a>
-        <div class="mono text-[10px] px-3 py-1 bg-red-950/40 text-red-500 border border-red-500/30 rounded-sm">CLASSIFICATION: PUBLIC</div>
+<article class="max-w-3xl mx-auto">
+
+    <a href="{% url 'writeups' %}"
+       class="inline-flex items-center gap-2 text-sm text-surface-400 hover:text-brand-400 transition-colors mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to archive
+    </a>
+
+    <!-- Badges -->
+    <div class="flex flex-wrap items-center gap-2 mb-5">
+        <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-500/10 text-brand-400 border border-brand-500/20">
+            {{ writeup.get_writeup_platform_display }}
+        </span>
+        <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-surface-700/30 text-surface-300 border border-surface-700">
+            #{{ writeup.get_writeup_category_display }}
+        </span>
+        {% if writeup.writeup_difficulty == 'E' %}
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">{{ writeup.get_writeup_difficulty_display }}</span>
+        {% elif writeup.writeup_difficulty == 'M' %}
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">{{ writeup.get_writeup_difficulty_display }}</span>
+        {% elif writeup.writeup_difficulty == 'H' %}
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-500/10 text-orange-400 border border-orange-500/20">{{ writeup.get_writeup_difficulty_display }}</span>
+        {% else %}
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">{{ writeup.get_writeup_difficulty_display }}</span>
+        {% endif %}
     </div>
 
-    <article class="report-card rounded-sm overflow-hidden relative">
-        <div class="absolute top-0 right-0 hazard-accent"></div>
+    <!-- Title -->
+    <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">{{ writeup.title }}</h1>
 
-        <div class="report-header p-10 sm:p-14">
-            <div class="flex items-center gap-4 mb-6">
-                <span class="px-2 py-0.5 bg-red-600 text-black text-[10px] font-black mono uppercase tracking-wider">Operation</span>
-                <span class="text-red-900 mono text-xs tracking-widest">REF: {{ bulletin.id|default:"X-0644" }}</span>
-            </div>
+    <!-- Meta -->
+    <div class="flex items-center gap-3 text-sm text-surface-500 pb-8 mb-8 border-b border-surface-800">
+        <span class="font-medium text-surface-300">{{ writeup.writeup_author }}</span>
+        <span class="h-1 w-1 rounded-full bg-surface-700"></span>
+        <span>{{ writeup.publication_date|date:"F d, Y" }}</span>
+    </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-red-950">
-                <div>
-                    <div class="meta-label mb-1">Author</div>
-                    <div class="meta-value text-white">{{ bulletin.writeup_author }}</div>
-                </div>
-                <div>
-                    <div class="meta-label mb-1">T.Sector</div>
-                    <div class="meta-value">{{ bulletin.writeup_category }}</div>
-                </div>
-                <div>
-                    <div class="meta-label mb-1">Env</div>
-                    <div class="meta-value text-slate-400 italic">{{ bulletin.writeup_platform }}</div>
-                </div>
-                <div>
-                    <div class="meta-label mb-1">Level</div>
-                    <div class="meta-value {% if bulletin.writeup_difficulty == 'Hard' %}text-red-500 font-bold{% else %}text-yellow-500{% endif %}">{{ bulletin.writeup_difficulty|upper }}</div>
-                </div>
-            </div>
-        </div>
+    <!-- Cover Image -->
+    {% if writeup.writeup_image %}
+    <div class="mb-8">
+        <img src="{{ writeup.writeup_image.url }}" alt="{{ writeup.title }}"
+             class="w-full h-auto rounded-xl border border-surface-800">
+    </div>
+    {% endif %}
 
-        <div class="p-10 sm:p-14 bg-[#000000] w-full overflow-hidden">
-            <div class="prose-custom max-w-none mb-12 w-full overflow-hidden">
-                {{ bulletin.writeup_body|safe_markdown }}
-            </div>
+    <!-- Body -->
+    <div class="prose-custom max-w-none">
+        {{ writeup.writeup_body|safe_markdown }}
+    </div>
 
-            <div class="bg-red-950/[0.05] border border-red-900/20 p-8 rounded-sm mono relative overflow-hidden">
-                <h4 class="text-red-500/80 text-[11px] font-bold mb-6 uppercase tracking-[0.3em]">Document Integrity Logs</h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 text-[10px] text-red-900">
-                    <div class="flex justify-between border-b border-red-950 pb-2">
-                        <span>TIMESTAMP:</span>
-                        <span class="text-yellow-600">{{ bulletin.publication_date|date:"Y-m-d" }}</span>
+</article>
+
+<!-- Comments -->
+<section class="max-w-3xl mx-auto mt-12 pt-10 border-t border-surface-800">
+
+    <div class="mb-8">
+        <h4 class="mono text-xs font-bold text-surface-300 uppercase tracking-wider mb-6 flex items-center gap-2">
+            <span class="h-4 w-1 bg-brand-500 rounded-full"></span>
+            Observations Feed
+        </h4>
+        <div class="space-y-4">
+            {% for comment in comments %}
+                <div class="bg-surface-900/40 border border-surface-800 rounded-xl p-6">
+                    <div class="flex justify-between text-[11px] text-surface-500 mb-1">
+                        <span class="font-bold text-brand-400 mono uppercase tracking-wider">{{ comment.author }}</span>
+                        <span class="mono">{{ comment.created_on|date:"M d, Y H:i" }}</span>
                     </div>
+                    <p class="text-sm text-surface-300 leading-relaxed">{{ comment.body }}</p>
                 </div>
-            </div>
+            {% empty %}
+                <p class="text-sm text-surface-500">No observations logged on this node yet.</p>
+            {% endfor %}
         </div>
-    </article>
+    </div>
 
-    <section class="mt-12 p-6 report-card">
-        <div class="mb-8">
-            <h4 class="text-red-500 mono text-xs mb-4 uppercase tracking-widest">Observations Feed</h4>
-            <div class="space-y-4">
-                {% for comment in comments %}
-                    <div class="comment-box">
-                        <div class="flex justify-between text-[11px] mono text-red-700 mb-1">
-                            <span class="text-yellow-500 font-bold">{{ comment.name }}</span>
-                            <span>{{ comment.created_on|date:"Y-m-d H:i" }}</span>
-                        </div>
-                        <p class="text-sm text-slate-300">{{ comment.body }}</p>
-                    </div>
-                {% empty %}
-                    <p class="mono text-[11px] text-red-900/60 italic">No incoming intelligence feeds logged for this node.</p>
-                {% endfor %}
-            </div>
-        </div>
+    <div class="pt-8 border-t border-surface-800">
+        <h4 class="mono text-xs font-bold text-surface-300 uppercase tracking-wider mb-6 flex items-center gap-2">
+            <span class="h-4 w-1 bg-brand-500 rounded-full"></span>
+            Submit
+        </h4>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {% for field in comment_form %}
+                <div class="flex flex-col gap-2">
+                    <label class="mono text-[11px] font-bold uppercase tracking-wider text-surface-400">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit"
+                    class="mt-4 px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-brand-600/20">
+                Submit
+            </button>
+        </form>
+    </div>
 
-        <div class="mt-12 pt-8 border-t border-red-950">
-            <h4 class="text-red-500 mono text-xs mb-6 uppercase tracking-widest">Submit</h4>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                {% for field in comment_form %}
-                    <div class="flex flex-col gap-2">
-                        <label class="meta-label">{{ field.label }}</label>
-                        {{ field }}
-                    </div>
-                {% endfor %}
-                <button type="submit" class="mt-4 px-6 py-2 bg-red-600 text-black font-black mono text-xs uppercase hover:bg-yellow-500 hover:text-black transition-colors duration-150">
-                    SUBMIT
-                </button>
-            </form>
-        </div>
-    </section>
-</div>
+</section>
 {% endblock %}
