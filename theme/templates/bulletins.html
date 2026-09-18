@@ -1,60 +1,59 @@
 {% extends 'base.html' %}
 
-{% block title %}Archive | FootHold{% endblock %}
+{% block title %}Archive | Foothold{% endblock %}
 
 {% block content %}
-<header class="relative pl-6 py-2 mb-12 border-l-2 border-red-600">
-    <div class="absolute -left-[5px] top-0 h-2 w-2 bg-red-600"></div>
-    <div class="absolute -left-[5px] bottom-0 h-2 w-2 bg-red-600"></div>
+<div class="mb-12">
+    <p class="mono text-brand-700 text-xs font-bold uppercase tracking-[0.3em] mb-2">// Full_Log</p>
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <h1 class="text-3xl md:text-4xl font-black tracking-tight text-surface-900">Archive</h1>
+        <p class="text-surface-600 text-sm">The full log of published reports and security research.</p>
+    </div>
+</div>
 
-    <h1 class="text-4xl font-black uppercase tracking-tighter text-white font-mono">
-        <span class="text-red-600 px-1 select-none font-normal">[</span>
-        Archive
-        <span class="text-red-600 px-1 select-none font-normal">]</span>
-    </h1>
-    <p class="text-slate-500 font-mono text-xs mt-1 uppercase tracking-[0.2em]">
-        Status: <span class="text-red-500 animate-pulse">Full_Log_Online</span> // {{ writeups|length }} Records
-    </p>
-</header>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+{% if writeups %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
     {% for writeup in writeups %}
     <a href="{% url 'writedetail' writeup.pk %}"
-       class="relative group bg-black border border-slate-800 hover:border-red-600 transition-all duration-300">
-        <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-slate-900 group-hover:border-red-600 transition-colors"></div>
+       class="group flex flex-col bg-white border border-surface-300 rounded-xl p-6 transition-all duration-200 hover:border-brand-400 hover:shadow-xl hover:shadow-brand-900/10 hover:-translate-y-1">
 
-        <div class="p-6">
-            <div class="flex justify-between items-center mb-6 font-mono text-[10px]">
-                <span class="text-red-500 font-bold border border-red-900 px-2 py-0.5 bg-red-950/20">
-                    {{ writeup.get_writeup_platform_display }}
-                </span>
-                <span class="text-slate-600 uppercase tracking-widest">
-                    TAG://{{ writeup.get_writeup_category_display }}
-                </span>
-            </div>
-
-            <h3 class="text-xl font-bold text-slate-100 mb-3 font-mono group-hover:text-red-500 transition-colors">
-                > {{ writeup.title }}
-            </h3>
-
-            <p class="text-slate-500 text-sm leading-relaxed mb-6 border-l border-slate-800 pl-4 group-hover:border-red-900">
-                {{ writeup.get_writeup_difficulty_display }} // {{ writeup.publication_date|date:"d.m.Y" }}
-            </p>
-
-            <div class="flex items-center justify-between font-mono text-xs font-bold tracking-tighter">
-                <span class="bg-slate-900 px-3 py-1 text-slate-400 group-hover:bg-red-700 group-hover:text-white transition-colors">DECRYPT_ANALYSIS</span>
-                <span class="text-slate-800 group-hover:text-red-500">0x0F4</span>
-            </div>
+        <div class="flex items-center justify-between mb-5">
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-700/10 text-brand-700 border border-brand-700/20">
+                {{ writeup.get_writeup_platform_display }}
+            </span>
+            {% if writeup.writeup_difficulty == 'E' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-600/10 text-emerald-700 border border-emerald-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
+            {% elif writeup.writeup_difficulty == 'M' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-600/10 text-amber-700 border border-amber-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
+            {% elif writeup.writeup_difficulty == 'H' %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-600/10 text-orange-700 border border-orange-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
+            {% else %}
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-600/10 text-fuchsia-700 border border-fuchsia-600/25">{{ writeup.get_writeup_difficulty_display }}</span>
+            {% endif %}
         </div>
 
-        <div class="absolute bottom-0 left-0 h-[1px] w-0 bg-red-600 group-hover:w-full transition-all duration-500"></div>
+        <h3 class="text-lg font-bold text-surface-900 mb-2 group-hover:text-brand-700 transition-colors line-clamp-2">
+            {{ writeup.title }}
+        </h3>
+
+        <div class="flex items-center gap-3 mt-auto pt-5 text-xs text-surface-600">
+            <span class="mono text-blue-700">#{{ writeup.get_writeup_category_display }}</span>
+            <span class="h-1 w-1 rounded-full bg-surface-300"></span>
+            <span>{{ writeup.publication_date|date:"M d, Y" }}</span>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-surface-200 flex items-center justify-between">
+            <span class="mono text-xs font-bold tracking-wider text-brand-700 group-hover:text-brand-500 transition-colors">READ_ANALYSIS</span>
+            <span class="text-surface-400 group-hover:text-gold-500 group-hover:translate-x-1 transition-all">&#8594;</span>
+        </div>
     </a>
-    {% empty %}
-    <div class="col-span-full mt-8 p-12 border border-dashed border-slate-800 bg-black text-center font-mono">
-        <p class="text-slate-500">NO_PUBLISHED_REPORTS // CHECK_BACK_LATER</p>
-    </div>
     {% endfor %}
 
 </div>
+{% else %}
+<div class="text-center py-24 border-2 border-dashed border-surface-300 rounded-xl bg-white">
+    <p class="text-surface-600">No reports published yet.</p>
+</div>
+{% endif %}
 {% endblock %}

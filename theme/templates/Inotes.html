@@ -1,115 +1,118 @@
 {% extends 'base.html' %}
 
-{% block title %}Capabilities // System Architecture{% endblock %}
-{% block breadcrumb %}sys/capabilities{% endblock %}
+{% block title %}XP | Foothold{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto px-4 py-12 selection:bg-emerald-500/30">
+<div class="max-w-6xl mx-auto selection:bg-brand-700/20">
 
-
-
-    <main>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/10 rounded-sm overflow-hidden">
-
-            <div class="bg-[#0a0a0c] p-10 hover:bg-[#111114] transition-all duration-500 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10 transition-colors"></div>
-
-                <div class="flex justify-between items-start mb-8">
-                    <span class="text-emerald-500 mono text-sm font-bold tracking-tighter">01//</span>
-                    <svg class="w-6 h-6 text-slate-700 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight group-hover:translate-x-1 transition-transform">DFIR_Response</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 min-h-[80px]">
-                    Full-spectrum digital forensics. From disk and memory acquisition to timeline reconstruction. Specializing in identifying lateral movement and persistent threats in post-breach environments.
-                </p>
-
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">ROOT_CAUSE_ANALYSIS</span>
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">CHAIN_OF_CUSTODY</span>
-                </div>
-
-                <div class="absolute bottom-0 left-0 h-1 w-0 bg-emerald-500 group-hover:w-full transition-all duration-700"></div>
-            </div>
-
-            <div class="bg-[#0a0a0c] p-10 hover:bg-[#111114] transition-all duration-500 group relative overflow-hidden">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="text-emerald-500 mono text-sm font-bold tracking-tighter">02//</span>
-                    <svg class="w-6 h-6 text-slate-700 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight group-hover:translate-x-1 transition-transform">Offensive_Ops</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 min-h-[80px]">
-                    Assessing the attack surface through a threat-actor lens. Testing targets web application logic, cloud misconfigurations, and internal network vulnerabilities.
-                </p>
-
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">RED_TEAM_STRIKE</span>
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">VULN_MGMT</span>
-                </div>
-
-                <div class="absolute bottom-0 left-0 h-1 w-0 bg-emerald-500 group-hover:w-full transition-all duration-700"></div>
-            </div>
-
-            <div class="bg-[#0a0a0c] p-10 hover:bg-[#111114] transition-all duration-500 group relative overflow-hidden">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="text-emerald-500 mono text-sm font-bold tracking-tighter">03//</span>
-                    <svg class="w-6 h-6 text-slate-700 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight group-hover:translate-x-1 transition-transform">Tactical_Training</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 min-h-[80px]">
-                    Closing skill gaps through high-fidelity training. Focusing on packet-level reality of SOC operations and DFIR methodologies for individuals and security teams.
-                </p>
-
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">SOC_FOUNDATIONS</span>
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">LAB_SIMULATION</span>
-                </div>
-
-                <div class="absolute bottom-0 left-0 h-1 w-0 bg-emerald-500 group-hover:w-full transition-all duration-700"></div>
-            </div>
-
-            <div class="bg-[#0a0a0c] p-10 hover:bg-[#111114] transition-all duration-500 group relative overflow-hidden">
-                <div class="flex justify-between items-start mb-8">
-                    <span class="text-emerald-500 mono text-sm font-bold tracking-tighter">04//</span>
-                    <svg class="w-6 h-6 text-slate-700 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-2xl font-bold text-white mb-4 uppercase tracking-tight group-hover:translate-x-1 transition-transform">Detection_Eng</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8 min-h-[80px]">
-                    Optimizing SIEM stacks through logic-driven engineering. Building playbooks that reduce MTTR and high-fidelity detection rules.
-                </p>
-
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">SIEM_OPTIMIZATION</span>
-                    <span class="text-[9px] font-mono bg-white/5 border border-white/10 px-2 py-1 text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/30 transition-all">SOAR_PLAYBOOKS</span>
-                </div>
-
-                <div class="absolute bottom-0 left-0 h-1 w-0 bg-emerald-500 group-hover:w-full transition-all duration-700"></div>
-            </div>
-
+    <div class="mb-12">
+        <div class="flex items-center gap-2 mb-3">
+            <div class="h-4 w-1 bg-gold-400 rounded-full"></div>
+            <h2 class="mono text-brand-700 text-[10px] font-bold tracking-[0.4em] uppercase">System_Capabilities</h2>
         </div>
+        <h1 class="text-3xl md:text-4xl font-black tracking-tight text-surface-900">XP</h1>
+    </div>
 
-        <div class="mt-24 p-12 border border-dashed border-white/10 bg-emerald-500/5 rounded-lg text-center">
-            <h3 class="mono text-emerald-500 text-xs font-bold uppercase tracking-[0.4em] mb-4">Secure_Channel_Established</h3>
-            <p class="text-slate-400 text-sm mb-8 max-w-md mx-auto">Currently accepting private sector engagements and tactical consulting.</p>
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <a href="mailto:archiealpaka@gmail.com" class="inline-flex items-center gap-3 bg-emerald-500 text-black px-10 py-4 font-bold uppercase text-[11px] tracking-widest hover:bg-white transition-all duration-300 transform active:scale-95 group">
-                INITIATE_CONTACT
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l7 7m-7 7h18" />
+        <div class="bg-white border border-surface-300 hover:border-brand-400 rounded-xl p-8 transition-all duration-300 group relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-brand-900/10">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gold-300/10 blur-3xl group-hover:bg-gold-300/20 transition-colors"></div>
+
+            <div class="flex justify-between items-start mb-8 relative">
+                <span class="text-brand-700 mono text-sm font-bold tracking-tighter">01//</span>
+                <svg class="w-6 h-6 text-surface-400 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
-            </a>
+            </div>
+
+            <h2 class="text-2xl font-bold text-surface-900 mb-4 tracking-tight group-hover:translate-x-1 transition-transform">DFIR Response</h2>
+            <p class="text-surface-600 text-sm leading-relaxed mb-8">
+                Full-spectrum digital forensics. From disk and memory acquisition to timeline reconstruction. Specializing in identifying lateral movement and persistent threats in post-breach environments.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">ROOT_CAUSE_ANALYSIS</span>
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">CHAIN_OF_CUSTODY</span>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1 w-0 bg-gold-400 group-hover:w-full transition-all duration-700"></div>
         </div>
+
+        <div class="bg-white border border-surface-300 hover:border-brand-400 rounded-xl p-8 transition-all duration-300 group relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-brand-900/10">
+            <div class="flex justify-between items-start mb-8 relative">
+                <span class="text-brand-700 mono text-sm font-bold tracking-tighter">02//</span>
+                <svg class="w-6 h-6 text-surface-400 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+
+            <h2 class="text-2xl font-bold text-surface-900 mb-4 tracking-tight group-hover:translate-x-1 transition-transform">Offensive Ops</h2>
+            <p class="text-surface-600 text-sm leading-relaxed mb-8">
+                Assessing the attack surface through a threat-actor lens. Testing targets web application logic, cloud misconfigurations, and internal network vulnerabilities.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">RED_TEAM_STRIKE</span>
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">VULN_MGMT</span>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1 w-0 bg-gold-400 group-hover:w-full transition-all duration-700"></div>
+        </div>
+
+        <div class="bg-white border border-surface-300 hover:border-brand-400 rounded-xl p-8 transition-all duration-300 group relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-brand-900/10">
+            <div class="flex justify-between items-start mb-8 relative">
+                <span class="text-brand-700 mono text-sm font-bold tracking-tighter">03//</span>
+                <svg class="w-6 h-6 text-surface-400 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+            </div>
+
+            <h2 class="text-2xl font-bold text-surface-900 mb-4 tracking-tight group-hover:translate-x-1 transition-transform">Tactical Training</h2>
+            <p class="text-surface-600 text-sm leading-relaxed mb-8">
+                Closing skill gaps through high-fidelity training. Focusing on packet-level reality of SOC operations and DFIR methodologies for individuals and security teams.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">SOC_FOUNDATIONS</span>
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">LAB_SIMULATION</span>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1 w-0 bg-gold-400 group-hover:w-full transition-all duration-700"></div>
+        </div>
+
+        <div class="bg-white border border-surface-300 hover:border-brand-400 rounded-xl p-8 transition-all duration-300 group relative overflow-hidden shadow-sm hover:shadow-lg hover:shadow-brand-900/10">
+            <div class="flex justify-between items-start mb-8 relative">
+                <span class="text-brand-700 mono text-sm font-bold tracking-tighter">04//</span>
+                <svg class="w-6 h-6 text-surface-400 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+            </div>
+
+            <h2 class="text-2xl font-bold text-surface-900 mb-4 tracking-tight group-hover:translate-x-1 transition-transform">Detection Eng</h2>
+            <p class="text-surface-600 text-sm leading-relaxed mb-8">
+                Optimizing SIEM stacks through logic-driven engineering. Building playbooks that reduce MTTR and high-fidelity detection rules.
+            </p>
+
+            <div class="flex flex-wrap gap-2 mb-8">
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">SIEM_OPTIMIZATION</span>
+                <span class="text-[9px] font-mono bg-surface-200 border border-surface-300 px-2 py-1 rounded-md text-surface-700 group-hover:text-brand-700 group-hover:border-brand-300 transition-all">SOAR_PLAYBOOKS</span>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1 w-0 bg-gold-400 group-hover:w-full transition-all duration-700"></div>
+        </div>
+
     </main>
+
+    <div class="mt-16 p-12 border border-brand-300 bg-brand-800 rounded-2xl text-center">
+        <h3 class="mono text-gold-300 text-xs font-bold uppercase tracking-[0.4em] mb-4">Secure_Channel_Established</h3>
+        <p class="text-white/80 text-sm mb-8 max-w-md mx-auto">Currently accepting private sector engagements and tactical consulting.</p>
+
+        <a href="mailto:archiealpaka@gmail.com" class="inline-flex items-center gap-3 bg-gold-300 hover:bg-gold-200 text-brand-900 px-10 py-4 font-extrabold uppercase text-[11px] tracking-widest rounded-lg transition-all duration-300 active:scale-95 group">
+            INITIATE_CONTACT
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l7 7m-7 7h18" />
+            </svg>
+        </a>
+    </div>
 </div>
 {% endblock %}
