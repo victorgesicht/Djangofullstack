@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: opt in via `dark:` utilities and the `.dark` token overrides below. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand-50: #f0fdfa;
   --color-brand-100: #ccfbf1;
@@ -25,6 +28,51 @@
   --color-surface-900: #1e293b;
   --color-surface-925: #16202e;
   --color-surface-950: #0f172a;
+}
+
+/**
+  * Dark theme.
+  *
+  * The `surface` and `brand` ramps are redefined under `.dark` so every existing
+  * `bg-surface-50`, `text-surface-900`, `text-brand-700`, ... utility flips
+  * without needing a `dark:` twin on the element itself.
+  *
+  * Invariants kept identical to the light ramp:
+  *   - surface:   50 = raised surface (header/footer/cards), 100 = page background
+  *   - brand:     low numbers = tinted surfaces, high numbers = text/solid fills
+  *   - `text-surface-100` / `text-brand-950` sit opposite a solid `brand` fill
+  */
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --color-surface-50: #141c2b;
+  --color-surface-100: #0b1220;
+  --color-surface-200: #1c2637;
+  --color-surface-300: #28334a;
+  --color-surface-400: #3a4763;
+  --color-surface-500: #8492a8;
+  --color-surface-600: #a9b4c7;
+  --color-surface-700: #cbd5e1;
+  --color-surface-800: #e2e8f0;
+  --color-surface-900: #f1f5f9;
+  --color-surface-925: #f8fafc;
+  --color-surface-950: #ffffff;
+
+  --color-brand-50: #0a2a27;
+  --color-brand-100: #0e3a35;
+  --color-brand-200: #11514a;
+  --color-brand-300: #156b61;
+  --color-brand-400: #1f8a7d;
+  --color-brand-500: #2dd4bf;
+  --color-brand-600: #5eead4;
+  --color-brand-700: #99f6e4;
+  --color-brand-800: #ccfbf1;
+  --color-brand-900: #e6fffb;
+  --color-brand-950: #f0fdfa;
 }
 
 /**

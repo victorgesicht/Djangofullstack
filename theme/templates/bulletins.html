@@ -20,20 +20,20 @@
 
     {% for writeup in writeups %}
     <a href="{% url 'writedetail' writeup.pk %}"
-       class="group flex flex-col bg-surface-50 border border-surface-300 rounded-xl p-6 transition-all duration-200 hover:border-brand-300 hover:shadow-xl hover:shadow-surface-900/8 hover:-translate-y-0.5">
+       class="group flex flex-col bg-surface-50 border border-surface-300 rounded-xl p-6 transition-all duration-200 hover:border-brand-300 hover:shadow-xl hover:shadow-surface-900/8 dark:hover:shadow-black/40 hover:-translate-y-0.5">
 
         <div class="flex items-center justify-between mb-5">
             <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-brand-50 text-brand-700 border border-brand-200">
                 {{ writeup.get_writeup_platform_display }}
             </span>
             {% if writeup.writeup_difficulty == 'E' %}
-                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">{{ writeup.get_writeup_difficulty_display }}</span>
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/30">{{ writeup.get_writeup_difficulty_display }}</span>
             {% elif writeup.writeup_difficulty == 'M' %}
-                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-50 text-amber-700 border border-amber-200">{{ writeup.get_writeup_difficulty_display }}</span>
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/30">{{ writeup.get_writeup_difficulty_display }}</span>
             {% elif writeup.writeup_difficulty == 'H' %}
-                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200">{{ writeup.get_writeup_difficulty_display }}</span>
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 dark:bg-orange-500/10 dark:text-orange-300 dark:border-orange-500/30">{{ writeup.get_writeup_difficulty_display }}</span>
             {% else %}
-                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200">{{ writeup.get_writeup_difficulty_display }}</span>
+                <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200 dark:bg-fuchsia-500/10 dark:text-fuchsia-300 dark:border-fuchsia-500/30">{{ writeup.get_writeup_difficulty_display }}</span>
             {% endif %}
         </div>
 
