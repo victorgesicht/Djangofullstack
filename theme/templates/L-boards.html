@@ -57,6 +57,22 @@
         border-radius: 8px;
         transition: width 1s ease-out;
     }
+
+    /* Dark theme */
+    .dark .xp-card {
+        background: #141c2b;
+        border-color: #28334a;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    .dark .xp-card:hover {
+        border-color: #2dd4bf;
+        box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.65);
+    }
+    .dark .badge-container {
+        background: #0e1626;
+        border-color: #28334a;
+    }
+    .dark .xp-bar-bg { background: #1c2637; }
 </style>
 
 <div class="max-w-6xl mx-auto">
@@ -68,7 +84,7 @@
             </div>
             <h1 class="text-4xl font-black text-surface-900 tracking-tight">Leaderboards</h1>
         </div>
-        <div class="mono text-[11px] text-surface-600 bg-white border border-surface-300 px-4 py-2 rounded-lg shadow-sm">
+        <div class="mono text-[11px] text-surface-600 bg-surface-50 border border-surface-300 px-4 py-2 rounded-lg shadow-sm dark:shadow-black/30">
             LAST_SYNC: <span class="text-brand-700 font-bold">{% now "H:i" %} UTC</span>
         </div>
     </div>
@@ -82,13 +98,13 @@
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="status-tag bg-red-50 text-red-600 border border-red-200">OPERATIONAL: THM</span>
+                        <span class="status-tag bg-red-50 text-red-600 border border-red-200 dark:bg-red-500/10 dark:text-red-300 dark:border-red-500/30">OPERATIONAL: THM</span>
                         <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">Security Researcher</h3>
                     </div>
                 </div>
                 <div class="mono text-[11px] flex justify-between items-center text-surface-600">
                     <span>GLOBAL_RANKING:</span>
-                    <span class="text-white font-bold bg-brand-800 px-2 py-0.5 rounded">TOP 1%</span>
+                    <span class="text-surface-100 font-bold bg-brand-800 px-2 py-0.5 rounded">TOP 1%</span>
                 </div>
             </div>
         </div>
@@ -103,7 +119,7 @@
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="status-tag bg-orange-50 text-orange-600 border border-orange-200">CERTIFIED: CTF</span>
+                        <span class="status-tag bg-orange-50 text-orange-600 border border-orange-200 dark:bg-orange-500/10 dark:text-orange-300 dark:border-orange-500/30">CERTIFIED: CTF</span>
                         <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">CTF player</h3>
                     </div>
                 </div>
@@ -119,14 +135,14 @@
         </div>
 
         <div class="xp-card accent-portswigger">
-            <div class="badge-container flex-col gap-1 bg-blue-50/50">
-                <div class="text-[10px] font-black mono text-blue-700 uppercase tracking-[0.2em]">Web Security Academy</div>
+            <div class="badge-container flex-col gap-1 bg-blue-50/50 dark:bg-blue-500/10">
+                <div class="text-[10px] font-black mono text-blue-700 dark:text-blue-300 uppercase tracking-[0.2em]">Web Security Academy</div>
                 <div class="text-2xl font-black text-surface-900">PRACTITIONER</div>
             </div>
             <div class="platform-meta">
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <span class="status-tag bg-sky-50 text-sky-600 border border-sky-200">MASTERY: BURP_SUITE</span>
+                        <span class="status-tag bg-sky-50 text-sky-600 border border-sky-200 dark:bg-sky-500/10 dark:text-sky-300 dark:border-sky-500/30">MASTERY: BURP_SUITE</span>
                         <h3 class="text-surface-900 font-black mt-3 text-lg tracking-tight">AppSec Auditor</h3>
                     </div>
                 </div>
