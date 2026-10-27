@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import Index, Writeups, WriteUpDetailView, IntelDetailView, IntelNotes, Lboard
+from .views import (
+    Index, Writeups, WriteUpDetailView, IntelDetailView, IntelNotes, Lboard, TrainingView
+)
 from django.views.generic.base import TemplateView
 
 
@@ -10,5 +12,6 @@ urlpatterns = [
     path('intel/<uuid:pk>/', IntelDetailView.as_view(), name='intel'),
     path('ID/', IntelNotes.as_view(), name='id'),
     path('L-board', Lboard.as_view(), name='LBoard'),
+    path('training/', TrainingView.as_view(), name='training'),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ]

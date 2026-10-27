@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Bulletins, Comment
+from .models import Bulletins, Comment, TrainingOffering, TrainingOffer
 from django.contrib.admin import AdminSite
 from django.contrib.admin.models import LogEntry
 from django.contrib.sites.models import Site
@@ -54,6 +54,34 @@ class LogentryAdmin(admin.ModelAdmin):
 @admin.register(Comment, site=soc_admin)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('body', 'author', 'post')
+
+
+@admin.register(TrainingOffering, site=soc_admin)
+class TrainingOfferingAdmin(admin.ModelAdmin):
+    list_display = ('title', 'kind', 'track', 'level', 'hours', 'hourly_rate_kes', 'is_active', 'sort_order')
+    list_filter = ('kind', 'track', 'level', 'is_active')
+    list_editable = ('is_active', 'sort_order')
+    search_fields = ('title', 'summary', 'details')
+    prepopulated_fields = {'slug': ('title',)}
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'kind', 'track', 'level')
+        }),
+        ('Offer', {
+            'fields': ('summary', 'details', 'hours', 'hourly_rate_kes', 'is_active', 'sort_order'),
+        }),
+    )
+
+
+@admin.register(TrainingOffer, site=soc_admin)
+class TrainingOfferAdmin(admin.ModelAdmin):
+    list_display = ('callsign', 'kind', 'contact', 'offering', 'is_reviewed', 'created_at')
+    list_filter = ('kind', 'is_reviewed')
+    search_fields = ('callsign', 'contact', 'message', 'link')
+    readonly_fields = ('callsign', 'contact', 'kind', 'link', 'message', 'offering', 'created_at')
+
+    def has_add_permission(self, request):
+        return False
 
 from django.contrib.sites.admin import SiteAdmin
 soc_admin.register(Site, SiteAdmin)
