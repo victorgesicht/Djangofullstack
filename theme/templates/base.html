@@ -28,6 +28,49 @@
         body, header, footer {
             transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
         }
+        .nav-ember, .briefing-dot {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 9999px;
+            background: #e11d2e;
+            animation: ember-pulse 2.8s ease-in-out infinite;
+            vertical-align: middle;
+        }
+        .nav-ember { margin-left: 6px; }
+        .briefing-dot { width: 7px; height: 7px; flex: 0 0 auto; }
+        @keyframes ember-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 46, 0.45); }
+            50% { box-shadow: 0 0 0 4px rgba(225, 29, 46, 0); }
+        }
+        .briefing-strip {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--color-surface-300);
+            border-left: 2px solid #d92030;
+            border-radius: 0.75rem;
+            background: linear-gradient(90deg, rgba(217, 32, 48, 0.07), transparent 55%), var(--color-surface-50);
+            color: var(--color-surface-600);
+            font-size: 0.8125rem;
+            transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+        }
+        .briefing-strip:hover {
+            border-color: #d92030;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px -18px rgba(217, 32, 48, 0.55);
+        }
+        .briefing-strip .briefing-code { color: #c81e2e; font-weight: 700; letter-spacing: 0.08em; }
+        .briefing-strip .briefing-green { color: #059669; }
+        .briefing-strip .briefing-cta { margin-left: auto; color: var(--color-surface-900); font-weight: 700; }
+        .dark .briefing-strip .briefing-code { color: #ff5a6a; }
+        .dark .briefing-strip .briefing-green { color: #34d399; }
+        @media (prefers-reduced-motion: reduce) {
+            .nav-ember, .briefing-dot { animation: none; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-surface-100 text-surface-700 antialiased">
@@ -55,7 +98,7 @@
             </a>
 
             <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="{% url 'writeups' %}"
                    class="transition-colors {% if current == 'writeups' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
                     Archive
@@ -63,6 +106,10 @@
                 <a href="{% url 'LBoard' %}"
                    class="transition-colors {% if current == 'LBoard' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
                     Leaderboards
+                </a>
+                <a href="{% url 'training' %}"
+                   class="transition-colors {% if current == 'training' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
+                    Training<span class="nav-ember" aria-hidden="true"></span>
                 </a>
                 <a href="{% url 'id' %}"
                    class="transition-colors {% if current == 'id' %}text-brand-700{% else %}text-surface-600 hover:text-surface-900{% endif %}">
@@ -120,6 +167,9 @@
                 <a href="{% url 'LBoard' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'LBoard' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     Leaderboards
                 </a>
+                <a href="{% url 'training' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'training' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
+                    Training<span class="nav-ember" aria-hidden="true"></span>
+                </a>
                 <a href="{% url 'id' %}" class="px-3 py-2.5 rounded-lg text-sm font-medium {% if current == 'id' %}text-brand-700 bg-brand-50{% else %}text-surface-600 hover:bg-surface-200{% endif %}">
                     XP
                 </a>
@@ -168,6 +218,7 @@
                     <div class="flex flex-col gap-2 text-sm">
                         <a href="{% url 'writeups' %}" class="text-surface-600 hover:text-brand-700 transition-colors">Archive</a>
                         <a href="{% url 'LBoard' %}" class="text-surface-600 hover:text-brand-700 transition-colors">Leaderboards</a>
+                        <a href="{% url 'training' %}" class="text-surface-600 hover:text-brand-700 transition-colors">Training</a>
                     </div>
                 </div>
             </div>

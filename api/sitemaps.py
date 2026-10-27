@@ -7,7 +7,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
     def items(self):
         # The names MUST match the 'name=' in your urls.py
-        return ['index', 'id','LBoard']
+        return ['index', 'id', 'LBoard', 'training']
 
     def location(self, item):
         return reverse(item)
