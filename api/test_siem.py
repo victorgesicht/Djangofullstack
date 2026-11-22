@@ -1,8 +1,10 @@
 from datetime import timedelta
+from io import StringIO
 
 from django.contrib.admin.models import ADDITION, LogEntry
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.core.management import call_command
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -90,6 +92,13 @@ class TelemetryTests(TestCase):
         self.assertTrue({alert["id"] for alert in alerts} >= {
             "BRUTE_FORCE", "PORT_SCAN", "WEB_SCAN",
         })
+
+    def test_digest_command_reports_counts(self):
+        seed_demo_events()
+        output = StringIO()
+        call_command("siem_digest", stdout=output)
+        self.assertIn("events", output.getvalue())
+        self.assertIn("alerts", output.getvalue())
 
 
 @override_settings(ALLOWED_HOSTS=["testserver"])
