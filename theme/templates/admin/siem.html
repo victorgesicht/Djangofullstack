@@ -1,0 +1,95 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}SIEM overview | {{ site_title }}{% endblock %}
+
+{% block content %}
+<div class="siem-panel">
+  <div class="siem-head">
+    <div>
+      <p class="siem-eyebrow">NORMALIZE &rarr; DETECT &rarr; TRIAGE</p>
+      <h1>SIEM overview</h1>
+      <p class="siem-sub">Last {{ window_hours }}h across Django auth, admin audit, and the event feed.</p>
+    </div>
+    <div class="siem-stamp">GENERATED {{ generated_at|date:"Y-m-d H:i:s" }} UTC</div>
+  </div>
+
+  <div class="siem-kpis">
+    <div class="siem-kpi"><div class="siem-kpi-label">Events / {{ window_hours }}h</div><div class="siem-kpi-value">{{ stats.events }}</div></div>
+    <div class="siem-kpi siem-kpi--alert"><div class="siem-kpi-label">Open alerts</div><div class="siem-kpi-value">{{ stats.alerts }}</div></div>
+    <div class="siem-kpi siem-kpi--critical"><div class="siem-kpi-label">Critical</div><div class="siem-kpi-value">{{ stats.critical }}</div></div>
+    <div class="siem-kpi"><div class="siem-kpi-label">Failed logins</div><div class="siem-kpi-value">{{ stats.failed_logins }}</div></div>
+    <div class="siem-kpi"><div class="siem-kpi-label">Unique IPs</div><div class="siem-kpi-value">{{ stats.unique_ips }}</div></div>
+    <div class="siem-kpi"><div class="siem-kpi-label">Admin changes</div><div class="siem-kpi-value">{{ stats.admin_changes }}</div></div>
+  </div>
+
+  <div class="siem-grid">
+    <section class="module siem-card">
+      <h2>Active alerts</h2>
+      {% if alerts %}
+        <table class="siem-table">
+          <thead><tr><th>Severity</th><th>Rule</th><th>Subject</th><th>Hits</th><th>Window</th><th>MITRE</th><th>Last seen</th></tr></thead>
+          <tbody>
+            {% for alert in alerts %}
+              <tr>
+                <td><span class="sev sev-{{ alert.severity }}">{{ alert.severity_label }}</span></td>
+                <td class="siem-mono">{{ alert.id }}<br>{{ alert.name }}</td>
+                <td class="siem-mono">{{ alert.key }}</td>
+                <td>{{ alert.count }}</td>
+                <td class="siem-mono">{{ alert.window_seconds }}s</td>
+                <td class="siem-mono">{{ alert.mitre }}</td>
+                <td class="siem-mono">{{ alert.last_seen|date:"H:i:s" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="siem-empty">No alerts in this window. Quiet network, or a very patient adversary.</p>
+      {% endif %}
+    </section>
+
+    <section class="module siem-card">
+      <h2>Detection rules</h2>
+      <table class="siem-table">
+        <thead><tr><th>Rule</th><th>Threshold</th><th>Window</th><th>MITRE</th></tr></thead>
+        <tbody>
+          {% for rule in rules %}
+            <tr>
+              <td class="siem-mono">{{ rule.id }}<br>{{ rule.name }}</td>
+              <td>{{ rule.threshold }}</td>
+              <td class="siem-mono">{{ rule.window_seconds }}s</td>
+              <td class="siem-mono">{{ rule.mitre }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <section class="module siem-card">
+    <h2>Event stream</h2>
+    {% if events %}
+      <table class="siem-table">
+        <thead><tr><th>Time</th><th>Sev</th><th>Type</th><th>Source</th><th>IP</th><th>User</th><th>Target</th><th>Detail</th></tr></thead>
+        <tbody>
+          {% for event in events %}
+            <tr>
+              <td class="siem-mono">{{ event.ts|date:"m-d H:i:s" }}</td>
+              <td><span class="sev sev-{{ event.severity }}">{{ event.severity_label }}</span></td>
+              <td class="siem-mono">{{ event.event_type }}</td>
+              <td>{{ event.source }}</td>
+              <td class="siem-mono">{{ event.src_ip|default:"—" }}</td>
+              <td class="siem-mono">{{ event.user|default:"—" }}</td>
+              <td class="siem-mono">{{ event.target|default:"—" }}</td>
+              <td>{{ event.message }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="siem-empty">No telemetry ingested. Admin actions and logins will appear here automatically.</p>
+    {% endif %}
+  </section>
+
+  <p class="siem-footer">AUDIT TRAIL: ON &middot; ASSUME NOTHING &middot; ALL ACTIONS LOGGED</p>
+</div>
+{% endblock %}

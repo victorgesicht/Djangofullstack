@@ -134,3 +134,23 @@ MEDIA_URL = '/media/'
 # Training pricing. Rates are stored in KES and displayed with a USD estimate.
 DEFAULT_TRAINING_RATE_KES = 2000
 KES_PER_USD = Decimal("129.00")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "soc": {
+            "format": "%(asctime)s %(levelname)s %(name)s %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "soc",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}

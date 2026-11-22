@@ -1,9 +1,12 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
-import uuid
+from django.utils import timezone
 from martor.models import MartorField
 
 from .pricing import kes_to_usd
+from .siem.rules import SEVERITY
 
 
 class Bulletins(models.Model):
@@ -156,5 +159,39 @@ class TrainingOffer(models.Model):
 
     def __str__(self):
         return f'{self.callsign} · {self.get_kind_display()}'
+
+
+class SecurityEvent(models.Model):
+    ts = models.DateTimeField(default=timezone.now, db_index=True)
+    source = models.CharField(max_length=32, default="django")
+    event_type = models.CharField(max_length=48, db_index=True)
+    src_ip = models.CharField(max_length=64, blank=True, default="")
+    user = models.CharField(max_length=150, blank=True, default="")
+    target = models.CharField(max_length=200, blank=True, default="")
+    message = models.TextField(blank=True, default="")
+    severity = models.PositiveSmallIntegerField(default=1)
+
+    class Meta:
+        ordering = ("-ts", "-id")
+        indexes = [
+            models.Index(fields=("event_type", "ts"), name="siem_type_ts_idx"),
+            models.Index(fields=("src_ip", "ts"), name="siem_ip_ts_idx"),
+        ]
+
+    def __str__(self):
+        return f'{self.ts:%Y-%m-%d %H:%M:%S} {self.event_type} {self.src_ip}'
+
+    def as_event(self):
+        return {
+            "ts": self.ts,
+            "source": self.source,
+            "event_type": self.event_type,
+            "src_ip": self.src_ip,
+            "user": self.user,
+            "target": self.target,
+            "message": self.message,
+            "severity": self.severity,
+            "severity_label": SEVERITY.get(self.severity, "UNKNOWN"),
+        }
 
 
